@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 // import Link from '@material-ui/core/Link';
-import {Link} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Register() {
     const dispatch = useDispatch()
+    const history = useHistory()
     const [userData, setUserData] = useState({
         name:"",
         email:"",
@@ -52,7 +53,7 @@ export default function Register() {
     }
     const PostData = (e)=>{
         e.preventDefault()
-        dispatch(registerUser(userData))
+        dispatch(registerUser({userData,history}))
         
         
 

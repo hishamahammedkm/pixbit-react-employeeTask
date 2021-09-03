@@ -1,8 +1,8 @@
 import { Button, Container, Grid, makeStyles, TextField, Typography } from '@material-ui/core'
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import AddminHeader from '../components/AdminHeader'
-import { addDesignation } from '../store/slices/employeeSlice';
+import { addDesignation, getDesignations } from '../store/slices/employeeSlice';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 const AddDesignation = () => {
+    const isLoading = useSelector(state => state.employee.loading)
     const dispatch = useDispatch()
     const classes = useStyles();
     
@@ -30,6 +31,10 @@ const AddDesignation = () => {
         dispatch(addDesignation({designation_name}))
         console.log(2);
     }
+    useEffect(() => {
+        dispatch(getDesignations())
+
+    }, [isLoading])
     return (
         <>
             <AddminHeader />

@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
     },
     link: {
         margin: theme.spacing(1, 1.5),
+        fontSize:'18px',
+        color:'black'
+
     },
     name: {
         marginRight: 10
@@ -44,9 +47,9 @@ const AdminHeader = () => {
                         Admin Templates
                     </Typography>
                     <nav>
-                        <Link to="/" className={classes.link}>
+                        {/* <Link to="/" className={classes.link}>
                            Home
-                        </Link>
+                        </Link> */}
                         {/* <Link variant="button" color="textPrimary" href="#" className={classes.link}>
                             Home
                         </Link> */}

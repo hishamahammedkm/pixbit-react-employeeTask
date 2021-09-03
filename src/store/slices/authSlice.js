@@ -12,9 +12,10 @@ const initialState = {
 
 export const registerUser = createAsyncThunk(
     'auth/registerUser',
-    async (userData) => {
+    async ({userData,history}) => {
         try {
             const response = await API.post('/register',userData);
+            history.push('/employeelist')
             
             return response.data;
         } catch (error) {
@@ -25,9 +26,10 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
     'auth/loginUser',
-    async (loginData) => {
+    async ({loginData,history}) => {
         try {
             const response = await API.post('/login',loginData);
+            history.push('/employeelist')
             
             return response.data;
         } catch (error) {

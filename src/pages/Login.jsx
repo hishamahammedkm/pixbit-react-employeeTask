@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
     const dispatch = useDispatch()
+    const history = useHistory();
     
     
     const [loginData, setLoginData] = useState({
@@ -53,7 +54,7 @@ export default function Login() {
     }
     const handleSubmit = (e)=>{
         e.preventDefault()
-        dispatch(loginUser(loginData))
+        dispatch(loginUser({loginData,history}))
     }
     // console.log(loginData);
     const classes = useStyles();
@@ -95,10 +96,10 @@ export default function Login() {
                             autoComplete="current-password"
                             onChange={handleChange}
                         />
-                        <FormControlLabel
+                        {/* <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
-                        />
+                        /> */}
                         <Button
                             type="submit"
                             fullWidth
