@@ -25,10 +25,12 @@ import FormLabel from "@material-ui/core/FormLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import {
   addEmployee,
+  editEmployee,
   getDesignations,
   getEmployees,
 } from "../store/slices/employeeSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -54,34 +56,47 @@ const useStyles = makeStyles((theme) => ({
     margin: "10px",
   },
 }));
-const AddEmployee = () => {
+const EditEmployee = () => {
+  const params = useParams();
+  const id = params.id;
+  // console.log(id);
+  const employees = useSelector((state) => state.employee.employees);
+  console.log(employees);
+  function search(nameKey, myArray) {
+    for (var i = 0; i < myArray.length; i++) {
+      if (myArray[i].id == nameKey) {
+        return myArray[i];
+      }
+    }
+  }
+  const editData = search(id, employees);
+  console.log("editData", editData);
+  console.log(search(id, employees));
+
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.employee.loading);
   const designationData = useSelector((state) => state.employee.designations);
-  const [profile_picture, setProfile_picture] = useState(null);
-  const [resume, setResume] = useState(null);
-  const [employeeData, setEmployeeData] = useState({
-    first_name: "",
-    last_name: "",
-    designation_id: "",
-    gender: "",
-    mobile: null,
-    landline: null,
-    email: "",
-    present_address: "",
-    permanent_address: "",
-    status: "",
 
-    resume: null,
+  const [join_date, setJoin_date] = useState(editData?.join_date);
+  const [date_of_birth, setDate_of_birth] = useState(editData?.date_of_birth);
+  const [employeeData, setEmployeeData] = useState({
+    first_name: editData.first_name,
+    last_name: editData.last_name,
+    designation_id: editData.designation_id,
+    gender: editData.gender,
+    mobile: editData.mobile,
+    landline: editData.landline,
+    email: editData.email,
+
+    present_address: editData.present_address,
+    permanent_address: editData.permanent_address,
+    status: editData.status,
   });
 
-  const [join_date, setJoin_date] = useState(null);
-  const [date_of_birth, setDate_of_birth] = useState(null);
   const handleChange = (e) => {
     setEmployeeData({ ...employeeData, [e.target.name]: e.target.value });
-    console.log(employeeData);
   };
-  // console.log(employeeData);
+  console.log(employeeData);
   const [checkBoxAddress, setCheckBoxAddress] = useState(false);
   const checkBoxAddressChange = (e) => {
     setCheckBoxAddress(!checkBoxAddress);
@@ -89,19 +104,14 @@ const AddEmployee = () => {
       ...employeeData,
       permanent_address: employeeData.present_address,
     });
-    console.log("employeeData---", employeeData);
-  };
-  const handleProfile = (e) => {
-    console.log("fffffffff");
-    setProfile_picture(e.target.files[0]);
-  };
-  const handleResume = (e) => {
-    setResume(e.target.files[0]);
+    // console.log('employeeData---',employeeData)
   };
 
   const classes = useStyles();
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    var object = {};
     const formData = new FormData();
     formData.append("first_name", employeeData.first_name);
     formData.append("last_name", employeeData.last_name);
@@ -110,8 +120,7 @@ const AddEmployee = () => {
       "date_of_birth",
       new Date(date_of_birth).toLocaleDateString()
     );
-    // formData.append("designation_id", employeeData.designation_id);
-    formData.append("designation_id", employeeData.designation_id.toString());
+    formData.append("designation_id", employeeData.designation_id);
     formData.append("gender", employeeData.gender);
     formData.append("status", employeeData.status);
     formData.append("email", employeeData.email);
@@ -119,14 +128,12 @@ const AddEmployee = () => {
     formData.append("landline", employeeData.landline);
     formData.append("present_address", employeeData.present_address);
     formData.append("permanent_address", employeeData.permanent_address);
-    formData.append("profile_picture", profile_picture, profile_picture?.name);
-    formData.append("resume", resume, resume?.name);
 
-    console.log("form Data--------", formData);
-    // console.log('employeeData', employeeData);
-    console.log("designation_id", employeeData.designation_id);
-
-    dispatch(addEmployee(formData));
+    formData.forEach(function (value, key) {
+      object[key] = value;
+    });
+    console.log("object", object);
+    dispatch(editEmployee({ id, object }));
   };
   useEffect(() => {
     dispatch(getDesignations());
@@ -137,7 +144,7 @@ const AddEmployee = () => {
       <Container component="main" maxWidth="lg">
         <div className={classes.paper}>
           <Typography component="h1" variant="h5">
-            Add Employee
+            Edit Employee
           </Typography>
           <form className={classes.form} onSubmit={handleSubmit}>
             <Grid container spacing={3}>
@@ -220,17 +227,16 @@ const AddEmployee = () => {
                     value={employeeData.designation_id}
                   >
                     <MenuItem value="">
-                      <em></em>
+                      <em>None</em>
                     </MenuItem>
                     {designationData.map((item) => (
-                      // <MenuItem key={item.id} value={item.name}>
-                      <MenuItem key={item.id} value={item.id}>
+                      <MenuItem key={item.id} value={item.id.toString()}>
                         {item.name}
                       </MenuItem>
                     ))}
                     {/* <MenuItem value={"React"}>React</MenuItem>
-                                        <MenuItem value={"PHP"}>PHP</MenuItem>
-                                        <MenuItem value={"Flutter"}>Flutter</MenuItem> */}
+                                          <MenuItem value={"PHP"}>PHP</MenuItem>
+                                          <MenuItem value={"Flutter"}>Flutter</MenuItem> */}
                   </Select>
                   <FormHelperText></FormHelperText>
                 </FormControl>
@@ -273,7 +279,6 @@ const AddEmployee = () => {
                   required
                   fullWidth
                   id="mobile"
-                  type="number"
                   label="Mobile"
                   value={employeeData.mobile}
                   onChange={handleChange}
@@ -286,7 +291,6 @@ const AddEmployee = () => {
                   variant="outlined"
                   required
                   fullWidth
-                  type="number"
                   id="landline"
                   label="Landline"
                   value={employeeData.landline}
@@ -343,12 +347,7 @@ const AddEmployee = () => {
                   type="text"
                   id="permanent_address"
                   label="Permenent Address"
-                  value={
-                    employeeData.permanent_address
-                    // checkBoxAddress
-                    //   ? employeeData.present_address
-                    //   : employeeData.permanent_address
-                  }
+                  value={employeeData.permanent_address}
                   onChange={handleChange}
                   multiline
                 />
@@ -377,28 +376,28 @@ const AddEmployee = () => {
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  name="profile_picture"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  type="file"
-                  id="profile_picture"
-                  label="Profile Picture"
-                  onChange={handleProfile}
-                />
+                {/* <TextField
+                    name="profile_picture"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    type="file"
+                    id="profile_picture"
+                    label="Profile Picture"
+                    onChange={handleProfile}
+                  /> */}
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  name="profile_picture"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  type="file"
-                  id="resume"
-                  label="Resume"
-                  onChange={handleResume}
-                />
+                {/* <TextField
+                    name="profile_picture"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    type="file"
+                    id="resume"
+                    label="Resume"
+                    onChange={handleResume}
+                  /> */}
               </Grid>
               <Grid item xs={12}>
                 <Button
@@ -426,4 +425,4 @@ const AddEmployee = () => {
   );
 };
 
-export default AddEmployee;
+export default EditEmployee;

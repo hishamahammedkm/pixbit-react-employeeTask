@@ -6,6 +6,7 @@ const initialState = {
   selectedDesignations: [],
   employees: [],
   loading: false,
+  success:false,
   error: null,
   employeesLoading: false,
 };
@@ -108,6 +109,25 @@ export const deleteEmployee = createAsyncThunk(
   }
 );
 
+
+export const editEmployee = createAsyncThunk(
+    "employee/editEmployee",
+    async ({id,object}) => {
+        console.log('putttt',id,object);
+      try {
+        const response = await API.put(`employees/${id}`,  
+            object,    );
+        return response.data;
+        
+      } catch (error) {
+       
+        throw Error(error);
+      }
+    }
+  );
+
+
+
 const emploeeSlice = createSlice({
   name: "employee",
   initialState,
@@ -116,9 +136,13 @@ const emploeeSlice = createSlice({
       console.log("action", action.payload);
       state.selectedDesignations = action.payload;
     },
+    setStatus(state,action){
+      state.success = action.payload
+    }
   },
   extraReducers: {
     [addDesignation.fulfilled]: (state, action) => {
+      state.success = true
       state.loading = false;
     },
     [getDesignations.fulfilled]: (state, action) => {
@@ -166,5 +190,5 @@ const emploeeSlice = createSlice({
     },
   },
 });
-export const { selectDesignation } = emploeeSlice.actions;
+export const { selectDesignation,setStatus } = emploeeSlice.actions;
 export default emploeeSlice.reducer;

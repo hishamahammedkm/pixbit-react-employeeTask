@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 
 export default function FormDialog({item,isOpen}) {
     const dispatch = useDispatch()
-    const [designation_name, setDesignation_name] = useState(null)
+    const [designation_name, setDesignation_name] = useState(item.name)
     const [open, setOpen] = useState(isOpen);
     
     const handleClickOpen = () => {
@@ -43,7 +43,8 @@ export default function FormDialog({item,isOpen}) {
                         label="Designation Name"
                         type="email"
                         fullWidth
-                        value={designation_name}
+                        
+                         value={designation_name}
                         onChange={(e) => setDesignation_name(e.target.value)}
                     />
                 </DialogContent>

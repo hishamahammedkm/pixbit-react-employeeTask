@@ -10,19 +10,35 @@ import { GridToolbarContainer } from "@mui/x-data-grid-pro";
 import { createTheme } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/styles";
 import { Grid, Paper, Typography } from "@material-ui/core";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 
 import FormDialog from "../components/EditDesignation";
 import { DataGrid } from "@mui/x-data-grid";
-import { deleteEmployee, getEmployees } from "../store/slices/employeeSlice";
+import {
+  deleteEmployee,
+  getDesignations,
+  getEmployees,
+} from "../store/slices/employeeSlice";
 import AdminHeader from "../components/AdminHeader";
 
 const defaultTheme = createTheme();
 
 const useStyles = makeStyles(
   (theme) => ({
+    root: {
+      "& .header": {
+        // backgroundColor: 'rgba(255, 7, 0, 0.55)',
+        // fontSize:'20px',
+
+        fontWeight: "900",
+      },
+      "& .super-app-theme--cell": {
+        textAlign: "center",
+      },
+      // cellClassName: 'super-app-theme--cell
+    },
     paper: {
       display: "flex",
       alignItems: "center",
@@ -30,6 +46,17 @@ const useStyles = makeStyles(
       flexDirection: "column",
       margin: theme.spacing(12, 4, 3),
       padding: theme.spacing(3, 4),
+    },
+    root: {
+      "& .header": {
+        //   backgroundColor: 'rgba(255, 7, 0, 0.55)',
+        fontSize: "16px",
+        fontWeight: "100",
+      },
+      "& .super-app-theme--cell": {
+        textAlign: "center",
+      },
+      // cellClassName: 'super-app-theme--cell
     },
     title: {
       marginBottom: theme.spacing(3),
@@ -45,32 +72,37 @@ const useStyles = makeStyles(
 );
 
 function RowMenuCell(props) {
+  useEffect(() => {
+    dispatch(getEmployees());
+  }, []);
   // console.log('=======',props);
   const [isOpen, setIsOpen] = useState(false);
   const [designationId, setDesignationId] = useState(null);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const { row, id } = props;
   // console.log(row);
   const classes = useStyles();
 
   const handleEditClick = (row) => {
-    setIsOpen(!isOpen);
-    setDesignationId(row);
-    console.log('select', row);
-    // console.log(rows);
+    history.push(`/employeelist/edit/${row.id}`);
+
+    // setIsOpen(!isOpen);
+    // setDesignationId(row);
+    // console.log('select', row);
+    // // console.log(rows);
   };
   const handleDelete = (row) => {
     console.log(row);
 
-    dispatch(deleteEmployee(row))
-
-  }
+    dispatch(deleteEmployee(row));
+  };
 
   return (
-
     <div className={classes.root}>
       {isOpen && <FormDialog isOpen={isOpen} item={designationId} />}
+
       <IconButton
         color="inherit"
         className={classes.textPrimary}
@@ -98,23 +130,34 @@ RowMenuCell.propTypes = {
 };
 
 export default function EmployeesList() {
-  const employeesLoading = useSelector(state => state.employee.employeesLoading)
- 
+  const employeesLoading = useSelector(
+    (state) => state.employee.employeesLoading
+  );
+
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const employees = useSelector((state) => state.employee.employees);
+  const designationData = useSelector((state) => state.employee.designations);
+  console.log("employees", employees);
+  console.log("designationData", designationData);
+  const newEmployees = employees.map((employee) => {
+    return {
+      ...employee,
+      designation_id: "java",
 
-
-  const employees = useSelector(state => state.employee.employees)
-  console.log(employees);
-  
+      // designation_id: designationData.map(
+      //   (des) => des.id === employee.designation_id
+      // ),
+    };
+  });
+  console.log("newEmployees", newEmployees);
   useEffect(() => {
-    dispatch(getEmployees())
+    dispatch(getEmployees());
+    dispatch(getDesignations());
+  }, [employeesLoading]);
 
-}, [employeesLoading])
-
-  const rows = employees.map((item, index) => {
-
+  const rows = newEmployees.map((item, index) => {
     return {
       id: item.id,
       first_name: item.first_name,
@@ -122,6 +165,8 @@ export default function EmployeesList() {
       date_of_birth: item.date_of_birth,
       gender: item.gender,
       designation_id: item.designation_id,
+      // designation_id: item.id,
+
       email: item.email,
       profile_picture: item.profile_picture,
       resume: item.resume,
@@ -129,46 +174,68 @@ export default function EmployeesList() {
   });
 
   const columns = [
-    { field: "id", headerName: "Sl No", width: 150 },
+    {
+      field: "id",
+      headerName: "Sl No",
+      width: 150,
+      headerClassName: "header",
+      cellClassName: "super-app-theme--cell",
+    },
     {
       field: "first_name",
       headerName: "First Name",
       width: 150,
+      headerClassName: "header",
+      cellClassName: "super-app-theme--cell",
     },
     {
       field: "join_date",
       headerName: "Join Date",
       width: 150,
+      headerClassName: "header",
+      cellClassName: "super-app-theme--cell",
     },
     {
       field: "date_of_birth",
       headerName: "Date of Birth",
       width: 150,
+      headerClassName: "header",
+      cellClassName: "super-app-theme--cell",
     },
     {
       field: "gender",
       headerName: "Gender",
       width: 150,
+      headerClassName: "header",
+      cellClassName: "super-app-theme--cell",
     },
     {
       field: "designation_id",
       headerName: "Designation",
       width: 150,
+      headerClassName: "header",
+      cellClassName: "super-app-theme--cell",
     },
     {
       field: "email",
       headerName: "Email",
       width: 150,
+      headerClassName: "header",
+      cellClassName: "super-app-theme--cell",
     },
     {
       field: "profile_picture",
       headerName: "Profile Picture",
       width: 150,
+      headerClassName: "header",
+      cellClassName: "super-app-theme--cell",
     },
     {
       field: "resume",
       headerName: "Resume",
       width: 150,
+      headerClassName: "header",
+      cellClassName: "super-app-theme--cell",
     },
     {
       field: "actions",
@@ -181,6 +248,8 @@ export default function EmployeesList() {
       align: "center",
       disableColumnMenu: true,
       disableReorder: true,
+      headerClassName: "header",
+      cellClassName: "super-app-theme--cell",
     },
   ];
 
@@ -201,7 +270,11 @@ export default function EmployeesList() {
           </Grid>
           <Grid item className={classes.grid_items_right}>
             <GridToolbarContainer>
-              <Button variant="contained" color="primary" startIcon={<AddIcon />}>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<AddIcon />}
+              >
                 <NavLink
                   to="/addemployee"
                   className="link"
@@ -214,7 +287,11 @@ export default function EmployeesList() {
             </GridToolbarContainer>
           </Grid>
         </Grid>
-        <div className={classes.border} style={{ height: 500, width: "100%" }}>
+        <div
+          className={classes.border}
+          style={{ height: 500, width: "100%" }}
+          className={classes.root}
+        >
           <DataGrid rows={rows} columns={columns} />
         </div>
       </Paper>

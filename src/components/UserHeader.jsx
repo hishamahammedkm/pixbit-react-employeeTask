@@ -12,13 +12,16 @@ const useStyles = makeStyles((theme) => ({
     },
     toolbarTitle: {
         flexGrow: 1,
+        
     },
     link: {
         margin: theme.spacing(1, 1.5),
-        textDecoration:'none'
+        textDecoration:'none',
+        fontSize:'18px',
+        fontWeight: 'bold'
     },
     name: {
-        marginRight: 10
+        marginRight: 10,
     }
 
 
@@ -30,9 +33,9 @@ const UserHeader = () => {
     return (
         <>
             <CssBaseline />
-            <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+            <AppBar style={{position: 'fixed',top:0}} position="static" color="default" elevation={0} className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
-                    <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
+                    <Typography variant="h4" color="inherit" noWrap className={classes.toolbarTitle}>
                         Larvel
                     </Typography>
                     <nav>
