@@ -23,6 +23,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import Alert from "../components/Alert";
 import {
   addEmployee,
   getDesignations,
@@ -56,10 +57,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 const AddEmployee = () => {
   const dispatch = useDispatch();
+  const isSuccss = useSelector((state) => state.employee.success);
+  const [isAlert, setIsAlert] = useState(isSuccss);
+  useEffect(() => {
+    setIsAlert(isSuccss);
+  }, [isSuccss]);
   const isLoading = useSelector((state) => state.employee.loading);
   const designationData = useSelector((state) => state.employee.designations);
   const [profile_picture, setProfile_picture] = useState(null);
   const [resume, setResume] = useState(null);
+
   const [employeeData, setEmployeeData] = useState({
     first_name: "",
     last_name: "",
@@ -134,7 +141,11 @@ const AddEmployee = () => {
   return (
     <>
       <AdminHeader />
+
       <Container component="main" maxWidth="lg">
+        {isAlert && <Alert />}
+        {/* <Alert /> */}
+
         <div className={classes.paper}>
           <Typography component="h1" variant="h5">
             Add Employee

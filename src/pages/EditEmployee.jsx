@@ -23,6 +23,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import Alert from "../components/Alert";
 import {
   addEmployee,
   editEmployee,
@@ -57,6 +58,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const EditEmployee = () => {
+  const isSuccss = useSelector((state) => state.employee.success);
+  const [isAlert, setIsAlert] = useState(isSuccss);
+  useEffect(() => {
+    setIsAlert(isSuccss);
+  }, [isSuccss]);
   const params = useParams();
   const id = params.id;
   // console.log(id);
@@ -142,6 +148,7 @@ const EditEmployee = () => {
     <>
       <AdminHeader />
       <Container component="main" maxWidth="lg">
+        {isAlert && <Alert />}
         <div className={classes.paper}>
           <Typography component="h1" variant="h5">
             Edit Employee

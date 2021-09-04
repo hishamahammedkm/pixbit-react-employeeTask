@@ -188,6 +188,15 @@ const emploeeSlice = createSlice({
     [deleteEmployee.rejected]: (state, action) => {
       state.employeesLoading = false;
     },
+    [addEmployee.fulfilled]: (state, action) => {
+      state.success = true
+      state.loading = false;
+    },
+    [editEmployee.fulfilled]: (state, action) => {
+      state.success = true
+      state.loading = false;
+    },
+    
   },
 });
 export const { selectDesignation,setStatus } = emploeeSlice.actions;
