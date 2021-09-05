@@ -20,7 +20,7 @@ import Edit from "./components/Edit";
 import EditEmployee from "./pages/EditEmployee";
 const App = () => {
   const user = localStorage.getItem("token");
-  const isAuth = true;
+  const isAuth = user;
 
   // console.log("user----", user);
   // const isAuth = user;
@@ -28,9 +28,9 @@ const App = () => {
   return (
     <Router>
       <Switch>
-        {/* <Route path="/" exact component={() => <Redirect to="/login" />} /> */}
+        <Route path="/" exact component={() => <Redirect to="/login" />} />
         <Route path="/register" component={Register} />
-        <Route path="/login" component={Login} />
+        {/* <Route path="/login" component={Login} /> */}
         {/* <Route
           path="/register"
           exact

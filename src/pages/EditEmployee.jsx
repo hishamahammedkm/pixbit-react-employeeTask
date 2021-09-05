@@ -24,6 +24,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Alert from "../components/Alert";
+import Tab from '../components/Tab'
 import {
   addEmployee,
   editEmployee,
@@ -146,7 +147,8 @@ const EditEmployee = () => {
   }, []);
   return (
     <>
-      <AdminHeader />
+      {/* <AdminHeader /> */}
+      <Tab tab={0} />
       <Container component="main" maxWidth="lg">
         {isAlert && <Alert />}
         <div className={classes.paper}>

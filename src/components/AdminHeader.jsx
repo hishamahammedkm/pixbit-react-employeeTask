@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import FadeMenu from "./HeaderMenu";
+import Tab from './Tab'
 const useStyles = makeStyles((theme) => ({
   "@global": {
     ul: {
@@ -39,6 +40,62 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// const AdminHeader = () => {
+//   const classes = useStyles();
+//   return (
+//     <>
+//       <CssBaseline />
+//       <AppBar
+//         style={{ position: "fixed", top: 0 }}
+//         position="static"
+//         color="default"
+//         elevation={0}
+//         className={classes.appBar}
+//       >
+//         <Toolbar className={classes.toolbar}>
+//           <Typography
+//             variant="h6"
+//             color="inherit"
+//             noWrap
+//             className={classes.toolbarTitle}
+//           >
+//             Admin Templates
+//           </Typography>
+//           <nav>
+//             {/* <Link to="/" className={classes.link}>
+//                            Home
+//                         </Link> */}
+//             {/* <Link variant="button" color="textPrimary" href="#" className={classes.link}>
+//                             Home
+//                         </Link> */}
+//             <Link to="/employeelist" className={classes.link}>
+//               Employees
+//             </Link>
+//             {/* <Link variant="button" color="textPrimary" href="#" className={classes.link}>
+//                             Employees
+//                         </Link> */}
+//             {/* <Link variant="button" color="textPrimary" href="#" className={classes.link}>
+//                             Designations
+//                         </Link> */}
+//             <Link to="/designationlist" className={classes.link}>
+//               Designations
+//             </Link>
+//           </nav>
+//           <Typography className={classes.name}>Hello Hisham</Typography>
+//           {/* <Avatar>H</Avatar> */}
+//           <FadeMenu />
+//         </Toolbar>
+//       </AppBar>
+//     </>
+//   );
+// };
+
+// export default AdminHeader;
+
+
+
+
+
 const AdminHeader = () => {
   const classes = useStyles();
   return (
@@ -61,24 +118,14 @@ const AdminHeader = () => {
             Admin Templates
           </Typography>
           <nav>
-            {/* <Link to="/" className={classes.link}>
-                           Home
-                        </Link> */}
-            {/* <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                            Home
-                        </Link> */}
-            <Link to="/employeelist" className={classes.link}>
+              <Tab />
+             <Link to="/employeelist" className={classes.link}>
               Employees
             </Link>
-            {/* <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                            Employees
-                        </Link> */}
-            {/* <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                            Designations
-                        </Link> */}
+
             <Link to="/designationlist" className={classes.link}>
               Designations
-            </Link>
+            </Link> */}
           </nav>
           <Typography className={classes.name}>Hello Hisham</Typography>
           {/* <Avatar>H</Avatar> */}
@@ -90,3 +137,4 @@ const AdminHeader = () => {
 };
 
 export default AdminHeader;
+

@@ -30,12 +30,14 @@ import {
   getEmployees,
 } from "../store/slices/employeeSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Tab from '../components/Tab'
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    // marginTop:''
   },
   form: {
     width: "100%",
@@ -140,7 +142,8 @@ const AddEmployee = () => {
   }, []);
   return (
     <>
-      <AdminHeader />
+      {/* <AdminHeader /> */}
+      <Tab tab={0} />
 
       <Container component="main" maxWidth="lg">
         {isAlert && <Alert />}

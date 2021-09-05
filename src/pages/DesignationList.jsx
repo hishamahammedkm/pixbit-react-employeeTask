@@ -22,6 +22,8 @@ import {
 } from "../store/slices/employeeSlice";
 import AdminHeader from "../components/AdminHeader";
 import Alert from "@material-ui/lab/Alert";
+import Tab from '../components/Tab'
+
 const defaultTheme = createTheme();
 
 const useStyles = makeStyles(
@@ -40,11 +42,17 @@ const useStyles = makeStyles(
     },
     paper: {
       display: "flex",
+
       alignItems: "center",
       justifyContent: "center",
       flexDirection: "column",
       margin: theme.spacing(12, 4, 3),
-      padding: theme.spacing(3, 4),
+      padding: theme.spacing(3,4),
+      marginTop:'-5px',
+      
+
+
+
     },
     title: {
       marginBottom: theme.spacing(3),
@@ -161,7 +169,9 @@ export default function Designations() {
 
   return (
     <>
-      <AdminHeader />
+      {/* <AdminHeader /> */}
+      <Tab tab={1} />
+      
 
       <Paper className={classes.paper}>
         <Grid

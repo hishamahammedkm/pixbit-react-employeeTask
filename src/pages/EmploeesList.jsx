@@ -22,7 +22,7 @@ import {
   getEmployees,
 } from "../store/slices/employeeSlice";
 import AdminHeader from "../components/AdminHeader";
-
+import Tab from '../components/Tab'
 const defaultTheme = createTheme();
 
 const useStyles = makeStyles(
@@ -46,6 +46,7 @@ const useStyles = makeStyles(
       flexDirection: "column",
       margin: theme.spacing(12, 4, 3),
       padding: theme.spacing(3, 4),
+      marginTop:'-5px'
     },
     root: {
       "& .header": {
@@ -255,7 +256,8 @@ export default function EmployeesList() {
 
   return (
     <>
-      <AdminHeader />
+      {/* <AdminHeader /> */}
+      <Tab tab={0} />
       <Paper className={classes.paper}>
         <Grid
           container
