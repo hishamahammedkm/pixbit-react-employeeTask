@@ -5,6 +5,8 @@ import {
   Grid,
   TextField,
   Button,
+  InputAdornment,
+  IconButton,
 } from "@material-ui/core";
 import AdminHeader from "../components/AdminHeader";
 import DateFnsUtils from "@date-io/date-fns";
@@ -12,7 +14,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -23,6 +25,9 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import { useHistory } from "react-router-dom";
+
+import AttachFileIcon from "@material-ui/icons/AttachFile";
 import Alert from "../components/Alert";
 import {
   addEmployee,
@@ -30,7 +35,8 @@ import {
   getEmployees,
 } from "../store/slices/employeeSlice";
 import { useDispatch, useSelector } from "react-redux";
-import Tab from '../components/Tab'
+import Tab from "../components/Tab";
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -59,8 +65,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 const AddEmployee = () => {
   const dispatch = useDispatch();
+  const fileInputEl = useRef(null);
+  const fileResume = useRef(null);
+  const history = useHistory();
   const isSuccss = useSelector((state) => state.employee.success);
   const [isAlert, setIsAlert] = useState(isSuccss);
+  const [isError, setIsError] = useState(false);
   useEffect(() => {
     setIsAlert(isSuccss);
   }, [isSuccss]);
@@ -109,8 +119,15 @@ const AddEmployee = () => {
   };
 
   const classes = useStyles();
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!profile_picture) {
+      setIsError(true);
+      return;
+    }
+    if (!resume) return;
+
     const formData = new FormData();
     formData.append("first_name", employeeData.first_name);
     formData.append("last_name", employeeData.last_name);
@@ -128,12 +145,16 @@ const AddEmployee = () => {
     formData.append("landline", employeeData.landline);
     formData.append("present_address", employeeData.present_address);
     formData.append("permanent_address", employeeData.permanent_address);
-    formData.append("profile_picture", profile_picture, profile_picture?.name);
+    formData.append(
+      "profile_picture",
+      profile_picture,
+      profile_picture?.name || ""
+    );
     formData.append("resume", resume, resume?.name);
 
-    console.log("form Data--------", formData);
+    // console.log("form Data--------", formData);
     // console.log('employeeData', employeeData);
-    console.log("designation_id", employeeData.designation_id);
+    // console.log("designation_id", employeeData.designation_id);
 
     dispatch(addEmployee(formData));
   };
@@ -147,7 +168,6 @@ const AddEmployee = () => {
 
       <Container component="main" maxWidth="lg">
         {isAlert && <Alert />}
-        {/* <Alert /> */}
 
         <div className={classes.paper}>
           <Typography component="h1" variant="h5">
@@ -187,6 +207,7 @@ const AddEmployee = () => {
                   <KeyboardDatePicker
                     variant="inline"
                     inputVariant="outlined"
+                    required
                     margin="normal"
                     fullWidth
                     id="joinigDate"
@@ -206,6 +227,7 @@ const AddEmployee = () => {
                   <KeyboardDatePicker
                     variant="inline"
                     inputVariant="outlined"
+                    required
                     fullWidth
                     margin="normal"
                     id="date-picker-dialog"
@@ -226,6 +248,7 @@ const AddEmployee = () => {
                     Designations
                   </InputLabel>
                   <Select
+                    required
                     variant="outlined"
                     labelId="designations"
                     id="designation_id"
@@ -374,6 +397,7 @@ const AddEmployee = () => {
                   </InputLabel>
                   <Select
                     variant="outlined"
+                    required
                     labelId="status"
                     id="status"
                     name="status"
@@ -391,7 +415,7 @@ const AddEmployee = () => {
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
-                <TextField
+                {/* <TextField
                   name="profile_picture"
                   variant="outlined"
                   required
@@ -400,11 +424,52 @@ const AddEmployee = () => {
                   id="profile_picture"
                   label="Profile Picture"
                   onChange={handleProfile}
+                /> */}
+                <TextField
+                  id="profile_picture"
+                  name="profile_picture"
+                  label="Profile Picture"
+                  required
+                  helperText={
+                    !profile_picture
+                      ? "please add profile pic in jpeg format"
+                      : ""
+                  }
+                  error={isError}
+                  fullWidth
+                  value={profile_picture?.name || ""}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => {
+                            fileInputEl.current.click();
+                          }}
+                          edge="end"
+                        >
+                          <AttachFileIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  variant="outlined"
+                />
+
+                <input
+                  required
+                  label="Profile pic"
+                  name="profilePicture"
+                  id="profilePicture"
+                  ref={fileInputEl}
+                  type="file"
+                  style={{ width: "0", height: "0" }}
+                  onChange={handleProfile}
+                  hidden
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  name="profile_picture"
+                {/* <TextField
+                  name="resume"
                   variant="outlined"
                   required
                   fullWidth
@@ -412,12 +477,50 @@ const AddEmployee = () => {
                   id="resume"
                   label="Resume"
                   onChange={handleResume}
+                /> */}
+                <TextField
+                  id="resume"
+                  name="resume"
+                  label="Resume"
+                  required
+                  helperText={!resume ? "please add resume in pdf format" : ""}
+                  error={isError}
+                  fullWidth
+                  value={resume?.name || ""}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => {
+                            fileResume.current.click();
+                          }}
+                          edge="end"
+                        >
+                          <AttachFileIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  variant="outlined"
+                />
+
+                <input
+                  required
+                  label="resume"
+                  name="resume"
+                  id="resume"
+                  ref={fileResume}
+                  type="file"
+                  style={{ width: "0", height: "0" }}
+                  onChange={handleResume}
+                  hidden
                 />
               </Grid>
               <Grid item xs={12}>
                 <Button
                   color="primary"
                   variant="contained"
+                  type="submit"
                   component="label"
                   onClick={handleSubmit}
                 >
@@ -428,6 +531,7 @@ const AddEmployee = () => {
                   color="secondary"
                   variant="contained"
                   component="label"
+                  onClick={() => history.push("/employeelist")}
                 >
                   Cancel
                 </Button>

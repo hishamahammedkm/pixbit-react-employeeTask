@@ -22,7 +22,7 @@ import {
 } from "../store/slices/employeeSlice";
 import AdminHeader from "../components/AdminHeader";
 import Alert from "@material-ui/lab/Alert";
-import Tab from '../components/Tab'
+import Tab from "../components/Tab";
 
 const defaultTheme = createTheme();
 
@@ -47,12 +47,8 @@ const useStyles = makeStyles(
       justifyContent: "center",
       flexDirection: "column",
       margin: theme.spacing(12, 4, 3),
-      padding: theme.spacing(3,4),
-      marginTop:'-5px',
-      
-
-
-
+      padding: theme.spacing(3, 4),
+      marginTop: "-5px",
     },
     title: {
       marginBottom: theme.spacing(3),
@@ -130,12 +126,13 @@ export default function Designations() {
   const designationData = useSelector((state) => state.employee.designations);
 
   const rows = designationData.map((item, index) => {
-    return { id: item.id, name: item.name };
+    return { id: item.id, name: item.name, keys: index + 1 };
   });
 
   const columns = [
     {
-      field: "id",
+      field: "keys",
+
       headerName: "Sl No",
       width: 280,
       headerAlign: "center",
@@ -171,7 +168,6 @@ export default function Designations() {
     <>
       {/* <AdminHeader /> */}
       <Tab tab={1} />
-      
 
       <Paper className={classes.paper}>
         <Grid
@@ -195,7 +191,7 @@ export default function Designations() {
                 <NavLink
                   to="/adddesignation"
                   className="link"
-                  style={{ color: "white" }}
+                  style={{ color: "white", textDecoration: "none" }}
                   activeClassName="active"
                 >
                   Add record

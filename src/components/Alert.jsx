@@ -27,9 +27,9 @@ export default function ActionAlerts() {
     <>
       {isOpen && (
         <div className={classes.root}>
-          <Alert onClose={() => {}}>
+          {/* <Alert onClose={() => {}}>
             This is a success alert — check it out!
-          </Alert>
+          </Alert> */}
           <Alert
             action={
               <Button color="inherit" size="small" onClick={handleClick}>

@@ -24,7 +24,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Alert from "../components/Alert";
-import Tab from '../components/Tab'
+import Tab from "../components/Tab";
+import { useHistory } from "react-router-dom";
 import {
   addEmployee,
   editEmployee,
@@ -61,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
 const EditEmployee = () => {
   const isSuccss = useSelector((state) => state.employee.success);
   const [isAlert, setIsAlert] = useState(isSuccss);
+  const history = useHistory();
   useEffect(() => {
     setIsAlert(isSuccss);
   }, [isSuccss]);
@@ -422,6 +424,7 @@ const EditEmployee = () => {
                   color="secondary"
                   variant="contained"
                   component="label"
+                  onClick={() => history.push("/employeelist")}
                 >
                   Cancel
                 </Button>

@@ -20,9 +20,10 @@ import {
   deleteEmployee,
   getDesignations,
   getEmployees,
+  setStatus,
 } from "../store/slices/employeeSlice";
 import AdminHeader from "../components/AdminHeader";
-import Tab from '../components/Tab'
+import Tab from "../components/Tab";
 const defaultTheme = createTheme();
 
 const useStyles = makeStyles(
@@ -46,7 +47,7 @@ const useStyles = makeStyles(
       flexDirection: "column",
       margin: theme.spacing(12, 4, 3),
       padding: theme.spacing(3, 4),
-      marginTop:'-5px'
+      marginTop: "-5px",
     },
     root: {
       "& .header": {
@@ -141,26 +142,36 @@ export default function EmployeesList() {
   const employees = useSelector((state) => state.employee.employees);
   const designationData = useSelector((state) => state.employee.designations);
   console.log("employees", employees);
+  var newEmployees = [...employees];
+  var designation = [...designationData];
   console.log("designationData", designationData);
-  const newEmployees = employees.map((employee) => {
-    return {
-      ...employee,
-      designation_id: "java",
 
-      // designation_id: designationData.map(
-      //   (des) => des.id === employee.designation_id
-      // ),
-    };
+  var newData = [];
+  employees.map((emp) => {
+    const designation_id = emp.designation_id;
+    var obj = { ...emp };
+    designationData.map((des) => {
+      const designation = des.id;
+      if (designation_id == designation) {
+        // emp.designation_id = des.name;
+        obj.designation_id = des.name;
+      }
+    });
+    newData.push(obj);
   });
-  console.log("newEmployees", newEmployees);
+
   useEffect(() => {
     dispatch(getEmployees());
     dispatch(getDesignations());
+    return () => {
+      dispatch(setStatus(false));
+    };
   }, [employeesLoading]);
 
-  const rows = newEmployees.map((item, index) => {
+  const rows = newData.map((item, index) => {
     return {
       id: item.id,
+      keys: index + 1,
       first_name: item.first_name,
       join_date: item.join_date,
       date_of_birth: item.date_of_birth,
@@ -176,7 +187,7 @@ export default function EmployeesList() {
 
   const columns = [
     {
-      field: "id",
+      field: "keys",
       headerName: "Sl No",
       width: 150,
       headerClassName: "header",
@@ -280,7 +291,7 @@ export default function EmployeesList() {
                 <NavLink
                   to="/addemployee"
                   className="link"
-                  style={{ color: "white" }}
+                  style={{ color: "white", textDecoration: "none" }}
                   activeClassName="active"
                 >
                   Add record
