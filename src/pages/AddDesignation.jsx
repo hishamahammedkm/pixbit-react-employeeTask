@@ -16,14 +16,14 @@ import {
 } from "../store/slices/employeeSlice";
 import Alert from "../components/Alert";
 import { useHistory } from "react-router";
-import Tab from '../components/Tab'
+import Tab from "../components/Tab";
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    marginTop:'-5px',
+    marginTop: "30px",
   },
   form: {
     width: "100%",

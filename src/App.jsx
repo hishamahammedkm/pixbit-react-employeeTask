@@ -18,26 +18,24 @@ import DesignationList from "./pages/DesignationList";
 import AddDesignation from "./pages/AddDesignation";
 import Edit from "./components/Edit";
 import EditEmployee from "./pages/EditEmployee";
+import { useSelector } from "react-redux";
 const App = () => {
   const user = localStorage.getItem("token");
-  const isAuth = user;
-
-  // console.log("user----", user);
-  // const isAuth = user;
-
+  const isAuth = useSelector((state) => state.auth.isLoggedIn);
+  console.log("isAuth----", isAuth);
   return (
     <Router>
       <Switch>
         <Route path="/" exact component={() => <Redirect to="/login" />} />
-        <Route path="/register" component={Register} />
+        {/* <Route path="/register" component={Register} /> */}
         {/* <Route path="/login" component={Login} /> */}
-        {/* <Route
+        <Route
           path="/register"
           exact
           component={() =>
             !isAuth ? <Register /> : <Redirect to="/employeelist" />
           }
-        /> */}
+        />
         <Route
           path="/login"
           exact

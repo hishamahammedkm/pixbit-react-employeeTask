@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { setDate } from 'date-fns';
 // import axios from 'axios';
 
 import  API  from '../api';
@@ -54,7 +55,8 @@ const authSlice = createSlice({
     extraReducers: {
         [registerUser.fulfilled]: (state, action) => {
             state.user = action.payload;
-            ;
+            state.isLoggedIn = true
+            
             localStorage.setItem('token',action.payload.data.access_token)
            
             state.loading = false;
@@ -69,6 +71,7 @@ const authSlice = createSlice({
         [loginUser.fulfilled]: (state, action) => {
             state.user = action.payload.data.access_token;
             localStorage.setItem('token',action.payload.data.access_token)
+            state.isLoggedIn = true
             state.loading = false;
             state.error = null
         },
