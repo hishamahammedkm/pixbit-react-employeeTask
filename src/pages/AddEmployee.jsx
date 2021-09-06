@@ -244,7 +244,10 @@ const AddEmployee = () => {
               </Grid>
               <Grid item xs={12}>
                 <FormControl fullWidth className={classes.formControl}>
-                  <InputLabel id="demo-simple-select-helper-label">
+                  <InputLabel
+                    style={{ marginLeft: "10px" }}
+                    id="demo-simple-select-helper-label"
+                  >
                     Designations
                   </InputLabel>
                   <Select
@@ -392,7 +395,10 @@ const AddEmployee = () => {
               </Grid>
               <Grid item xs={12}>
                 <FormControl fullWidth className={classes.formControl}>
-                  <InputLabel id="demo-simple-select-helper-label">
+                  <InputLabel
+                    style={{ marginLeft: "10px" }}
+                    id="demo-simple-select-helper-label"
+                  >
                     Status
                   </InputLabel>
                   <Select

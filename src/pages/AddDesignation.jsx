@@ -55,6 +55,9 @@ const AddDesignation = () => {
 
   useEffect(() => {
     dispatch(getDesignations());
+    return () => {
+      dispatch(setStatus(false));
+    };
   }, [isLoading]);
   return (
     <>

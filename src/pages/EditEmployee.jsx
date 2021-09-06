@@ -101,6 +101,8 @@ const EditEmployee = () => {
     permanent_address: editData.permanent_address,
     status: editData.status,
   });
+  console.log("present_address", editData.present_address);
+  console.log("permanent_address", editData.permanent_address);
 
   const handleChange = (e) => {
     setEmployeeData({ ...employeeData, [e.target.name]: e.target.value });
@@ -226,7 +228,10 @@ const EditEmployee = () => {
               </Grid>
               <Grid item xs={12}>
                 <FormControl fullWidth className={classes.formControl}>
-                  <InputLabel id="demo-simple-select-helper-label">
+                  <InputLabel
+                    style={{ marginLeft: "10px" }}
+                    id="demo-simple-select-helper-label"
+                  >
                     Designations
                   </InputLabel>
                   <Select
@@ -332,7 +337,7 @@ const EditEmployee = () => {
                   type="text"
                   id="present_address"
                   label="Present Address"
-                  value={employeeData.presentAddress}
+                  value={employeeData.present_address}
                   onChange={handleChange}
                   multiline
                 />
@@ -365,7 +370,10 @@ const EditEmployee = () => {
               </Grid>
               <Grid item xs={12}>
                 <FormControl fullWidth className={classes.formControl}>
-                  <InputLabel id="demo-simple-select-helper-label">
+                  <InputLabel
+                    style={{ marginLeft: "10px" }}
+                    id="demo-simple-select-helper-label"
+                  >
                     Status
                   </InputLabel>
                   <Select
