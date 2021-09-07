@@ -36,7 +36,7 @@ import {
 } from "../store/slices/employeeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Tab from "../components/Tab";
-import { useForm, Controller } from "react-hook-form";
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -64,8 +64,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const AddEmployee = () => {
-  const { register, handleSubmit, control } = useForm();
-  const onSubmit = (data) => console.log(data);
   const dispatch = useDispatch();
   const fileInputEl = useRef(null);
   const fileResume = useRef(null);
@@ -122,7 +120,7 @@ const AddEmployee = () => {
 
   const classes = useStyles();
 
-  const handleSubmitPost = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!profile_picture) {
       setIsError(true);
@@ -175,13 +173,12 @@ const AddEmployee = () => {
           <Typography component="h1" variant="h5">
             Add Employee
           </Typography>
-          <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+          <form className={classes.form} onSubmit={handleSubmit}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <TextField
                   autoComplete="first_name"
                   name="first_name"
-                  inputRef={register}
                   variant="outlined"
                   required
                   fullWidth
@@ -196,7 +193,6 @@ const AddEmployee = () => {
                 <TextField
                   autoComplete="last_name"
                   name="last_name"
-                  inputRef={register}
                   variant="outlined"
                   required
                   fullWidth
@@ -228,30 +224,21 @@ const AddEmployee = () => {
               </Grid>
               <Grid item xs={12}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <Controller
-                    render={(props) => (
-                      <KeyboardDatePicker
-                        variant="inline"
-                        inputVariant="outlined"
-                        required
-                        fullWidth
-                        margin="normal"
-                        id="date-picker-dialog"
-                        label="Date of Birth"
-                        format="MM/dd/yyyy"
-                        name="date_of_birth"
-                        // value={date_of_birth}
-                        value={props.value}
-                        onChange={props.onChange}
-                        // onChange={(e) => setDate_of_birth(e)}
-                        KeyboardButtonProps={{
-                          "aria-label": "change date",
-                        }}
-                        name="date_of_birth"
-                        defaultValue={null}
-                        control={control}
-                      />
-                    )}
+                  <KeyboardDatePicker
+                    variant="inline"
+                    inputVariant="outlined"
+                    required
+                    fullWidth
+                    margin="normal"
+                    id="date-picker-dialog"
+                    label="Date of Birth"
+                    format="MM/dd/yyyy"
+                    name="date_of_birth"
+                    value={date_of_birth}
+                    onChange={(e) => setDate_of_birth(e)}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
                   />
                 </MuiPickersUtilsProvider>
               </Grid>
@@ -300,17 +287,17 @@ const AddEmployee = () => {
                   >
                     <FormControlLabel
                       value="female"
-                      control={<Radio inputRef={register} />}
+                      control={<Radio />}
                       label="Female"
                     />
                     <FormControlLabel
                       value="male"
-                      control={<Radio inputRef={register} />}
+                      control={<Radio />}
                       label="Male"
                     />
                     <FormControlLabel
                       value="other"
-                      control={<Radio inputRef={register} />}
+                      control={<Radio />}
                       label="Other"
                     />
                     {/* <FormControlLabel value="disabled" disabled control={<Radio />} label="(Disabled option)" /> */}
@@ -322,7 +309,6 @@ const AddEmployee = () => {
                 <TextField
                   autoComplete="mobile"
                   name="mobile"
-                  inputRef={register}
                   variant="outlined"
                   required
                   fullWidth
@@ -337,7 +323,6 @@ const AddEmployee = () => {
                 <TextField
                   autoComplete="landline"
                   name="landline"
-                  inputRef={register}
                   variant="outlined"
                   required
                   fullWidth
@@ -352,7 +337,6 @@ const AddEmployee = () => {
                 <TextField
                   autoComplete="email"
                   name="email"
-                  inputRef={register}
                   variant="outlined"
                   required
                   fullWidth
@@ -367,7 +351,6 @@ const AddEmployee = () => {
                 <TextField
                   autoComplete="present_address"
                   name="present_address"
-                  inputRef={register}
                   variant="outlined"
                   required
                   fullWidth
@@ -394,7 +377,6 @@ const AddEmployee = () => {
                 <TextField
                   autoComplete="permanent_address"
                   name="permanent_address"
-                  inputRef={register}
                   variant="outlined"
                   required
                   fullWidth
@@ -419,32 +401,6 @@ const AddEmployee = () => {
                   >
                     Status
                   </InputLabel>
-                  <Controller
-                    render={(props) => (
-                      <Select
-                        value={props.value}
-                        variant="outlined"
-                        required
-                        labelId="status"
-                        id="status"
-                        name="status"
-                        onChange={props.onChange}
-                        // onChange={handleChange}
-                        value={employeeData.status}
-                      >
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        <MenuItem value="">Status</MenuItem>
-                        <MenuItem value={"Permenent"}>Permenent</MenuItem>
-                        <MenuItem value={"Temporary"}>Temporary</MenuItem>
-                        <MenuItem value={"Trainee"}>Trainee</MenuItem>
-                      </Select>
-                    )}
-                    name="status"
-                    control={control}
-                    defaultValue=""
-                  />
                   <Select
                     variant="outlined"
                     required
