@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import AdminHeader from "./components/AdminHeader";
 import EmployeesList from "./pages/EmploeesList";
 import UserHeader from "./components/UserHeader";
-import Login from "./pages/Login";
+import Login from "./pages/Login3";
 import Register from "./pages/Register";
-import AddEmployee from "./pages/AddEmployee";
+import AddEmployee from "./pages/AddEmployee3";
 
 import {
   BrowserRouter as Router,
@@ -18,9 +18,17 @@ import DesignationList from "./pages/DesignationList";
 import AddDesignation from "./pages/AddDesignation";
 import Edit from "./components/Edit";
 import EditEmployee from "./pages/EditEmployee";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setUser } from "./store/slices/authSlice";
 const App = () => {
+  const dispatch = useDispatch();
   const user = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (user) {
+      dispatch(setUser(user));
+    }
+  }, [user]);
   const isAuth = useSelector((state) => state.auth.isLoggedIn);
   console.log("isAuth----", isAuth);
   return (
@@ -43,7 +51,8 @@ const App = () => {
           }
         />
         <ProtectedRoute
-          path="/employeelist/edit/:id"
+          // path="/employeelist/edit/:id"
+          path="/employeelist/:id/edit"
           exact
           component={EditEmployee}
           auth={isAuth}
@@ -76,3 +85,14 @@ const App = () => {
 };
 
 export default App;
+
+// import Test from "./components/Test";
+// const App = () => {
+//   return (
+//     <div>
+//       <Test />
+//     </div>
+//   );
+// };
+
+// export default App;

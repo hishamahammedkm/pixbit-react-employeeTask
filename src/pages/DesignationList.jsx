@@ -30,14 +30,27 @@ const useStyles = makeStyles(
   (theme) => ({
     root: {
       "& .header": {
-        //   backgroundColor: 'rgba(255, 7, 0, 0.55)',
+        // backgroundColor: "rgba(255, 7, 0, 0.55)",
+
+        display: "flex",
+
+        justifyContent: "space-evenly",
         fontSize: "20px",
         fontWeight: "100",
         fontWeight: "900",
       },
+
       "& .super-app-theme--cell": {
         textAlign: "center",
+        display: "flex",
+        justifyContent: "space-evenly",
+        // backgroundColor: "rgba(255, 7, 0, 0.55)",
       },
+      "& .MuiDataGrid-columnHeaderWrapper": {},
+      // display: "flex",
+      // flexDirection: "row",
+      // justifyContent: "spaceEvenly",
+      // alignItems: "spaceEvenly",
       // cellClassName: 'super-app-theme--cell
     },
     paper: {
@@ -152,7 +165,7 @@ export default function Designations() {
       headerName: "Actions",
       renderCell: RowMenuCell,
       sortable: false,
-      width: 100,
+      width: "100",
       headerAlign: "center",
       filterable: false,
       align: "center",
@@ -200,8 +213,14 @@ export default function Designations() {
             </GridToolbarContainer>
           </Grid>
         </Grid>
-        <div style={{ height: 500, width: "100%" }} className={classes.root}>
-          <DataGrid rows={rows} columns={columns} />
+        <div style={{ height: 800, width: "100%" }} className={classes.root}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            autoHeight
+            // autoPageSize
+            // density="comfortable"
+          />
         </div>
       </Paper>
     </>

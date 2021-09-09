@@ -65,9 +65,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 const AddEmployee = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const fileInputEl = useRef(null);
   const fileResume = useRef(null);
-  const history = useHistory();
+
   const isSuccss = useSelector((state) => state.employee.success);
   const [isAlert, setIsAlert] = useState(isSuccss);
   const [isError, setIsError] = useState(false);
@@ -156,7 +157,7 @@ const AddEmployee = () => {
     // console.log('employeeData', employeeData);
     // console.log("designation_id", employeeData.designation_id);
 
-    dispatch(addEmployee(formData));
+    dispatch(addEmployee({ formData, history }));
   };
   useEffect(() => {
     dispatch(getDesignations());
@@ -167,7 +168,7 @@ const AddEmployee = () => {
       <Tab tab={0} />
 
       <Container component="main" maxWidth="lg">
-        {isAlert && <Alert />}
+        {/* {isAlert && <Alert />} */}
 
         <div className={classes.paper}>
           <Typography component="h1" variant="h5">

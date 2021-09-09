@@ -23,6 +23,7 @@
     "axios": "^0.21.1",
     "date-fns": "^2.23.0",
     "dayjs": "^1.10.6",
+    "formik": "^2.2.9",
     "luxon": "^2.0.2",
     "moment": "^2.29.1",
     "react": "^17.0.2",
@@ -32,7 +33,8 @@
     "react-router-dom": "^5.2.1",
     "react-scripts": "4.0.3",
     "react-swipeable-views": "^0.14.0",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "start": "react-scripts start",

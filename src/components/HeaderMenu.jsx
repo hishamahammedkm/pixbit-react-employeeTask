@@ -34,6 +34,7 @@ export default function FadeMenu() {
         aria-haspopup="true"
         onClick={handleClick}
       >
+        <span style={{ marginRight: 10, fontWeight: 600 }}>Hello Hisham</span>
         <Avatar>H</Avatar>
       </Button>
       <Menu

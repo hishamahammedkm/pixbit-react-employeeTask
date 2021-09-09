@@ -22,7 +22,8 @@ import { useHistory } from "react-router-dom";
 import { set } from "date-fns";
 import Alert from "../components/AuthErrorAlert";
 import { useSelector } from "react-redux";
-import { useForm, Controller } from "react-hook-form";
+import { useFormik } from "formik";
+import * as yup from "yup";
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -45,8 +46,28 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "130px",
   },
 }));
-
+const validationSchema = yup.object({
+  email: yup
+    .string("Enter your email")
+    .email("Enter a valid email")
+    .required("Email is required"),
+  password: yup
+    .string("Enter your password")
+    .min(8, "Password should be of minimum 8 characters length")
+    .required("Password is required"),
+});
 export default function Login() {
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: validationSchema,
+
+    onSubmit: (loginData) => {
+      dispatch(loginUser({ loginData, history }));
+    },
+  });
   const authError = useSelector((state) => state.auth.error);
   const [isValid, setIsValid] = useState(false);
   const dispatch = useDispatch();
@@ -86,7 +107,7 @@ export default function Login() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <form className={classes.form} onSubmit={handleSubmit}>
+            <form className={classes.form} onSubmit={formik.handleSubmit}>
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -98,7 +119,10 @@ export default function Login() {
                 name="email"
                 autoComplete="email"
                 autoFocus
-                onChange={handleChange}
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
               />
               <TextField
                 variant="outlined"
@@ -110,9 +134,12 @@ export default function Login() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                helperText={isValid ? "Password must be 8 charector" : ""}
-                error={isValid}
-                onChange={handleChange}
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
+                helperText={formik.touched.password && formik.errors.password}
               />
               {/* <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}

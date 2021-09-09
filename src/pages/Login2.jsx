@@ -47,26 +47,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login() {
+  const { handleSubmit, control } = useForm();
   const authError = useSelector((state) => state.auth.error);
-  const [isValid, setIsValid] = useState(false);
+
   const dispatch = useDispatch();
   const history = useHistory();
   const [isAlert, setIsAlert] = useState(false);
-  const [loginData, setLoginData] = useState({
-    email: "",
-    password: "",
-  });
-  const handleChange = (e) => {
-    setIsValid(false);
-    setLoginData({ ...loginData, [e.target.name]: e.target.value });
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const checkPassword = loginData.password;
-    if (checkPassword.length < 8) {
-      setIsValid(true);
-      return;
-    }
+
+  const handleLogin = (loginData) => {
+    console.log("loginData", loginData);
+    // e.preventDefault();
+    // const checkPassword = loginData.password;
+    // if (checkPassword.length < 8) {
+    //   setIsValid(true);
+    //   return;
+    // }
     dispatch(loginUser({ loginData, history }));
   };
   // console.log(loginData);
@@ -84,40 +79,60 @@ export default function Login() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Login
             </Typography>
-            <form className={classes.form} onSubmit={handleSubmit}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                type="email"
-                label="Email Address"
+            <form className={classes.form} onSubmit={handleSubmit(handleLogin)}>
+              <Controller
                 name="email"
-                autoComplete="email"
-                autoFocus
-                onChange={handleChange}
+                control={control}
+                defaultValue=""
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <TextField
+                    label="Email"
+                    type="email"
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    value={value}
+                    onChange={onChange}
+                    error={!!error}
+                    autoFocus
+                    autoComplete="email"
+                    helperText={error ? error.message : null}
+                  />
+                )}
+                rules={{ required: "email is required" }}
               />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
+
+              <Controller
                 name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                helperText={isValid ? "Password must be 8 charector" : ""}
-                error={isValid}
-                onChange={handleChange}
+                control={control}
+                defaultValue=""
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <TextField
+                    label="Password"
+                    type="password"
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    value={value}
+                    onChange={onChange}
+                    error={!!error}
+                    autoComplete="password"
+                    helperText={error ? error.message : null}
+                  />
+                )}
+                rules={{ required: "Password is required" }}
               />
-              {/* <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
-                        /> */}
+
               <Button
                 type="submit"
                 fullWidth

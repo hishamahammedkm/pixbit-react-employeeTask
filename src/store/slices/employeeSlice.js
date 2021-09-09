@@ -6,7 +6,7 @@ const initialState = {
   selectedDesignations: [],
   employees: [],
   loading: false,
-  success:false,
+  success: false,
   error: null,
   employeesLoading: false,
 };
@@ -28,9 +28,11 @@ export const getDesignations = createAsyncThunk(
 
 export const addDesignation = createAsyncThunk(
   "employee/addDesignation",
-  async (designation) => {
+  async ({ designation_name, history }) => {
+    console.log("designation_name---------", designation_name);
     try {
-      const response = await API.post("/designations", designation);
+      const response = await API.post("/designations", { designation_name });
+      history.push("/designationlist");
       return response.data;
     } catch (error) {
       // console.log(error);
@@ -84,9 +86,10 @@ export const getEmployees = createAsyncThunk(
 
 export const addEmployee = createAsyncThunk(
   "employee/addEmployee",
-  async (formData) => {
+  async ({ formData, history }) => {
     try {
       const response = await API.post("/employees", formData);
+      history.push("/employeelist");
       return response.data;
       console.log(response.data);
     } catch (error) {
@@ -109,24 +112,19 @@ export const deleteEmployee = createAsyncThunk(
   }
 );
 
-
 export const editEmployee = createAsyncThunk(
-    "employee/editEmployee",
-    async ({id,object}) => {
-        console.log('putttt',id,object);
-      try {
-        const response = await API.put(`employees/${id}`,  
-            object,    );
-        return response.data;
-        
-      } catch (error) {
-       
-        throw Error(error);
-      }
+  "employee/editEmployee",
+  async ({ id, object, history }) => {
+    // console.log("putttt", id, object);
+    try {
+      const response = await API.put(`employees/${id}`, object);
+      history.push("/employeelist");
+      return response.data;
+    } catch (error) {
+      throw Error(error);
     }
-  );
-
-
+  }
+);
 
 const emploeeSlice = createSlice({
   name: "employee",
@@ -136,13 +134,13 @@ const emploeeSlice = createSlice({
       console.log("action", action.payload);
       state.selectedDesignations = action.payload;
     },
-    setStatus(state,action){
-      state.success = action.payload
-    }
+    setStatus(state, action) {
+      state.success = action.payload;
+    },
   },
   extraReducers: {
     [addDesignation.fulfilled]: (state, action) => {
-      state.success = true
+      state.success = true;
       state.loading = false;
     },
     [getDesignations.fulfilled]: (state, action) => {
@@ -176,7 +174,7 @@ const emploeeSlice = createSlice({
     // },
 
     [getEmployees.fulfilled]: (state, action) => {
-    //   state.employeesLoading = false;
+      //   state.employeesLoading = false;
       state.employees = action.payload.data;
     },
     [deleteEmployee.pending]: (state, action) => {
@@ -189,15 +187,14 @@ const emploeeSlice = createSlice({
       state.employeesLoading = false;
     },
     [addEmployee.fulfilled]: (state, action) => {
-      state.success = true
+      state.success = true;
       state.loading = false;
     },
     [editEmployee.fulfilled]: (state, action) => {
-      state.success = true
+      state.success = true;
       state.loading = false;
     },
-    
   },
 });
-export const { selectDesignation,setStatus } = emploeeSlice.actions;
+export const { selectDesignation, setStatus } = emploeeSlice.actions;
 export default emploeeSlice.reducer;

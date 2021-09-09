@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     "& > * + *": {
       marginTop: theme.spacing(4),
     },
+    marginTop: "50px",
   },
 }));
 

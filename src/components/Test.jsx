@@ -1,27 +1,113 @@
-import React from 'react';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import Test from '../components/Test'
-export default function RadioButtonsGroup() {
-  const [value, setValue] = React.useState('female');
+import React from "react";
+import { makeStyles } from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { useForm, Controller } from "react-hook-form";
 
-  const handleChange = (event) => {
-      console.log(event.target.value,event.target.name);
-    setValue(event.target.value);
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: theme.spacing(2),
+
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: "300px",
+    },
+    "& .MuiButtonBase-root": {
+      margin: theme.spacing(2),
+    },
+  },
+}));
+
+const Form = ({ handleClose }) => {
+  const classes = useStyles();
+  const { handleSubmit, control } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
   };
 
   return (
-    <FormControl component="fieldset">
-      <FormLabel component="legend">Gender</FormLabel>
-      <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
-        <FormControlLabel value="female" control={<Radio />} label="Female" />
-        <FormControlLabel value="male" control={<Radio />} label="Male" />
-        <FormControlLabel value="other" control={<Radio />} label="Other" />
-        <FormControlLabel value="disabled" disabled control={<Radio />} label="(Disabled option)" />
-      </RadioGroup>
-    </FormControl>
+    <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
+      <Controller
+        name="firstName"
+        control={control}
+        defaultValue=""
+        render={({ field: { onChange, value }, fieldState: { error } }) => (
+          <TextField
+            label="First Name"
+            variant="filled"
+            value={value}
+            onChange={onChange}
+            error={!!error}
+            helperText={error ? error.message : null}
+          />
+        )}
+        rules={{ required: "First name required" }}
+      />
+      <Controller
+        name="lastName"
+        control={control}
+        defaultValue=""
+        render={({ field: { onChange, value }, fieldState: { error } }) => (
+          <TextField
+            label="Last Name"
+            variant="filled"
+            value={value}
+            onChange={onChange}
+            error={!!error}
+            helperText={error ? error.message : null}
+          />
+        )}
+        rules={{ required: "Last name required" }}
+      />
+      <Controller
+        name="email"
+        control={control}
+        defaultValue=""
+        render={({ field: { onChange, value }, fieldState: { error } }) => (
+          <TextField
+            label="Email"
+            variant="filled"
+            value={value}
+            onChange={onChange}
+            error={!!error}
+            helperText={error ? error.message : null}
+            type="email"
+          />
+        )}
+        rules={{ required: "Email required" }}
+      />
+      <Controller
+        name="password"
+        control={control}
+        defaultValue=""
+        render={({ field: { onChange, value }, fieldState: { error } }) => (
+          <TextField
+            label="Password"
+            variant="filled"
+            value={value}
+            onChange={onChange}
+            error={!!error}
+            helperText={error ? error.message : null}
+            type="password"
+          />
+        )}
+        rules={{ required: "Password required" }}
+      />
+      <div>
+        <Button variant="contained" onClick={handleClose}>
+          Cancel
+        </Button>
+        <Button type="submit" variant="contained" color="primary">
+          Signup
+        </Button>
+      </div>
+    </form>
   );
-}
+};
+
+export default Form;

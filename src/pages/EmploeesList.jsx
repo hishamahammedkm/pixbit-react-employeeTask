@@ -88,7 +88,7 @@ function RowMenuCell(props) {
   const classes = useStyles();
 
   const handleEditClick = (row) => {
-    history.push(`/employeelist/edit/${row.id}`);
+    history.push(`/employeelist/${row.id}/edit`);
 
     // setIsOpen(!isOpen);
     // setDesignationId(row);
@@ -302,10 +302,10 @@ export default function EmployeesList() {
         </Grid>
         <div
           className={classes.border}
-          style={{ height: 500, width: "100%" }}
+          style={{ height: 800, width: "100%" }}
           className={classes.root}
         >
-          <DataGrid rows={rows} columns={columns} />
+          <DataGrid rows={rows} columns={columns} autoHeight />
         </div>
       </Paper>
     </>

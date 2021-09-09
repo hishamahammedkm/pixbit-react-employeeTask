@@ -25,7 +25,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Alert from "../components/Alert";
 import Tab from "../components/Tab";
-import { useHistory } from "react-router-dom";
+
 import {
   addEmployee,
   editEmployee,
@@ -33,7 +33,7 @@ import {
   getEmployees,
 } from "../store/slices/employeeSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -79,8 +79,8 @@ const EditEmployee = () => {
     }
   }
   const editData = search(id, employees);
-  console.log("editData", editData);
-  console.log(search(id, employees));
+  // console.log("editData", editData);
+  // console.log(search(id, employees));
 
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.employee.loading);
@@ -144,7 +144,7 @@ const EditEmployee = () => {
       object[key] = value;
     });
     console.log("object", object);
-    dispatch(editEmployee({ id, object }));
+    dispatch(editEmployee({ id, object, history }));
   };
   useEffect(() => {
     dispatch(getDesignations());

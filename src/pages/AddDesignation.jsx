@@ -15,7 +15,7 @@ import {
   setStatus,
 } from "../store/slices/employeeSlice";
 import Alert from "../components/Alert";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import Tab from "../components/Tab";
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -49,8 +49,7 @@ const AddDesignation = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(addDesignation({ designation_name }));
-    console.log(2);
+    dispatch(addDesignation({ designation_name, history }));
   };
 
   useEffect(() => {
@@ -64,7 +63,7 @@ const AddDesignation = () => {
       {/* <AddminHeader /> */}
       <Tab tab={1} />
       <Container component="main" maxWidth="lg">
-        {isAlert && <Alert />}
+        {/* {isAlert && <Alert />} */}
 
         <div className={classes.paper}>
           <Typography component="h1" variant="h5">
