@@ -1,8 +1,10 @@
 import React from "react";
 import { TextField } from "@material-ui/core";
-import { useField } from "formik";
+import { useField, useFormikContext } from "formik";
 
-const TextfieldWrapper = ({ name, ...otherProps }) => {
+const TextfieldWrapper = ({ name, isChecked, ...otherProps }) => {
+  const { values, submitForm } = useFormikContext();
+
   const [field, mata] = useField(name);
 
   const configTextfield = {
@@ -15,6 +17,9 @@ const TextfieldWrapper = ({ name, ...otherProps }) => {
   if (mata && mata.touched && mata.error) {
     configTextfield.error = true;
     configTextfield.helperText = mata.error;
+  }
+  if (isChecked) {
+    configTextfield.value = values.present_address;
   }
 
   return <TextField {...configTextfield} />;

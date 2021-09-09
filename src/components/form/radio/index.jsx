@@ -38,7 +38,9 @@ const RadioForm = ({ name, ...otherProps }) => {
           {/* <FormControlLabel value="disabled" disabled control={<Radio />} label="(Disabled option)" /> */}
         </RadioGroup>
       </FormControl>
-      <span style={{ color: "red" }}>{meta.error}</span>
+      <span style={{ color: "red" }}>
+        {meta.error && "please select a gender"}
+      </span>
     </div>
   );
 };

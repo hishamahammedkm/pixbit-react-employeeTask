@@ -36,7 +36,8 @@ import {
 } from "../store/slices/employeeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Tab from "../components/Tab";
-import { Formik, Form } from "formik";
+import { Formik, Form, useFormikContext } from "formik";
+
 import TextField from "../components/form/TextField";
 import FileInput from "../components/form/fileInput";
 import * as Yup from "yup";
@@ -118,6 +119,7 @@ const AddEmployee = () => {
   }, [isSuccss]);
   const isLoading = useSelector((state) => state.employee.loading);
   const designationData = useSelector((state) => state.employee.designations);
+
   // const [profile_picture, setProfile_picture] = useState(null);
   // const [resume, setResume] = useState(null);
 
@@ -152,7 +154,9 @@ const AddEmployee = () => {
     //   permanent_address: employeeData.present_address,
     // });
     // console.log("employeeData---", employeeData);
-    INITIAL_FORM_STATE.permanent_address = INITIAL_FORM_STATE.present_address;
+    // if (checkBoxAddress) {
+    //   setFieldValue("permanent_address", values.present_address);
+    // }
   };
 
   const classes = useStyles();
@@ -192,6 +196,7 @@ const AddEmployee = () => {
   useEffect(() => {
     dispatch(getDesignations());
   }, []);
+
   return (
     <>
       {/* <AdminHeader /> */}
@@ -316,7 +321,9 @@ const AddEmployee = () => {
                     <TextField
                       name="permanent_address"
                       label="Permenent Address"
+                      // value={checkBoxAddress ?}
                       multiline
+                      isChecked={checkBoxAddress}
                     />
                   </Grid>
                   {/* <Grid item xs={12}>
