@@ -24,6 +24,7 @@ import Alert from "../components/AuthErrorAlert";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { useLoginMutation } from "../redux/services/employees";
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -57,6 +58,7 @@ const validationSchema = yup.object({
     .required("Password is required"),
 });
 export default function Login() {
+  const [login, { isLoading }] = useLoginMutation();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -64,11 +66,24 @@ export default function Login() {
     },
     validationSchema: validationSchema,
 
-    onSubmit: (loginData) => {
-      dispatch(loginUser({ loginData, history }));
+    onSubmit: async (loginData) => {
+      console.log(loginData);
+      try {
+        const payload = await login(loginData);
+        console.log(payload);
+        localStorage.setItem("token", payload.data.data.access_token);
+        history.push("/employeelist");
+      } catch (error) {
+        console.log(error);
+        setAuthError(true);
+        console.log(error);
+      }
+      // dispatch(loginUser({ loginData, history }));
     },
   });
-  const authError = useSelector((state) => state.auth.error);
+  // const authError = useSelector((state) => state.auth.error);
+
+  const [authError, setAuthError] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -81,15 +96,16 @@ export default function Login() {
     setIsValid(false);
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const checkPassword = loginData.password;
     if (checkPassword.length < 8) {
       setIsValid(true);
       return;
     }
-    dispatch(loginUser({ loginData, history }));
+    // dispatch(loginUser({ loginData, history }));
   };
+
   // console.log(loginData);
   const classes = useStyles();
 

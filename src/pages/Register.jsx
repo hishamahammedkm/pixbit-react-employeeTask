@@ -18,6 +18,7 @@ import UserHeader from "../components/UserHeader";
 import { registerUser } from "../store/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Alert from "../components/AuthErrorAlert";
+import { useRegisterMutation } from "../redux/services/employees";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,7 +44,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Register() {
-  const authError = useSelector((state) => state.auth.error);
+  const [register, { isLoading }] = useRegisterMutation();
+  // const authError = useSelector((state) => state.auth.error);
+  const [authError, setAuthError] = useState(false);
+
   const [isValid, setIsValid] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -55,11 +59,12 @@ export default function Register() {
     password_confirmation: "",
   });
   const handleChange = (e) => {
+    setAuthError(false);
     setIsValid(false);
     setMismatch(false);
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
-  const PostData = (e) => {
+  const PostData = async (e) => {
     e.preventDefault();
     const checkPassword = userData.password;
     const checkPassword2 = userData.password_confirmation;
@@ -71,7 +76,16 @@ export default function Register() {
       setIsValid(true);
       return;
     }
-    dispatch(registerUser({ userData, history }));
+    // dispatch(registerUser({ userData, history }));
+    try {
+      const payload = await register(userData);
+      // console.log(payload.data.data.access_token);
+      localStorage.setItem("token", payload.data.data.access_token);
+      history.push("/employeelist");
+    } catch (error) {
+      setAuthError(true);
+      console.log(error);
+    }
   };
   const classes = useStyles();
   // console.log(userData);

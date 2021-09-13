@@ -23,14 +23,15 @@ import { setUser } from "./store/slices/authSlice";
 const App = () => {
   const dispatch = useDispatch();
   const user = localStorage.getItem("token");
+  var isAuth = true;
 
-  useEffect(() => {
-    if (user) {
-      dispatch(setUser(user));
-    }
-  }, [user]);
-  const isAuth = useSelector((state) => state.auth.isLoggedIn);
-  console.log("isAuth----", isAuth);
+  // useEffect(() => {
+  //   if (user) {
+  //     dispatch(setUser(user));
+  //   }
+  // }, [user]);
+  // const isAuth = useSelector((state) => state.auth.isLoggedIn);
+  // console.log("isAuth----", isAuth);
   return (
     <Router>
       <Switch>

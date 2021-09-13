@@ -24,6 +24,10 @@ import {
 } from "../store/slices/employeeSlice";
 import AdminHeader from "../components/AdminHeader";
 import Tab from "../components/Tab";
+import {
+  useGetDesignationsQuery,
+  useGetEmployeesQuery,
+} from "../redux/services/employees";
 const defaultTheme = createTheme();
 
 const useStyles = makeStyles(
@@ -75,7 +79,7 @@ const useStyles = makeStyles(
 
 function RowMenuCell(props) {
   useEffect(() => {
-    dispatch(getEmployees());
+    // dispatch(getEmployees());
   }, []);
   // console.log('=======',props);
   const [isOpen, setIsOpen] = useState(false);
@@ -132,15 +136,26 @@ RowMenuCell.propTypes = {
 };
 
 export default function EmployeesList() {
-  const employeesLoading = useSelector(
-    (state) => state.employee.employeesLoading
-  );
+  // const { isLoading, data, isError } = useGetEmployeesQuery();
+  const { status, data } = useGetEmployeesQuery();
+  // const designation = useGetDesignationsQuery();
+  console.log("result============", status);
+  // const employeesLoading = useSelector(
+  //   (state) => state.employee.employeesLoading
+  // );
 
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const employees = useSelector((state) => state.employee.employees);
-  const designationData = useSelector((state) => state.employee.designations);
+  // const employees = useSelector((state) => state.employee.employees);
+  const [employees, setEmployees] = useState([]);
+  useEffect(() => {
+    if (status == "fulfilled") {
+      setEmployees(data.data);
+    }
+  }, [data]);
+  // const designationData = useSelector((state) => state.employee.designations);
+  const designationData = [];
   console.log("employees", employees);
   var newEmployees = [...employees];
   var designation = [...designationData];
@@ -160,13 +175,13 @@ export default function EmployeesList() {
     newData.push(obj);
   });
 
-  useEffect(() => {
-    dispatch(getEmployees());
-    dispatch(getDesignations());
-    return () => {
-      dispatch(setStatus(false));
-    };
-  }, [employeesLoading]);
+  // useEffect(() => {
+  //   dispatch(getEmployees());
+  //   dispatch(getDesignations());
+  //   return () => {
+  //     dispatch(setStatus(false));
+  //   };
+  // }, [employeesLoading]);
 
   const rows = newData.map((item, index) => {
     return {

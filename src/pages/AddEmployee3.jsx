@@ -304,6 +304,7 @@ const AddEmployee = () => {
                       name="present_address"
                       label="Present Address"
                       multiline
+                      rows={3}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -323,6 +324,7 @@ const AddEmployee = () => {
                       label="Permenent Address"
                       // value={checkBoxAddress ?}
                       multiline
+                      rows={3}
                       isChecked={checkBoxAddress}
                     />
                   </Grid>
