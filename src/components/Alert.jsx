@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import { tr } from "date-fns/locale";
 import { useDispatch } from "react-redux";
-import { setStatus } from "../store/slices/employeeSlice";
+// import { setStatus } from "../store/slices/employeeSlice";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -21,7 +21,7 @@ export default function ActionAlerts() {
   const [isOpen, setIsOpen] = useState(true);
   const classes = useStyles();
   const handleClick = () => {
-    dispatch(setStatus(false));
+    // dispatch(setStatus(false));
   };
 
   return (

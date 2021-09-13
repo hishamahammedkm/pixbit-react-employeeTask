@@ -13,12 +13,12 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Copyright from "../components/Copyright";
-import UserHeader from "../components/UserHeader";
-import { registerUser } from "../store/slices/authSlice";
-import { useDispatch, useSelector } from "react-redux";
-import Alert from "../components/AuthErrorAlert";
-import { useRegisterMutation } from "../redux/services/employees";
+import Copyright from "../../components/Copyright";
+import UserHeader from "../../components/UserHeader";
+// import { registerUser } from "../store/slices/authSlice";
+// import { useDispatch, useSelector } from "react-redux";
+import Alert from "../../components/AuthErrorAlert";
+import { useRegisterMutation } from "../../redux/services/employee";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -49,7 +49,7 @@ export default function Register() {
   const [authError, setAuthError] = useState(false);
 
   const [isValid, setIsValid] = useState(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const history = useHistory();
   const [mismatch, setMismatch] = useState(false);
   const [userData, setUserData] = useState({
@@ -81,7 +81,7 @@ export default function Register() {
       const payload = await register(userData);
       // console.log(payload.data.data.access_token);
       localStorage.setItem("token", payload.data.data.access_token);
-      history.push("/employeelist");
+      history.push("/employees");
     } catch (error) {
       setAuthError(true);
       console.log(error);

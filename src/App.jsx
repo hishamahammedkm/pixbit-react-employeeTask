@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import AdminHeader from "./components/AdminHeader";
-import EmployeesList from "./pages/EmploeesList";
+import Employees from "./pages/employees/List";
 import UserHeader from "./components/UserHeader";
-import Login from "./pages/Login3";
-import Register from "./pages/Register";
-import AddEmployee from "./pages/AddEmployee3";
-
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import CreateEmployee from "./pages/employees/Create";
+import Home from "./pages/Home";
 import {
   BrowserRouter as Router,
   Route,
@@ -14,12 +14,12 @@ import {
   Redirect,
 } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
-import DesignationList from "./pages/DesignationList";
-import AddDesignation from "./pages/AddDesignation";
-import Edit from "./components/Edit";
-import EditEmployee from "./pages/EditEmployee";
+// import Designations from "./pages/DesignationList";
+// import AddDesignation from "./pages/AddDesignation";
+// import Edit from "./components/Edit";
+// import EditEmployee from "./pages/EditEmployee";
 import { useSelector, useDispatch } from "react-redux";
-import { setUser } from "./store/slices/authSlice";
+
 const App = () => {
   const dispatch = useDispatch();
   const user = localStorage.getItem("token");
@@ -35,23 +35,49 @@ const App = () => {
   return (
     <Router>
       <Switch>
-        <Route path="/" exact component={() => <Redirect to="/login" />} />
-
-        <Route
+        <Route exact path="/" >
+          <Home />
+        </Route>
+        <Route path="/login" >
+          <Login />
+        </Route>
+        <Route path="/register" >
+          <Register />
+        </Route>
+        <Route path="/employees" >
+          <Employees />
+        </Route>
+        <Route path="/create_employee" >
+          <CreateEmployee />
+        </Route>
+        
+        {/* <Route path="/designations" >
+          <Designations />
+        </Route> */}
+        {/* <Route path="/" exact component={() => <Redirect to="/login" />} /> */}
+        {/* <Route
+          path="/"
+          exact
+          component={() =>
+            !isAuth ? <Login /> : Home 
+          }
+        /> */}
+        {/* <Route
           path="/register"
           exact
           component={() =>
-            !isAuth ? <Register /> : <Redirect to="/employeelist" />
+            !isAuth ? <Register /> : <Redirect to="/" />
           }
-        />
-        <Route
+        /> */}
+        {/* <Route
           path="/login"
           exact
           component={() =>
-            !isAuth ? <Login /> : <Redirect to="/employeelist" />
+            !isAuth ? <Login /> : <Redirect to="/" />
           }
-        />
-        <ProtectedRoute
+        /> */}
+   
+        {/* <ProtectedRoute
           // path="/employeelist/edit/:id"
           path="/employeelist/:id/edit"
           exact
@@ -79,21 +105,10 @@ const App = () => {
           path="/adddesignation"
           component={AddDesignation}
           auth={isAuth}
-        />
+        /> */}
       </Switch>
     </Router>
   );
 };
 
 export default App;
-
-// import Test from "./components/Test";
-// const App = () => {
-//   return (
-//     <div>
-//       <Test />
-//     </div>
-//   );
-// };
-
-// export default App;

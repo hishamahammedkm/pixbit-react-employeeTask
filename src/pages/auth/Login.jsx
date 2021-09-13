@@ -14,17 +14,17 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Copyright from "../components/Copyright";
-import UserHeader from "../components/UserHeader";
+import Copyright from "../../components/Copyright";
+import UserHeader from "../../components/UserHeader";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../store/slices/authSlice";
+
 import { useHistory } from "react-router-dom";
 import { set } from "date-fns";
-import Alert from "../components/AuthErrorAlert";
+import Alert from "../../components/AuthErrorAlert";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useLoginMutation } from "../redux/services/employees";
+import { useLoginMutation } from "../../redux/services/employee";
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -127,7 +127,7 @@ export default function Login() {
               <TextField
                 variant="outlined"
                 margin="normal"
-                required
+                
                 fullWidth
                 id="email"
                 type="email"
@@ -143,7 +143,7 @@ export default function Login() {
               <TextField
                 variant="outlined"
                 margin="normal"
-                required
+               
                 fullWidth
                 name="password"
                 label="Password"

@@ -4,7 +4,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Fade from "@material-ui/core/Fade";
 import { Avatar } from "@material-ui/core";
-import { logout } from "../store/slices/authSlice";
+// import { logout } from "../store/slices/authSlice";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 
@@ -22,7 +22,7 @@ export default function FadeMenu() {
     setAnchorEl(null);
   };
   const handleLogout = () => {
-    dispatch(logout());
+    // dispatch(logout());
     history.push("/login");
     setAnchorEl(null);
   };

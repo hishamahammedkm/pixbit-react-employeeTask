@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { editDesignation } from '../store/slices/employeeSlice';
+// import { editDesignation } from '../store/slices/employeeSlice';
 import { useDispatch } from 'react-redux';
 
 export default function FormDialog({item,isOpen}) {
@@ -25,7 +25,7 @@ export default function FormDialog({item,isOpen}) {
         setOpen(false)
      
         
-        dispatch(editDesignation({id:item.id,designation_name}))
+        // dispatch(editDesignation({id:item.id,designation_name}))
     }
 
     return (

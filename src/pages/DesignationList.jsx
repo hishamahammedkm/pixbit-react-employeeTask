@@ -16,10 +16,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import FormDialog from "../components/EditDesignation";
 import { DataGrid } from "@mui/x-data-grid";
-import {
-  deleteDesignation,
-  getDesignations,
-} from "../store/slices/employeeSlice";
+// import {
+//   deleteDesignation,
+//   getDesignations,
+// } from "../store/slices/employeeSlice";
 import AdminHeader from "../components/AdminHeader";
 import Alert from "@material-ui/lab/Alert";
 import Tab from "../components/Tab";

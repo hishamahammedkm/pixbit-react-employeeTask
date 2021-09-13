@@ -9,11 +9,11 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddminHeader from "../components/AdminHeader";
-import {
-  addDesignation,
-  getDesignations,
-  setStatus,
-} from "../store/slices/employeeSlice";
+// import {
+//   addDesignation,
+//   getDesignations,
+//   setStatus,
+// } from "../store/slices/employeeSlice";
 import Alert from "../components/Alert";
 import { useHistory } from "react-router-dom";
 import Tab from "../components/Tab";
