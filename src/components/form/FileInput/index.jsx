@@ -14,7 +14,7 @@ const FileInput = ({ name, ...otherProps }) => {
     }
     setFieldValue(name, evt.target.files[0]);
   };
-
+  
   const configFile = {
     ...field,
     ...otherProps,

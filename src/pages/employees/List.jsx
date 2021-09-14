@@ -27,6 +27,7 @@ import Tab from "../../components/Tab";
 import {
   useGetDesignationsQuery,
   useGetEmployeesQuery,
+  useDeleteEmployeeMutation,
 } from "../../redux/services/employee";
 const defaultTheme = createTheme();
 
@@ -86,21 +87,29 @@ function RowMenuCell(props) {
   const [designationId, setDesignationId] = useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
+  const [deleteEmployee] = useDeleteEmployeeMutation();
+  const employeeData = useGetEmployeesQuery();
 
   const { row, id } = props;
   // console.log(row);
   const classes = useStyles();
 
   const handleEditClick = (row) => {
-    history.push(`/employeelist/${row.id}/edit`);
+    history.push(`/employees/${row.id}/edit`);
 
     // setIsOpen(!isOpen);
     // setDesignationId(row);
     // console.log('select', row);
     // // console.log(rows);
   };
-  const handleDelete = (row) => {
-    console.log(row);
+  const handleDelete = async (row) => {
+    try {
+      const res = await deleteEmployee(row);
+      employeeData.refetch();
+      history.push("/employees");
+    } catch (error) {
+      console.log(error);
+    }
 
     // dispatch(deleteEmployee(row));
   };
@@ -136,7 +145,6 @@ RowMenuCell.propTypes = {
 };
 
 export default function EmployeesList() {
-
   // const { isLoading, data, isError } = useGetEmployeesQuery();
   const { status, data } = useGetEmployeesQuery();
   const { status: desStatus, data: desData } = useGetDesignationsQuery();
@@ -157,8 +165,6 @@ export default function EmployeesList() {
     }
   }, [desData]);
 
-
-
   console.log("designationData", designationData);
   console.log("employees", employees);
   var newData = [];
@@ -174,9 +180,6 @@ export default function EmployeesList() {
     });
     newData.push(obj);
   });
-  
-  
-  
 
   console.log("new Data-----", newData);
   const rows = newData.map((item, index) => {
@@ -184,8 +187,10 @@ export default function EmployeesList() {
       id: item.id,
       keys: index + 1,
       first_name: item.first_name,
-      join_date: item.join_date,
-      date_of_birth: item.date_of_birth,
+
+      join_date: new Date(item.join_date).toLocaleDateString(),
+
+      date_of_birth: new Date(item.date_of_birth).toLocaleDateString(),
       gender: item.gender,
       designation_id: item.designation_id,
       // designation_id: item.id,
@@ -201,13 +206,15 @@ export default function EmployeesList() {
       field: "keys",
       headerName: "Sl No",
       width: 150,
+      headerAlign: "center",
       headerClassName: "header",
       cellClassName: "super-app-theme--cell",
     },
     {
       field: "first_name",
       headerName: "First Name",
-      width: 150,
+      width: 200,
+      headerAlign: "center",
       headerClassName: "header",
       cellClassName: "super-app-theme--cell",
     },
@@ -215,13 +222,15 @@ export default function EmployeesList() {
       field: "join_date",
       headerName: "Join Date",
       width: 150,
+      headerAlign: "center",
       headerClassName: "header",
       cellClassName: "super-app-theme--cell",
     },
     {
       field: "date_of_birth",
       headerName: "Date of Birth",
-      width: 150,
+      width: 200,
+      headerAlign: "center",
       headerClassName: "header",
       cellClassName: "super-app-theme--cell",
     },
@@ -229,27 +238,32 @@ export default function EmployeesList() {
       field: "gender",
       headerName: "Gender",
       width: 150,
+      headerAlign: "center",
       headerClassName: "header",
       cellClassName: "super-app-theme--cell",
     },
     {
       field: "designation_id",
       headerName: "Designation",
-      width: 150,
+      headerAlign: "center",
+      width: 200,
       headerClassName: "header",
       cellClassName: "super-app-theme--cell",
     },
     {
       field: "email",
       headerName: "Email",
-      width: 150,
+      width: 200,
+      headerAlign: "center",
+      // align: "center",
       headerClassName: "header",
       cellClassName: "super-app-theme--cell",
     },
     {
       field: "profile_picture",
       headerName: "Profile Picture",
-      width: 150,
+      width: 200,
+      headerAlign: "center",
       headerClassName: "header",
       cellClassName: "super-app-theme--cell",
     },
@@ -257,6 +271,8 @@ export default function EmployeesList() {
       field: "resume",
       headerName: "Resume",
       width: 150,
+      align: "center",
+      headerAlign: "center",
       headerClassName: "header",
       cellClassName: "super-app-theme--cell",
     },
@@ -313,7 +329,7 @@ export default function EmployeesList() {
         </Grid>
         <div
           className={classes.border}
-          style={{ height: 800, width: "100%" }}
+          style={{ width: "100%" }}
           className={classes.root}
         >
           <DataGrid rows={rows} columns={columns} autoHeight />

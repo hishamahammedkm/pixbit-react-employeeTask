@@ -173,14 +173,14 @@ export default function Register() {
                 Sign Up
               </Button>
               {authError && <Alert message="this email alreay taken" />}
-              <Grid container justifyContent="flex-end">
+              <Grid container justifyContent="center">
                 <Grid item>
                   <Link to="/login">Already have an account? Sign in</Link>
                 </Grid>
               </Grid>
             </form>
           </div>
-          <Box mt={5}>
+          <Box mt={3}>
             <Copyright />
           </Box>
         </Container>

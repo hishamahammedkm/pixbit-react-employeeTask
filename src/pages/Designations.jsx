@@ -10,7 +10,7 @@ import { GridToolbarContainer } from "@mui/x-data-grid-pro";
 import { createTheme } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/styles";
 import { Grid, Paper, Typography } from "@material-ui/core";
-import { NavLink } from "react-router-dom";
+import { NavLink,useHistory } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -23,6 +23,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import AdminHeader from "../components/AdminHeader";
 import Alert from "@material-ui/lab/Alert";
 import Tab from "../components/Tab";
+import { useDeleteDesignationMutation, useGetDesignationsQuery } from "../redux/services/employee";
 
 const defaultTheme = createTheme();
 
@@ -80,8 +81,11 @@ const useStyles = makeStyles(
 );
 
 function RowMenuCell(props) {
+  const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const [designationId, setDesignationId] = useState(null);
+  const [deleteDesignation] =useDeleteDesignationMutation()
+  const des = useGetDesignationsQuery()
   const dispatch = useDispatch();
 
   const { row, id } = props;
@@ -93,8 +97,15 @@ function RowMenuCell(props) {
     setDesignationId(row);
     console.log("select", row);
   };
-  const handleDelete = (id) => {
-    dispatch(deleteDesignation(id));
+  const handleDelete = async(id) => {
+    try {
+      const res = await deleteDesignation(id)
+      des.refetch()
+      history.push('/designations')
+    } catch (error) {
+      console.log(error);
+    }
+    // dispatch(deleteDesignation(id));
   };
 
   return (
@@ -128,17 +139,24 @@ RowMenuCell.propTypes = {
 
 export default function Designations() {
   const isLoading = useSelector((state) => state.employee.loading);
+  const [designationData, setDesignationData] = useState([]);
+  const { status: desStatus, data: desData } = useGetDesignationsQuery()
+
   // console.log('isLoading',isLoading);
   const classes = useStyles();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getDesignations());
+    // dispatch(getDesignations());
   }, [isLoading]);
+  useEffect(() => {
+    if (desStatus == "fulfilled") {
+      setDesignationData(desData.data);
+    }
+  }, [desData]);
+  
 
-  const designationData = useSelector((state) => state.employee.designations);
-
-  const rows = designationData.map((item, index) => {
+  const rows = designationData?.map((item, index) => {
     return { id: item.id, name: item.name, keys: index + 1 };
   });
 
@@ -155,7 +173,7 @@ export default function Designations() {
     {
       field: "name",
       headerName: "Designation name",
-      width: 700,
+      width: 1000,
       headerAlign: "center",
       headerClassName: "header",
       cellClassName: "super-app-theme--cell",
@@ -165,7 +183,7 @@ export default function Designations() {
       headerName: "Actions",
       renderCell: RowMenuCell,
       sortable: false,
-      width: "100",
+      width: 400,
       headerAlign: "center",
       filterable: false,
       align: "center",
@@ -176,6 +194,7 @@ export default function Designations() {
       cellClassName: "super-app-theme--cell",
     },
   ];
+
 
   return (
     <>
@@ -202,7 +221,7 @@ export default function Designations() {
                 startIcon={<AddIcon />}
               >
                 <NavLink
-                  to="/adddesignation"
+                  to="/create_designation"
                   className="link"
                   style={{ color: "white", textDecoration: "none" }}
                   activeClassName="active"
@@ -213,7 +232,7 @@ export default function Designations() {
             </GridToolbarContainer>
           </Grid>
         </Grid>
-        <div style={{ height: 800, width: "100%" }} className={classes.root}>
+        <div style={{width: "100%" }} className={classes.root}>
           <DataGrid
             rows={rows}
             columns={columns}

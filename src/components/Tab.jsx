@@ -109,7 +109,7 @@ export default function FullWidthTabs({ tab }) {
           <Tab
             onClick={() => {
               //  handleChange()
-              history.push("/employeelist");
+              history.push("/employees");
             }}
             label="Employees"
             {...a11yProps(0)}
@@ -120,7 +120,7 @@ export default function FullWidthTabs({ tab }) {
           <Tab
             onClick={() => {
               //  handleChange()
-              history.push("/designationlist");
+              history.push("/designations");
             }}
             label="Designations"
             {...a11yProps(0)}

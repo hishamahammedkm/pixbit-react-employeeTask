@@ -23,6 +23,7 @@ export default function FadeMenu() {
   };
   const handleLogout = () => {
     // dispatch(logout());
+    localStorage.removeItem('token')
     history.push("/login");
     setAnchorEl(null);
   };

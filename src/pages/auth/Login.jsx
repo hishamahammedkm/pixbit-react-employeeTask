@@ -72,7 +72,7 @@ export default function Login() {
         const payload = await login(loginData);
         console.log(payload);
         localStorage.setItem("token", payload.data.data.access_token);
-        history.push("/employeelist");
+        history.push("/employees");
       } catch (error) {
         console.log(error);
         setAuthError(true);
@@ -130,7 +130,7 @@ export default function Login() {
                 
                 fullWidth
                 id="email"
-                type="email"
+                // type="email"
                 label="Email Address"
                 name="email"
                 autoComplete="email"
@@ -175,7 +175,7 @@ export default function Login() {
 
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link to="/login" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>
@@ -185,7 +185,7 @@ export default function Login() {
               </Grid>
             </form>
           </div>
-          <Box mt={8}>
+          <Box mt={4}>
             <Copyright />
           </Box>
         </Container>

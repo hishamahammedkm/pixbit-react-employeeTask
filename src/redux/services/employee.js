@@ -73,7 +73,11 @@ export const employeesApi = createApi({
         return {
           url: `employees/${id}`,
           method: "DELETE",
-          Authorization: "Bearer " + localStorage.getItem("token"),
+          headers: {
+            Accept: "application/json",
+            Authorization:
+            "Bearer " + localStorage.getItem("token"),
+          },
         };
       },
     }),
@@ -104,7 +108,7 @@ export const employeesApi = createApi({
     }),
     updateDesignation: builder.mutation({
       query(data) {
-        const { id, ...list } = data;
+        const { id, designation_name } = data;
         return {
           url: `designations/${id}`,
           method: "PUT",
@@ -112,7 +116,7 @@ export const employeesApi = createApi({
             Accept: "application/json",
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
-          body: list,
+          body: {designation_name},
         };
       },
     }),

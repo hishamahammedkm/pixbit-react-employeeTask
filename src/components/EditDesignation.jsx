@@ -8,8 +8,12 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 // import { editDesignation } from '../store/slices/employeeSlice';
 import { useDispatch } from 'react-redux';
+import { useGetDesignationsQuery, useUpdateDesignationMutation } from '../redux/services/employee';
 
 export default function FormDialog({item,isOpen}) {
+    
+    const [updateDesignation] = useUpdateDesignationMutation()
+    const des = useGetDesignationsQuery()
     const dispatch = useDispatch()
     const [designation_name, setDesignation_name] = useState(item.name)
     const [open, setOpen] = useState(isOpen);
@@ -23,7 +27,10 @@ export default function FormDialog({item,isOpen}) {
     };
     const handleSubmit = () =>{
         setOpen(false)
-     
+        updateDesignation({id:item.id,designation_name}).then(res=>{
+            des.refetch()
+            
+        })
         
         // dispatch(editDesignation({id:item.id,designation_name}))
     }

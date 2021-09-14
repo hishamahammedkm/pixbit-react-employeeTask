@@ -14,10 +14,10 @@ import {
   Redirect,
 } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
-// import Designations from "./pages/DesignationList";
-// import AddDesignation from "./pages/AddDesignation";
+import Designations from "./pages/Designations";
+import CreateDesignation from "./pages/CreateDesignation";
 // import Edit from "./components/Edit";
-// import EditEmployee from "./pages/EditEmployee";
+import EditEmployee from "./pages/employees/Edit";
 import { useSelector, useDispatch } from "react-redux";
 
 const App = () => {
@@ -25,13 +25,7 @@ const App = () => {
   const user = localStorage.getItem("token");
   var isAuth = true;
 
-  // useEffect(() => {
-  //   if (user) {
-  //     dispatch(setUser(user));
-  //   }
-  // }, [user]);
-  // const isAuth = useSelector((state) => state.auth.isLoggedIn);
-  // console.log("isAuth----", isAuth);
+
   return (
     <Router>
       <Switch>
@@ -44,11 +38,20 @@ const App = () => {
         <Route path="/register" >
           <Register />
         </Route>
-        <Route path="/employees" >
+        <Route exact path="/employees" >
           <Employees />
         </Route>
         <Route path="/create_employee" >
           <CreateEmployee />
+        </Route>
+        <Route exact path="/employees/:id/edit" >
+          <EditEmployee />
+        </Route>
+        <Route exact path="/designations" >
+          <Designations />
+        </Route>
+        <Route exact path="/create_designation" >
+          <CreateDesignation />
         </Route>
         
         {/* <Route path="/designations" >
