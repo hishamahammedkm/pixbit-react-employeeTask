@@ -162,10 +162,7 @@ export default function Login({isAuth}) {
                 }
                 helperText={formik.touched.password && formik.errors.password}
               />
-              {/* <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
-                        /> */}
+      
               <Button
                 type="submit"
                 fullWidth

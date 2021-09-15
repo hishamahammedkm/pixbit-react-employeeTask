@@ -6,7 +6,8 @@ import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 // import Link from '@material-ui/core/Link';
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -15,182 +16,220 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Copyright from "../../components/Copyright";
 import UserHeader from "../../components/UserHeader";
-// import { registerUser } from "../store/slices/authSlice";
-// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+
+import { useHistory } from "react-router-dom";
+import { set } from "date-fns";
 import Alert from "../../components/AuthErrorAlert";
-import { useRegisterMutation } from "../../redux/services/employee";
-
+import { useSelector } from "react-redux";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { useLoginMutation, useRegisterMutation } from "../../redux/services/employee";
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-  containerDiv: {
-    marginTop: "130px",
-  },
+    paper: {
+        marginTop: theme.spacing(8),
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: "100%", // Fix IE 11 issue.
+        marginTop: theme.spacing(1),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+    containerDiv: {
+        marginTop: "130px",
+    },
 }));
+const validationSchema = yup.object({
+    name:yup.string('enter name').required('name is required'),
+    email: yup
+        .string("Enter your email")
+        .email("Enter a valid email")
+        .required("Email is required"),
+    password: yup
+        .string("Enter your password")
+        .min(8, "Password should be of minimum 8 characters length")
+        .required("Password is required"),
+    password_confirmation: yup
+        .string("Enter your password")
+        .min(8, "Password should be of minimum 8 characters length")
+        .required("Password is required"),
+});
+export default function Register({ isAuth }) {
+    const [register, { isLoading,isError,error:registerError}] = useRegisterMutation();
+    const formik = useFormik({
+        initialValues: {
+            name: "",
+            email: "",
+            password: "",
+            password_confirmation: "",
 
-export default function Register({isAuth}) {
-  const [register, { isLoading }] = useRegisterMutation();
-  // const authError = useSelector((state) => state.auth.error);
-  const [authError, setAuthError] = useState(false);
+        },
+        validationSchema: validationSchema,
 
-  const [isValid, setIsValid] = useState(false);
-  // const dispatch = useDispatch();
-  const history = useHistory();
-  const [mismatch, setMismatch] = useState(false);
-  const [userData, setUserData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    password_confirmation: "",
-  });
-  const handleChange = (e) => {
-    setAuthError(false);
-    setIsValid(false);
-    setMismatch(false);
-    setUserData({ ...userData, [e.target.name]: e.target.value });
-  };
-  const PostData = async (e) => {
-    e.preventDefault();
-    const checkPassword = userData.password;
-    const checkPassword2 = userData.password_confirmation;
-    if (checkPassword !== checkPassword2) {
-      setMismatch(true);
-      return;
-    }
-    if (checkPassword.length < 8) {
-      setIsValid(true);
-      return;
-    }
-    // dispatch(registerUser({ userData, history }));
-    try {
-      const payload = await register(userData);
-      // console.log(payload.data.data.access_token);
-      localStorage.setItem("token", payload.data.data.access_token);
-      history.push("/employees");
-    } catch (error) {
-      setAuthError(true);
-      console.log(error);
-    }
-  };
-  const classes = useStyles();
-  // console.log(userData);
-  useEffect(() => {
-    const isAuth = localStorage.getItem("token");
-    return ()=>{
-      const isAuth = localStorage.getItem("token");
-    }
-  }, [])
-  return (
-    <>
-      <div className={classes.containerDiv}>
-        <UserHeader />
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign up
-            </Typography>
-            <form className={classes.form} onSubmit={PostData}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField
-                    autoComplete="name"
-                    name="name"
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="name"
-                    label="Name"
-                    onChange={handleChange}
-                    autoFocus
-                  />
-                </Grid>
+        onSubmit: async (loginData) => {
+            console.log(loginData);
+            try {
+                const payload = await register(loginData);
+                console.log(payload);
+                localStorage.setItem("token", payload.data.data.access_token);
+                history.push("/employees");
+            } catch (error) {
+                console.log(error);
+                setAuthError(true);
+                
+            }
+            // dispatch(loginUser({ loginData, history }));
+        },
+    });
+    // const authError = useSelector((state) => state.auth.error);
+    console.log('registerError-----',registerError?.data?.errors)
+    const [authError, setAuthError] = useState(false);
+    const [isValid, setIsValid] = useState(false);
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const [isAlert, setIsAlert] = useState(false);
+    const [loginData, setLoginData] = useState({
+        email: "",
+        password: "",
+    });
+    const handleChange = (e) => {
+        setIsValid(false);
+        setLoginData({ ...loginData, [e.target.name]: e.target.value });
+    };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const checkPassword = loginData.password;
+        if (checkPassword.length < 8) {
+            setIsValid(true);
+            return;
+        }
+       
+    };
 
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    onChange={handleChange}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    onChange={handleChange}
-                    helperText={isValid ? "Password must be 8 charector" : ""}
-                    error={isValid}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    name="password_confirmation"
-                    label="Confirm Password"
-                    type="password"
-                    id="password_confirmation"
-                    autoComplete="password_confirmation"
-                    onChange={handleChange}
-                    helperText={mismatch ? "Password did not match" : ""}
-                    error={isValid}
-                    error={mismatch}
-                  />
-                </Grid>
-              </Grid>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                Sign Up
-              </Button>
-              {authError && <Alert message="this email alreay taken" />}
-              <Grid container justifyContent="center">
-                <Grid item>
-                  <Link to="/login">Already have an account? Sign in</Link>
-                </Grid>
-              </Grid>
-            </form>
-          </div>
-          <Box mt={3}>
-            <Copyright />
-          </Box>
-        </Container>
-      </div>
-    </>
-  );
+    // console.log(loginData);
+    const classes = useStyles();
+    useEffect(() => {
+        const isAuth = localStorage.getItem("token");
+        return () => {
+            const isAuth = localStorage.getItem("token");
+        }
+    }, [])
+    return (
+        <>
+            <div className={classes.containerDiv}>
+                <UserHeader />
+
+                <Container component="main" maxWidth="xs">
+                    <CssBaseline />
+                    <div className={classes.paper}>
+                        <Avatar className={classes.avatar}>
+                            <LockOutlinedIcon />
+                        </Avatar>
+                        <Typography component="h1" variant="h5">
+                            Sign in
+                        </Typography>
+                        <form className={classes.form} onSubmit={formik.handleSubmit}>
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+
+                                fullWidth
+                                id="name"
+                                // type="email"
+                                label="Name"
+                                name="name"
+                                autoComplete="name"
+                                autoFocus
+                                value={formik.values.name}
+                                onChange={formik.handleChange}
+                                error={formik.touched.name && Boolean(formik.errors.name)}
+                                helperText={formik.touched.name && formik.errors.name}
+                            />
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+
+                                fullWidth
+                                id="email"
+                                // type="email"
+                                label="Email Address"
+                                name="email"
+                                autoComplete="email"
+
+                                value={formik.values.email}
+                                onChange={formik.handleChange}
+                                error={formik.touched.email && Boolean(formik.errors.email)}
+                                helperText={formik.touched.email && formik.errors.email}
+                            />
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                                value={formik.values.password}
+                                onChange={formik.handleChange}
+                                error={
+                                    formik.touched.password && Boolean(formik.errors.password)
+                                }
+                                helperText={formik.touched.password && formik.errors.password}
+                            />
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+
+                                fullWidth
+                                name="password_confirmation"
+                                label="Confirm Password"
+                                type="password"
+                                id="password_confirmation"
+                                autoComplete="current-password"
+                                value={formik.values.password_confirmation}
+                                onChange={formik.handleChange}
+                                error={
+                                    formik.touched.password_confirmation && Boolean(formik.errors.password_confirmation)
+                                }
+                                helperText={formik.touched.password_confirmation && formik.errors.password_confirmation}
+                            />
+
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                            //   disabled={error.submit}
+                            >
+                                Sign Up
+                            </Button>
+                            {authError && <Alert message={registerError?.data?.errors?.email ?` ${registerError?.data?.errors?.email[0]}`:'password did not match' }/>}
+                            {/* {authError && <Alert message='error'/>} */}
+
+                            <Grid container justifyContent="center">
+
+                                <Grid item>
+                                    <Link to="/login">{"Already  have an account? Login In"}</Link>
+                                </Grid>
+                            </Grid>
+                        </form>
+                    </div>
+                    <Box mt={3}>
+                        <Copyright />
+                    </Box>
+                </Container>
+            </div>
+        </>
+    );
 }

@@ -131,18 +131,12 @@ const AddEmployee = () => {
 
   console.log("error======", isError);
   const { status: desStatus, data: desData } = useGetDesignationsQuery();
-  // const {values } = useFormikContext()
+ 
   console.log("desDta", desData?.data);
   const history = useHistory();
   const fileInputEl = useRef(null);
   const fileResume = useRef(null);
 
-  // const [checkBoxAddress, setCheckBoxAddress] = useState(false);
-  // const checkBoxAddressChange = (e) => {
-  //   setCheckBoxAddress(!checkBoxAddress);
-  //   // const address = values.present_address
-  //   // setFieldValue("permanent_address",address)
-  // };
 
   const classes = useStyles();
  
