@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Register() {
+export default function Register({isAuth}) {
   const [register, { isLoading }] = useRegisterMutation();
   // const authError = useSelector((state) => state.auth.error);
   const [authError, setAuthError] = useState(false);
@@ -89,6 +89,12 @@ export default function Register() {
   };
   const classes = useStyles();
   // console.log(userData);
+  useEffect(() => {
+    const isAuth = localStorage.getItem("token");
+    return ()=>{
+      const isAuth = localStorage.getItem("token");
+    }
+  }, [])
   return (
     <>
       <div className={classes.containerDiv}>

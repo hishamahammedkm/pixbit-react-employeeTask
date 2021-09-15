@@ -61,6 +61,10 @@ const useStyles = makeStyles((theme) => ({
   title: {
     marginLeft: "30px",
     marginRight: "20PX",
+    cursor: "pointer",
+  },
+  link:{
+    textDecoration:'none',
   },
   user: {
     position: "absolute",
@@ -94,18 +98,30 @@ export default function FullWidthTabs({ tab }) {
         position="static"
         color="default"
       >
-        <Typography className={classes.title} variant="h6">
+        <Link className={classes.link}  to='/'>
+        <Typography className={classes.title} variant="h6"    >
           Admin Templates{" "}
         </Typography>
+        </Link>
+     
         <Tabs
           value={value}
           onChange={handleChange}
+
           indicatorColor="primary"
           textColor="primary"
           variant="standard"
           aria-label="full width tabs example"
         >
           {/* <Link to="/employeelist"> */}
+          {/* <Tab
+            onClick={() => {
+              //  handleChange()
+              history.push("/");
+            }}
+            label="Home"
+            {...a11yProps(0)}
+          /> */}
           <Tab
             onClick={() => {
               //  handleChange()
@@ -125,6 +141,15 @@ export default function FullWidthTabs({ tab }) {
             label="Designations"
             {...a11yProps(0)}
           />
+           {/* <Tab
+            onClick={() => {
+              //  handleChange()
+              history.push("/designations");
+            }}
+            label=""
+            {...a11yProps()}
+          /> */}
+
           {/* </Link> */}
           {/* <Tab label="Designations" {...a11yProps(1)} /> */}
           {/* <Tab label="Item Three" {...a11yProps(2)} /> */}
@@ -141,6 +166,7 @@ export default function FullWidthTabs({ tab }) {
       >
         <TabPanel value={value} index={0} dir={theme.direction}></TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}></TabPanel>
+        <TabPanel value={value} index={2} dir={theme.direction}></TabPanel>
       </SwipeableViews>
     </div>
   );

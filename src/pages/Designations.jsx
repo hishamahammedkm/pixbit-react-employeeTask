@@ -211,7 +211,7 @@ export default function Designations() {
         >
           <Grid item className={classes.grid_items_left}>
             <Typography variant="h6" component="h1">
-              Designations List
+              Designations
             </Typography>
           </Grid>
           <Grid item className={classes.grid_items_right}>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -57,7 +57,7 @@ const validationSchema = yup.object({
     .min(8, "Password should be of minimum 8 characters length")
     .required("Password is required"),
 });
-export default function Login() {
+export default function Login({isAuth}) {
   const [login, { isLoading }] = useLoginMutation();
   const formik = useFormik({
     initialValues: {
@@ -108,7 +108,12 @@ export default function Login() {
 
   // console.log(loginData);
   const classes = useStyles();
-
+  useEffect(() => {
+    const isAuth = localStorage.getItem("token");
+    return ()=>{
+      const isAuth = localStorage.getItem("token");
+    }
+  }, [])
   return (
     <>
       <div className={classes.containerDiv}>
@@ -185,7 +190,7 @@ export default function Login() {
               </Grid>
             </form>
           </div>
-          <Box mt={4}>
+          <Box mt={3}>
             <Copyright />
           </Box>
         </Container>

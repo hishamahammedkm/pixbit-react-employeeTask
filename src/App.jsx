@@ -22,9 +22,14 @@ import { useSelector, useDispatch } from "react-redux";
 
 const App = () => {
   const dispatch = useDispatch();
-  const user = localStorage.getItem("token");
-  var isAuth = true;
+  const isAuth = localStorage.getItem("token");
 
+  useEffect(() => {
+    const isAuth = localStorage.getItem("token");
+    return ()=>{
+      const isAuth = localStorage.getItem("token");
+    }
+  }, [])
 
   return (
     <Router>
@@ -33,82 +38,53 @@ const App = () => {
           <Home />
         </Route>
         <Route path="/login" >
-          <Login />
+          <Login isAuth={isAuth} />
         </Route>
         <Route path="/register" >
-          <Register />
+          <Register isAuth={isAuth} />
         </Route>
-        <Route exact path="/employees" >
+        {/* <Route exact path="/employees" >
           <Employees />
-        </Route>
-        <Route path="/create_employee" >
-          <CreateEmployee />
-        </Route>
-        <Route exact path="/employees/:id/edit" >
-          <EditEmployee />
-        </Route>
-        <Route exact path="/designations" >
-          <Designations />
-        </Route>
-        <Route exact path="/create_designation" >
-          <CreateDesignation />
-        </Route>
-        
-        {/* <Route path="/designations" >
-          <Designations />
         </Route> */}
-        {/* <Route path="/" exact component={() => <Redirect to="/login" />} /> */}
-        {/* <Route
-          path="/"
-          exact
-          component={() =>
-            !isAuth ? <Login /> : Home 
-          }
-        /> */}
-        {/* <Route
-          path="/register"
-          exact
-          component={() =>
-            !isAuth ? <Register /> : <Redirect to="/" />
-          }
-        /> */}
-        {/* <Route
-          path="/login"
-          exact
-          component={() =>
-            !isAuth ? <Login /> : <Redirect to="/" />
-          }
-        /> */}
-   
-        {/* <ProtectedRoute
-          // path="/employeelist/edit/:id"
-          path="/employeelist/:id/edit"
-          exact
+        <ProtectedRoute
+          exact path="/employees"
+          component={Employees}
+          auth={isAuth}
+        />
+        <ProtectedRoute
+          exact path="/create_employee"
+          component={CreateEmployee}
+          auth={isAuth}
+        />
+        {/* <Route path="/create_employee" >
+          <CreateEmployee />
+        </Route> */}
+     <ProtectedRoute
+          exact path="/employees/:id/edit"
           component={EditEmployee}
           auth={isAuth}
         />
+        {/* <Route exact path="/employees/:id/edit" >
+          <EditEmployee />
+        </Route> */}
+        <ProtectedRoute
+          exact path="/designations"
+          component={Designations}
+          auth={isAuth}
+        />
+        {/* <Route exact path="/designations" >
+          <Designations />
+        </Route> */}
+        <ProtectedRoute
+          exact path="/create_designation"
+          component={CreateDesignation}
+          auth={isAuth}
+        />
+        {/* <Route exact path="/create_designation" >
+          <CreateDesignation />
+        </Route> */}
 
-        <ProtectedRoute
-          path="/employeelist"
-          component={EmployeesList}
-          auth={isAuth}
-        />
 
-        <ProtectedRoute
-          path="/addemployee"
-          component={AddEmployee}
-          auth={isAuth}
-        />
-        <ProtectedRoute
-          path="/designationlist"
-          component={DesignationList}
-          auth={isAuth}
-        />
-        <ProtectedRoute
-          path="/adddesignation"
-          component={AddDesignation}
-          auth={isAuth}
-        /> */}
       </Switch>
     </Router>
   );

@@ -1,9 +1,14 @@
+import Tab from "../components/Tab";
 const Home = () => {
-    return (
-        <div>
-            <h1>Home</h1>
-        </div>
-    )
-}
+  return (
+    <div>
+      <Tab  />
 
-export default Home
+   
+      <h1 style={{ marginTop:100}}>Home</h1>
+      
+    </div>
+  );
+};
+
+export default Home;
