@@ -105,7 +105,7 @@ function RowMenuCell(props) {
   const handleDelete = async (row) => {
     try {
       const res = await deleteEmployee(row);
-      employeeData.refetch();
+
       history.push("/employees");
     } catch (error) {
       console.log(error);

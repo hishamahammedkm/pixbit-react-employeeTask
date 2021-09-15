@@ -17,7 +17,10 @@ import AddminHeader from "../components/AdminHeader";
 import Alert from "../components/Alert";
 import { useHistory } from "react-router-dom";
 import Tab from "../components/Tab";
-import { useCreateDesignationMutation, useGetDesignationsQuery } from "../redux/services/employee";
+import {
+  useCreateDesignationMutation,
+  useGetDesignationsQuery,
+} from "../redux/services/employee";
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -35,8 +38,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const AddDesignation = () => {
-  const [createDesignation,{isLoading,isError}] =  useCreateDesignationMutation()
-  const des = useGetDesignationsQuery()
+  const [createDesignation, { isLoading, isError }] =
+    useCreateDesignationMutation();
+  const des = useGetDesignationsQuery();
   const history = useHistory();
   // const isLoading = useSelector((state) => state.employee.loading);
   const isSuccss = useSelector((state) => state.employee.success);
@@ -49,23 +53,20 @@ const AddDesignation = () => {
   //   setIsAlert(isSuccss);
   // }, [isSuccss]);
   const [designation_name, setDesignation_name] = useState("");
-  const [isErrorText, setIsErrorText] = useState(false)
-  const handleSubmit = async(e) => {
+  const [isErrorText, setIsErrorText] = useState(false);
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if(!designation_name){
-      setIsErrorText(true)
-      return
+    if (!designation_name) {
+      setIsErrorText(true);
+      return;
     }
     try {
-     
-      const res = await createDesignation({designation_name})
-      des.refetch()
-      history.push('/designations')
+      const res = await createDesignation({ designation_name });
 
+      history.push("/designations");
     } catch (error) {
       console.log(error);
     }
-
 
     // dispatch(addDesignation({ designation_name, history }));
   };
@@ -100,10 +101,12 @@ const AddDesignation = () => {
                   label="Designation"
                   autoFocus
                   error={isErrorText}
-                  helperText={isErrorText ? 'please enter atleast one charector':''}
+                  helperText={
+                    isErrorText ? "please enter atleast one charector" : ""
+                  }
                   value={designation_name}
                   onChange={(e) => {
-                    setIsErrorText(false)
+                    setIsErrorText(false);
                     setDesignation_name(e.target.value);
                     if (isAlert) {
                       // dispatch(setStatus(false));

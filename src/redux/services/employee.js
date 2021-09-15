@@ -5,6 +5,7 @@ export const employeesApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `http://training.pixbit.in/api/`,
   }),
+  tagTypes:["Employee, Designation"],
   endpoints: (builder) => ({
     register: builder.mutation({
       query(data) {
@@ -40,11 +41,12 @@ export const employeesApi = createApi({
           },
         };
       },
+      providesTags:["Employee"]
     }),
     createEmployee: builder.mutation({
       query(data) {
         return {
-          url: `employees`,
+          url: 'employees',
           method: "POST",
           headers: {
             Accept: "application/json",
@@ -53,6 +55,7 @@ export const employeesApi = createApi({
           body: data,
         };
       },
+      invalidatesTags:["Employee"]
     }),
     updateEmployee: builder.mutation({
       query(data) {
@@ -67,6 +70,7 @@ export const employeesApi = createApi({
           body: employee,
         };
       },
+      invalidatesTags:["Employee"]
     }),
     deleteEmployee: builder.mutation({
       query(id) {
@@ -80,6 +84,7 @@ export const employeesApi = createApi({
           },
         };
       },
+      invalidatesTags:["Employee"]
     }),
     getDesignations: builder.query({
       query: () => {
@@ -92,6 +97,7 @@ export const employeesApi = createApi({
           },
         };
       },
+      providesTags:["Designation"]
     }),
     createDesignation: builder.mutation({
       query(data) {
@@ -105,6 +111,7 @@ export const employeesApi = createApi({
           body: data,
         };
       },
+      invalidatesTags:["Designation"]
     }),
     updateDesignation: builder.mutation({
       query(data) {
@@ -118,7 +125,7 @@ export const employeesApi = createApi({
           },
           body: {designation_name},
         };
-      },
+      },invalidatesTags:["Designation"]
     }),
     deleteDesignation: builder.mutation({
       query: (id) => {
@@ -130,7 +137,7 @@ export const employeesApi = createApi({
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         };
-      },
+      },invalidatesTags:["Designation"]
     }),
   }),
 });

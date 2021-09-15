@@ -14,7 +14,7 @@ import {
 
 import { useHistory, useParams } from "react-router-dom";
 import {
-    useGetDesignationsQuery,
+  useGetDesignationsQuery,
   useGetEmployeesQuery,
   useUpdateEmployeeMutation,
 } from "../../redux/services/employee";
@@ -30,10 +30,9 @@ import FileInput from "../../components/form/FileInput";
 import Tab from "../../components/Tab";
 const useStyles = makeStyles((theme) => ({
   main_container: {
-    margin: theme.spacing(0,10,5),
+    margin: theme.spacing(0, 10, 5),
     padding: theme.spacing(3),
-    marginTop:'10px',
-   
+    marginTop: "10px",
   },
   wrapper: {
     display: "flex",
@@ -84,8 +83,8 @@ const EmployeeEdit = () => {
       }
     }
   }
-  console.log('prevEmployeeData.data',prevEmployeeData.data);
-  console.log('params.id',params.id);
+  console.log("prevEmployeeData.data", prevEmployeeData.data);
+  console.log("params.id", params.id);
   var resultObject = search(params.id, prevEmployeeData.data);
   const INITIAL_FORM_STATE = {
     first_name: resultObject.first_name,
@@ -127,10 +126,10 @@ const EmployeeEdit = () => {
   const result = useGetEmployeesQuery();
 
   const EditEmployeeMatches = useMediaQuery("(min-width:426px)");
-  console.log('------desData',desData.data);
+  console.log("------desData", desData.data);
   return (
     <>
-    <Tab tab={0} />
+      <Tab tab={0} />
       {EditEmployeeMatches ? (
         <Paper className={classes.main_container}>
           <Container className={classes.wrapper}>
@@ -168,15 +167,10 @@ const EmployeeEdit = () => {
 
               updateEmloyee(object)
                 .then((payload) => {
-            
-                  
-                  result.refetch();
                   history.push("/employees");
                   console.log(payload);
                 })
-                .catch((error) => {
-            
-                });
+                .catch((error) => {});
             }}
           >
             <Form autoComplete="off">
@@ -253,7 +247,6 @@ const EmployeeEdit = () => {
                     name="designation_id"
                     label="designation"
                     options={desData.data}
-                   
                   />
                   <Select
                     className={classes.text_field}
@@ -337,14 +330,10 @@ const EmployeeEdit = () => {
 
               updateEmloyee(object)
                 .then((payload) => {
-               
-                  result.refetch();
                   history.push("/employees");
                   console.log(payload);
                 })
-                .catch((error) => {
-          
-                });
+                .catch((error) => {});
             }}
           >
             <Form autoComplete="off">
@@ -389,8 +378,7 @@ const EmployeeEdit = () => {
                     className={classes.mobile_text_field}
                     name="designation_id"
                     label="designation"
-                    options={ desData?.data}
-                  
+                    options={desData?.data}
                   />
                   <Select
                     className={classes.mobile_text_field}
@@ -402,7 +390,7 @@ const EmployeeEdit = () => {
                       { id: "3", name: "Permanent" },
                     ]}
                   />
-                   
+
                   <RadioForm row name="gender" />
                   <FileInput
                     className={classes.mobile_text_field}

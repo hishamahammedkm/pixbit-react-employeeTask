@@ -10,7 +10,7 @@ import { GridToolbarContainer } from "@mui/x-data-grid-pro";
 import { createTheme } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/styles";
 import { Grid, Paper, Typography } from "@material-ui/core";
-import { NavLink,useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -23,7 +23,10 @@ import { DataGrid } from "@mui/x-data-grid";
 import AdminHeader from "../components/AdminHeader";
 import Alert from "@material-ui/lab/Alert";
 import Tab from "../components/Tab";
-import { useDeleteDesignationMutation, useGetDesignationsQuery } from "../redux/services/employee";
+import {
+  useDeleteDesignationMutation,
+  useGetDesignationsQuery,
+} from "../redux/services/employee";
 
 const defaultTheme = createTheme();
 
@@ -84,8 +87,8 @@ function RowMenuCell(props) {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const [designationId, setDesignationId] = useState(null);
-  const [deleteDesignation] =useDeleteDesignationMutation()
-  const des = useGetDesignationsQuery()
+  const [deleteDesignation] = useDeleteDesignationMutation();
+  const des = useGetDesignationsQuery();
   const dispatch = useDispatch();
 
   const { row, id } = props;
@@ -97,11 +100,11 @@ function RowMenuCell(props) {
     setDesignationId(row);
     console.log("select", row);
   };
-  const handleDelete = async(id) => {
+  const handleDelete = async (id) => {
     try {
-      const res = await deleteDesignation(id)
-      des.refetch()
-      history.push('/designations')
+      const res = await deleteDesignation(id);
+
+      history.push("/designations");
     } catch (error) {
       console.log(error);
     }
@@ -140,7 +143,7 @@ RowMenuCell.propTypes = {
 export default function Designations() {
   const isLoading = useSelector((state) => state.employee.loading);
   const [designationData, setDesignationData] = useState([]);
-  const { status: desStatus, data: desData } = useGetDesignationsQuery()
+  const { status: desStatus, data: desData } = useGetDesignationsQuery();
 
   // console.log('isLoading',isLoading);
   const classes = useStyles();
@@ -154,7 +157,6 @@ export default function Designations() {
       setDesignationData(desData.data);
     }
   }, [desData]);
-  
 
   const rows = designationData?.map((item, index) => {
     return { id: item.id, name: item.name, keys: index + 1 };
@@ -195,7 +197,6 @@ export default function Designations() {
     },
   ];
 
-
   return (
     <>
       {/* <AdminHeader /> */}
@@ -232,7 +233,7 @@ export default function Designations() {
             </GridToolbarContainer>
           </Grid>
         </Grid>
-        <div style={{width: "100%" }} className={classes.root}>
+        <div style={{ width: "100%" }} className={classes.root}>
           <DataGrid
             rows={rows}
             columns={columns}
