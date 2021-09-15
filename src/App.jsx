@@ -14,8 +14,8 @@ import {
   Redirect,
 } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
-import Designations from "./pages/Designations";
-import CreateDesignation from "./pages/CreateDesignation";
+import Designations from "./pages/designations/List";
+import CreateDesignation from "./pages/designations/Create";
 // import Edit from "./components/Edit";
 import EditEmployee from "./pages/employees/Edit";
 import { useSelector, useDispatch } from "react-redux";

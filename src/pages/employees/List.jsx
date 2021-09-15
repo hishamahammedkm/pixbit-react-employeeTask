@@ -14,7 +14,7 @@ import { NavLink, useHistory } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import FormDialog from "../../components/EditDesignation";
+import FormDialog from "../designations/Edit";
 import { DataGrid } from "@mui/x-data-grid";
 // import {
 //   deleteEmployee,

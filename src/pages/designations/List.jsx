@@ -14,19 +14,19 @@ import { NavLink, useHistory } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import FormDialog from "../components/EditDesignation";
+import FormDialog from "./Edit";
 import { DataGrid } from "@mui/x-data-grid";
 // import {
 //   deleteDesignation,
 //   getDesignations,
 // } from "../store/slices/employeeSlice";
-import AdminHeader from "../components/AdminHeader";
+import AdminHeader from "../../components/AdminHeader";
 import Alert from "@material-ui/lab/Alert";
-import Tab from "../components/Tab";
+import Tab from "../../components/Tab";
 import {
   useDeleteDesignationMutation,
   useGetDesignationsQuery,
-} from "../redux/services/employee";
+} from "../../redux/services/employee";
 
 const defaultTheme = createTheme();
 

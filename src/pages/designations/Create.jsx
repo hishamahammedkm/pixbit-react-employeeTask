@@ -8,19 +8,19 @@ import {
 } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import AddminHeader from "../components/AdminHeader";
+import AddminHeader from "../../components/AdminHeader";
 // import {
 //   addDesignation,
 //   getDesignations,
 //   setStatus,
 // } from "../store/slices/employeeSlice";
-import Alert from "../components/Alert";
+import Alert from "../../components/Alert";
 import { useHistory } from "react-router-dom";
-import Tab from "../components/Tab";
+import Tab from "../../components/Tab";
 import {
   useCreateDesignationMutation,
   useGetDesignationsQuery,
-} from "../redux/services/employee";
+} from "../../redux/services/employee";
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),

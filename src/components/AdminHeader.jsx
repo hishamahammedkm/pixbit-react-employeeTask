@@ -125,7 +125,7 @@ const AdminHeader = () => {
 
             <Link to="/designationlist" className={classes.link}>
               Designations
-            </Link> */}
+            </Link> 
           </nav>
           <Typography className={classes.name}>Hello Hisham</Typography>
           {/* <Avatar>H</Avatar> */}

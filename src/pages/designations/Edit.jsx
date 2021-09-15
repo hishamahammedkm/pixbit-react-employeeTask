@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import {
   useGetDesignationsQuery,
   useUpdateDesignationMutation,
-} from "../redux/services/employee";
+} from "../../redux/services/employee";
 
 export default function FormDialog({ item, isOpen }) {
   const [updateDesignation] = useUpdateDesignationMutation();
