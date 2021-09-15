@@ -30,7 +30,7 @@ import { useHistory } from "react-router-dom";
 
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import Alert from "../../components/Alert";
-import DateTime from "../../components/form/DateTime";
+import DateTime from "../../components/form/DateTime/index";
 // import {
 //   addEmployee,
 //   getDesignations,
@@ -49,6 +49,7 @@ import {
   useCreateEmployeeMutation,
   useGetDesignationsQuery,
 } from "../../redux/services/employee";
+import AddressCheckBox from "../../components/form/AddressCheckBox";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -136,12 +137,12 @@ const AddEmployee = () => {
   const fileInputEl = useRef(null);
   const fileResume = useRef(null);
 
-  const [checkBoxAddress, setCheckBoxAddress] = useState(false);
-  const checkBoxAddressChange = (e) => {
-    setCheckBoxAddress(!checkBoxAddress);
-    // const address = values.present_address
-    // setFieldValue("permanent_address",address)
-  };
+  // const [checkBoxAddress, setCheckBoxAddress] = useState(false);
+  // const checkBoxAddressChange = (e) => {
+  //   setCheckBoxAddress(!checkBoxAddress);
+  //   // const address = values.present_address
+  //   // setFieldValue("permanent_address",address)
+  // };
 
   const classes = useStyles();
  
@@ -173,16 +174,17 @@ const AddEmployee = () => {
             validationSchema={FORM_VALIDATION}
             onSubmit={async (values) => {
               console.log(values);
+              console.log("date_of_birth",new Date(values.date_of_birth).toLocaleDateString('zh-Hans-CN'));
               const formData = new FormData();
               formData.append("first_name", values.first_name);
               formData.append("last_name", values.last_name);
               formData.append(
-                "join_date",
-                new Date(values.join_date).toLocaleDateString()
+                "join_date",new Date(values.join_date).toLocaleDateString('zh-Hans-CN')
+                // new Date(values.join_date).toLocaleDateString()
               );
               formData.append(
-                "date_of_birth",
-                new Date(values.date_of_birth).toLocaleDateString()
+                "date_of_birth",new Date(values.date_of_birth).toLocaleDateString('zh-Hans-CN')
+                // new Date(values.date_of_birth).toLocaleDateString(
               );
               // formData.append("designation_id", employeeData.designation_id);
               formData.append(
@@ -249,9 +251,9 @@ const AddEmployee = () => {
                       label="Status"
                       name="status"
                       options={[
-                        { id: "Permenent", name: "Permenent" },
-                        { id: "Temporary", name: "Temporary" },
-                        { id: "Trainee", name: "Trainee" },
+                        { id: "1", name: "Temporary" },
+                        { id: "2", name: "Trainee" },
+                        { id: "3", name: "Permanent" },
                       ]}
                     />
                   </Grid>
@@ -274,7 +276,8 @@ const AddEmployee = () => {
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <FormControlLabel
+                    <AddressCheckBox />
+                    {/* <FormControlLabel
                       control={
                         <Checkbox
                           checked={checkBoxAddress}
@@ -284,7 +287,7 @@ const AddEmployee = () => {
                         />
                       }
                       label="Same as present Address"
-                    />
+                    /> */}
                     <TextField
                       name="permanent_address"
                       label="Permenent Address"

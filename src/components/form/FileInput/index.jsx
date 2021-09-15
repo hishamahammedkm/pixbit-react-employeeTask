@@ -23,6 +23,7 @@ const FileInput = ({ name, ...otherProps }) => {
 
     fullWidth: true,
     onChange: handleChange,
+    
   };
   if (meta && meta.touched && meta.error) {
     configFile.error = true;
@@ -33,6 +34,11 @@ const FileInput = ({ name, ...otherProps }) => {
     <div>
       <TextField
         {...configFile}
+        value={
+          name === "profile_picture"
+            ? values.profile_picture?.name || ""
+            : values.resume?.name || ""
+        }
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
@@ -59,6 +65,7 @@ const FileInput = ({ name, ...otherProps }) => {
         style={{ width: "0", height: "0" }}
         onChange={handleChange}
         hidden
+     
       />
     </div>
   );

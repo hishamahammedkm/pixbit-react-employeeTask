@@ -25,9 +25,10 @@ import * as Yup from "yup";
 import TextField from "../../components/form/TextField";
 import RadioForm from "../../components/form/Radio";
 import Select from "../../components/form/Select";
-import DateTime from "../../components/form/DateTime";
+import DateTime from "../../components/form/DateTime/index";
 import FileInput from "../../components/form/FileInput";
 import Tab from "../../components/Tab";
+import AddressCheckBox from "../../components/form/AddressCheckBox";
 const useStyles = makeStyles((theme) => ({
   main_container: {
     margin: theme.spacing(0, 10, 5),
@@ -83,9 +84,14 @@ const EmployeeEdit = () => {
       }
     }
   }
-  console.log("prevEmployeeData.data", prevEmployeeData.data);
-  console.log("params.id", params.id);
+  // console.log("prevEmployeeData.data", prevEmployeeData.data);
+  // console.log("params.id", params.id);
   var resultObject = search(params.id, prevEmployeeData.data);
+  const dateObj = {
+    join_date:new Date(resultObject?.join_date).toLocaleDateString(),
+    date_of_birth:new Date(resultObject?.date_of_birth).toLocaleDateString(),
+  }
+  console.log('dateObj------',dateObj);
   const INITIAL_FORM_STATE = {
     first_name: resultObject.first_name,
     last_name: resultObject.last_name,
@@ -97,8 +103,9 @@ const EmployeeEdit = () => {
     present_address: resultObject.present_address,
     permanent_address: resultObject.permanent_address,
     status: resultObject.status,
-    join_date: resultObject.join_date,
-    date_of_birth: resultObject.date_of_birth,
+    join_date:resultObject?.join_date,
+   
+    date_of_birth: resultObject?.date_of_birth,
     // date_of_birth: new Date(resultObject?.date_of_birth).toLocaleDateString(),
   };
   const FORM_VALIDATION = Yup.object().shape({
@@ -111,6 +118,8 @@ const EmployeeEdit = () => {
     mobile: Yup.number().required("Required"),
     landline: Yup.number().required("Required"),
     join_date: Yup.date().nullable().required("Required"),
+
+
     date_of_birth: Yup.date().nullable().required("Required"),
     designation_id: Yup.string().required("Required"),
     status: Yup.string().required("Required"),
@@ -151,10 +160,11 @@ const EmployeeEdit = () => {
                 id: params.id,
                 first_name: values.first_name,
                 last_name: values.last_name,
-                join_date: new Date(values.join_date).toLocaleDateString(),
+                // join_date: new Date(values.join_date).toLocaleDateString(),
+                join_date: new Date(values.join_date),
                 date_of_birth: new Date(
                   values.date_of_birth
-                ).toLocaleDateString(),
+                ),
                 designation_id: values.designation_id.toString(),
                 gender: values.gender,
                 status: values.status,
@@ -267,7 +277,8 @@ const EmployeeEdit = () => {
                     rows={2}
                   />
                   <div style={{ marginBottom: "25px" }}>
-                    <FormControlLabel
+                    <AddressCheckBox />
+                    {/* <FormControlLabel
                       control={
                         <Checkbox
                           checked={checkBoxAddress}
@@ -277,7 +288,7 @@ const EmployeeEdit = () => {
                         />
                       }
                       label="Same as present Address"
-                    />
+                    /> */}
                   </div>
 
                   <TextField
@@ -386,7 +397,7 @@ const EmployeeEdit = () => {
                     name="status"
                     options={[
                       { id: "1", name: "Temporary" },
-                      { id: "2", name: "Part Time" },
+                      { id: "2", name: "Trainee" },
                       { id: "3", name: "Permanent" },
                     ]}
                   />
@@ -411,17 +422,7 @@ const EmployeeEdit = () => {
                   />
 
                   <div style={{ marginBottom: "8px" }}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkBoxAddress}
-                          onChange={checkBoxAddressChange}
-                          name="checkedB"
-                          color="primary"
-                        />
-                      }
-                      label="Same as present Address"
-                    />
+                    <AddressCheckBox />
                   </div>
                   <TextField
                     className={classes.mobile_text_field}
@@ -429,7 +430,7 @@ const EmployeeEdit = () => {
                     label="Permenent Address"
                     multiline
                     rows={3}
-                    isChecked={checkBoxAddress}
+               
                   />
                   <Grid
                     container
