@@ -29,7 +29,7 @@ const App = () => {
     return ()=>{
       const isAuth = localStorage.getItem("token");
     }
-  }, [])
+  }, [isAuth])
 
   return (
     <Router>
@@ -38,10 +38,10 @@ const App = () => {
           <Home />
         </Route>
         <Route path="/login" >
-          <Login isAuth={isAuth} />
+          <Login  />
         </Route>
         <Route path="/register" >
-          <Register isAuth={isAuth} />
+          <Register />
         </Route>
         {/* <Route exact path="/employees" >
           <Employees />

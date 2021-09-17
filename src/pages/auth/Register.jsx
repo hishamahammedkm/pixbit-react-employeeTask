@@ -62,7 +62,7 @@ const validationSchema = yup.object({
         .min(8, "Password should be of minimum 8 characters length")
         .required("Password is required"),
 });
-export default function Register({ isAuth }) {
+export default function Register() {
     const [register, { isLoading,isError,error:registerError}] = useRegisterMutation();
     const formik = useFormik({
         initialValues: {
