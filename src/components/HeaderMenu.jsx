@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useState} from "react";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -31,7 +31,7 @@ export default function FadeMenu() {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {

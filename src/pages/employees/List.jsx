@@ -100,10 +100,7 @@ function RowMenuCell(props) {
   const handleEditClick = (row) => {
     history.push(`/employees/${row.id}/edit`);
 
-    // setIsOpen(!isOpen);
-    // setDesignationId(row);
-    // console.log('select', row);
-    // // console.log(rows);
+
   };
   const handleDelete = async (row) => {
     try {

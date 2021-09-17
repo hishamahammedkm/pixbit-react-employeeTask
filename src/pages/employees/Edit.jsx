@@ -259,11 +259,11 @@ const EmployeeEdit = () => {
                                 <Grid item xs={12}>
 
                                     <Button type="submit" color="primary" variant="contained">
-                                        Submit Form
+                                        Submit
                                     </Button>
                                     <Button
                                         className={classes.postBtn}
-                                        color="secondary"
+                                        color="inherit"
                                         variant="contained"
                                         component="label"
                                         onClick={() => history.push("/employees")}

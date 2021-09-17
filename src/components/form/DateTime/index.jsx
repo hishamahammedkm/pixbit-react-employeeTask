@@ -19,7 +19,7 @@ const DatePicker = ({ name, ...otherProps }) => {
     inputVariant: "outlined",
     onChange:handleChange,
     // required: true,
-    margin: "normal",
+   
     fullWidth: true,
     // format: "MM/dd/yyyy",
     format: "yyy/MM/dd",

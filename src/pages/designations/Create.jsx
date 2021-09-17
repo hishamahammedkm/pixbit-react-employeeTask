@@ -152,7 +152,7 @@ const AddDesignation = () => {
                 </Button>
                 <Button
                   className={classes.postBtn}
-                  color="secondary"
+                  color="inherit"
                   variant="contained"
                   component="label"
                   onClick={() => history.push("/designations")}

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import AdminHeader from "./components/AdminHeader";
 import Employees from "./pages/employees/List";
 import UserHeader from "./components/UserHeader";
-import Login from "./pages/auth/login";
+import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import CreateEmployee from "./pages/employees/Create";
 import Home from "./pages/Home";

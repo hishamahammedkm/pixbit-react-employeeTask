@@ -62,7 +62,7 @@ const validationSchema = yup.object({
 export default function Login() {
     const auth = localStorage.getItem("token");
     const [login, { isLoading }] = useLoginMutation();
-    useEffect(() => { });
+   
     const formik = useFormik({
         initialValues: {
             email: "",

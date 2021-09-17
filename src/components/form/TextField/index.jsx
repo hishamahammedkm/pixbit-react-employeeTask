@@ -14,9 +14,6 @@ const TextfieldWrapper = ({ name, ...otherProps }) => {
     variant: "outlined",
   };
 
-  // if (isChecked) {
-  //   configTextfield.value = values.present_address;
-  // }
 
   if (mata && mata.touched && mata.error) {
     configTextfield.error = true;

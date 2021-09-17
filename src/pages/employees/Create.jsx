@@ -31,11 +31,6 @@ import { useHistory } from "react-router-dom";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import Alert from "../../components/Alert";
 import DateTime from "../../components/form/DateTime/index";
-// import {
-//   addEmployee,
-//   getDesignations,
-//   getEmployees,
-// } from "../store/slices/employeeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Tab from "../../components/Tab";
 import { Formik, Form, useFormikContext } from "formik";
@@ -115,7 +110,7 @@ const FORM_VALIDATION = Yup.object().shape({
   present_address: Yup.string().required("Required"),
   gender: Yup.string().required("Required"),
   permanent_address: Yup.string().required("Required"),
-  mobile: Yup.number().required("Required"),
+  mobile: Yup.number('enter a valid mobile number').nullable().required("Required"),
   landline: Yup.number().required("Required"),
   join_date: Yup.date().nullable().required("Required"),
   date_of_birth: Yup.date().nullable().required("Required"),
@@ -129,8 +124,7 @@ const AddEmployee = () => {
   
   var [createEmployee, { isLoading,isSuccess, isError,error }] = useCreateEmployeeMutation();
 
-  // console.log("error======", error?.data?.errors?.profile_picture[0]);
-  // console.log("error======", error?.data?.errors?.resume[0]);
+
   const { status: desStatus, data: desData } = useGetDesignationsQuery();
  
   console.log("desDta", desData?.data);
@@ -168,10 +162,7 @@ const AddEmployee = () => {
               Create Employee
             </Typography>
           </Container>
-          {/* <PersonAddIcon />
-            <Typography component="h1" variant="h5">
-              Add Employee
-            </Typography> */}
+
           <Formik
             initialValues={{
               ...INITIAL_FORM_STATE,
@@ -218,7 +209,7 @@ const AddEmployee = () => {
                 }
              
               
-                // history.push("/employees");
+   
                 console.log(res);
               } catch (error) {
                 console.log(error);
@@ -282,17 +273,8 @@ const AddEmployee = () => {
                   </Grid>
                   <Grid item xs={12}>
                     <AddressCheckBox />
-                    {/* <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkBoxAddress}
-                          onChange={checkBoxAddressChange}
-                          name="checkedB"
-                          color="primary"
-                        />
-                      }
-                      label="Same as present Address"
-                    /> */}
+                    </Grid>
+                    <Grid item xs={12} >
                     <TextField
                       name="permanent_address"
                       label="Permenent Address"
@@ -302,17 +284,7 @@ const AddEmployee = () => {
                       
                     />
                   </Grid>
-                  {/* <Grid item xs={12}>
-                      <Select
-                        label="Status"
-                        name="status"
-                        options={[
-                          { id: "Permenent", name: "Permenent" },
-                          { id: "Temporary", name: "Temporary" },
-                          { id: "Trainee", name: "Trainee" },
-                        ]}
-                      />
-                    </Grid> */}
+
                   <Grid item xs={12}>
                     <FileInput name="profile_picture" label="Profile Picture" />
                   </Grid>
@@ -320,21 +292,13 @@ const AddEmployee = () => {
                     <FileInput name="resume" label="Resume" />
                   </Grid>
                   <Grid item xs={12}>
-                    {/* <Button
-                        type="submit"
-                        color="primary"
-                        variant="contained"
-                        component="label"
-                        //   onClick={handleSubmit}
-                      >
-                        Submit
-                      </Button> */}
+
                     <Button type="submit" color="primary" variant="contained">
-                      Submit Form
+                      Submit
                     </Button>
                     <Button
                       className={classes.postBtn}
-                      color="secondary"
+                      color="inherit"
                       variant="contained"
                       component="label"
                       onClick={() => history.push("/employees")}
