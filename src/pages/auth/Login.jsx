@@ -7,7 +7,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 // import Link from '@material-ui/core/Link';
 import { Link } from "react-router-dom";
-
+import { Redirect } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -58,9 +58,10 @@ const validationSchema = yup.object({
     .required("Password is required"),
 });
 export default function Login() {
+  const auth = localStorage.getItem("token");
   const [login, { isLoading }] = useLoginMutation();
   useEffect(() => {
-    
+
   })
   const formik = useFormik({
     initialValues: {
@@ -75,7 +76,7 @@ export default function Login() {
         const payload = await login(loginData);
         console.log(payload);
         localStorage.setItem("token", payload.data.data.access_token);
-        history.push("/employees");
+        history.push("/");
       } catch (error) {
         console.log(error);
         setAuthError(true);
@@ -111,90 +112,97 @@ export default function Login() {
 
   // console.log(loginData);
   const classes = useStyles();
-  useEffect(() => {
-    const isAuth = localStorage.getItem("token");
-    return ()=>{
-      const isAuth = localStorage.getItem("token");
-    }
-  }, [])
+  // useEffect(() => {
+  //   const isAuth = localStorage.getItem("token");
+  //   return () => {
+  //     const isAuth = localStorage.getItem("token");
+  //   }
+  // }, [])
+
   return (
+
     <>
-      <div className={classes.containerDiv}>
-        <UserHeader />
+      {
+        !auth ? (
+          <div className={classes.containerDiv}>
+            <UserHeader />
 
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
-            <form className={classes.form} onSubmit={formik.handleSubmit}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                
-                fullWidth
-                id="email"
-                // type="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-               
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.password && Boolean(formik.errors.password)
-                }
-                helperText={formik.touched.password && formik.errors.password}
-              />
-      
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                //   disabled={error.submit}
-              >
-                Sign In
-              </Button>
-              {authError && <Alert message="invalid email or password" />}
+            <Container component="main" maxWidth="xs">
+              <CssBaseline />
+              <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                  <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                  Sign in
+                </Typography>
+                <form className={classes.form} onSubmit={formik.handleSubmit}>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
 
-              <Grid container justifyContent='center'>
-                {/* <Grid item xs>
+                    fullWidth
+                    id="email"
+                    // type="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
+                  />
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.password && Boolean(formik.errors.password)
+                    }
+                    helperText={formik.touched.password && formik.errors.password}
+                  />
+
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                  //   disabled={error.submit}
+                  >
+                    Sign In
+                  </Button>
+                  {authError && <Alert message="invalid email or password" />}
+
+                  <Grid container justifyContent='center'>
+                    {/* <Grid item xs>
                   <Link to="/login" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid> */}
-                <Grid item>
-                  <Link to="/register">{"Don't have an account? Sign Up"}</Link>
-                </Grid>
-              </Grid>
-            </form>
+                    <Grid item>
+                      <Link to="/register">{"Don't have an account? Sign Up"}</Link>
+                    </Grid>
+                  </Grid>
+                </form>
+              </div>
+              <Box mt={3}>
+                <Copyright />
+              </Box>
+            </Container>
           </div>
-          <Box mt={3}>
-            <Copyright />
-          </Box>
-        </Container>
-      </div>
+        )
+      :<Redirect to="/" />}
+
     </>
   );
 }

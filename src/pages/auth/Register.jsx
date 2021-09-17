@@ -17,7 +17,7 @@ import Container from "@material-ui/core/Container";
 import Copyright from "../../components/Copyright";
 import UserHeader from "../../components/UserHeader";
 import { useDispatch } from "react-redux";
-
+import { Redirect } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { set } from "date-fns";
 import Alert from "../../components/AuthErrorAlert";
@@ -64,6 +64,7 @@ const validationSchema = yup.object({
 });
 export default function Register() {
     const [register, { isLoading,isError,error:registerError}] = useRegisterMutation();
+    const isAuth = localStorage.getItem("token")
     const formik = useFormik({
         initialValues: {
             name: "",
@@ -80,7 +81,7 @@ export default function Register() {
                 const payload = await register(loginData);
                 console.log(payload);
                 localStorage.setItem("token", payload.data.data.access_token);
-                history.push("/employees");
+                history.push("/");
             } catch (error) {
                 console.log(error);
                 setAuthError(true);
@@ -124,7 +125,8 @@ export default function Register() {
     }, [])
     return (
         <>
-            <div className={classes.containerDiv}>
+            { !isAuth ? (
+                <div className={classes.containerDiv}>
                 <UserHeader />
 
                 <Container component="main" maxWidth="xs">
@@ -225,11 +227,14 @@ export default function Register() {
                             </Grid>
                         </form>
                     </div>
+                    
                     <Box mt={3}>
                         <Copyright />
                     </Box>
                 </Container>
             </div>
+            ):<Redirect to="/" />}
+            
         </>
     );
 }
