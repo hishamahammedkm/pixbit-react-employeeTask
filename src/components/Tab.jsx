@@ -50,13 +50,17 @@ const useStyles = makeStyles((theme) => ({
     // width: 500,
     display: "flex",
     justifyContent: "spaceBetween",
-    width: 1050,
+    // width: 1050,
+    flex:1
   },
   main: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "baseline",
     position: "relative",
+    [theme.breakpoints.up('md')]: {
+      flexDirection: "row", 
+    },
   },
   title: {
     marginLeft: "30px",
@@ -113,25 +117,16 @@ export default function FullWidthTabs({ tab }) {
           variant="standard"
           aria-label="full width tabs example"
         >
-          {/* <Link to="/employeelist"> */}
-          {/* <Tab
-            onClick={() => {
-              //  handleChange()
-              history.push("/");
-            }}
-            label="Home"
-            {...a11yProps(0)}
-          /> */}
+
           <Tab
             onClick={() => {
-              //  handleChange()
+        
               history.push("/employees");
             }}
             label="Employees"
             {...a11yProps(0)}
           />
-          {/* </Link> */}
-          {/* <Link to="/designationlist"> */}
+     
 
           <Tab
             onClick={() => {

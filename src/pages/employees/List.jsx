@@ -50,9 +50,12 @@ const useStyles = makeStyles(
       alignItems: "center",
       justifyContent: "center",
       flexDirection: "column",
-      margin: theme.spacing(12, 4, 3),
+      // margin: theme.spacing(12, 4, 3),
       padding: theme.spacing(3, 4),
       marginTop: "-5px",
+      [theme.breakpoints.down('md')]: {
+        marginTop: "15px",
+      },
     },
     root: {
       "& .header": {
@@ -74,6 +77,11 @@ const useStyles = makeStyles(
     grid_items_right: {
       marginRight: theme.spacing(3),
     },
+    createBtn: {
+      width: '25px',
+      height: '25px'
+
+    }
   }),
   { defaultTheme }
 );
@@ -146,7 +154,7 @@ RowMenuCell.propTypes = {
 
 export default function EmployeesList() {
   // const { isLoading, data, isError } = useGetEmployeesQuery();
-  const { status, data } = useGetEmployeesQuery();
+  const { status, data,isLoading} = useGetEmployeesQuery();
   const { status: desStatus, data: desData } = useGetDesignationsQuery();
 
   const classes = useStyles();
@@ -158,7 +166,7 @@ export default function EmployeesList() {
     if (status == "fulfilled") {
       setEmployees(data.data);
     }
-  }, [data]);
+  }, [isLoading,data]);
   useEffect(() => {
     if (desStatus == "fulfilled") {
       setDesignationData(desData.data);
@@ -310,20 +318,22 @@ export default function EmployeesList() {
           </Grid>
           <Grid item className={classes.grid_items_right}>
             <GridToolbarContainer>
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<AddIcon />}
+
+              <NavLink
+                to="/create_employee"
+                className="link"
+
+                style={{ color: "white", textDecoration: "none" }}
+                activeClassName="active"
               >
-                <NavLink
-                  to="/create_employee"
-                  className="link"
-                  style={{ color: "white", textDecoration: "none" }}
-                  activeClassName="active"
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<AddIcon />}
                 >
-                  Add record
-                </NavLink>
-              </Button>
+                  Add
+                </Button>
+              </NavLink>
             </GridToolbarContainer>
           </Grid>
         </Grid>

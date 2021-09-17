@@ -127,9 +127,10 @@ const FORM_VALIDATION = Yup.object().shape({
 
 const AddEmployee = () => {
   
-  const [createEmployee, { isLoading, isError }] = useCreateEmployeeMutation();
+  var [createEmployee, { isLoading,isSuccess, isError,error }] = useCreateEmployeeMutation();
 
-  console.log("error======", isError);
+  // console.log("error======", error?.data?.errors?.profile_picture[0]);
+  // console.log("error======", error?.data?.errors?.resume[0]);
   const { status: desStatus, data: desData } = useGetDesignationsQuery();
  
   console.log("desDta", desData?.data);
@@ -139,6 +140,16 @@ const AddEmployee = () => {
 
 
   const classes = useStyles();
+  useEffect(() => {
+    if(error){
+      alert(error?.data?.errors?.profile_picture ||error?.data?.errors?.resume )
+      error = null;
+    }
+    if(isSuccess){
+      history.push("/employees");
+    }
+
+  }, [isLoading])
  
   return (
     <>
@@ -199,15 +210,15 @@ const AddEmployee = () => {
               );
               formData.append("resume", values.resume, values.resume?.name);
 
-              // console.log("form Data--------", formData);
-              // console.log('employeeData', employeeData);
-              // console.log("designation_id", employeeData.designation_id);
-
-              // dispatch(addEmployee({ formData, history }));
+          
               try {
                 const res = await createEmployee(formData);
-                if (isError) return;
-                history.push("/employees");
+                if (error){
+                  alert(error?.data?.errors?.profile_picture,error?.data?.errors)
+                }
+             
+              
+                // history.push("/employees");
                 console.log(res);
               } catch (error) {
                 console.log(error);

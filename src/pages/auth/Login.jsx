@@ -175,12 +175,12 @@ export default function Login({isAuth}) {
               </Button>
               {authError && <Alert message="invalid email or password" />}
 
-              <Grid container>
-                <Grid item xs>
+              <Grid container justifyContent='center'>
+                {/* <Grid item xs>
                   <Link to="/login" variant="body2">
                     Forgot password?
                   </Link>
-                </Grid>
+                </Grid> */}
                 <Grid item>
                   <Link to="/register">{"Don't have an account? Sign Up"}</Link>
                 </Grid>

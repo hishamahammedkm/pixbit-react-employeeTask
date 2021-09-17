@@ -68,7 +68,7 @@ const EmployeeEdit = () => {
     const params = useParams();
 
     const { data } = useGetEmployeesQuery();
-    const { status: desStatus, data: desData } = useGetDesignationsQuery();
+    const { status: desStatus, data: desData,isLoading,isSuccess, isError,error } = useGetDesignationsQuery();
     const prevEmployeeData = data;
 
     function search(nameKey, myArray) {
@@ -148,7 +148,7 @@ const EmployeeEdit = () => {
                         ...INITIAL_FORM_STATE,
                     }}
                     validationSchema={FORM_VALIDATION}
-                    onSubmit={(values) => {
+                    onSubmit={async(values) => {
                         console.log("clicked");
                         const object = {
                             id: params.id,
@@ -169,12 +169,16 @@ const EmployeeEdit = () => {
                             permanent_address: values.permanent_address,
                         };
 
-                        updateEmloyee(object)
-                            .then((payload) => {
-                                history.push("/employees");
-                                console.log(payload);
-                            })
-                            .catch((error) => { });
+                        try {
+                            const res = await updateEmloyee(object)
+                            
+                            history.push("/employees")
+                           
+
+                        } catch (error) {
+                            history.push("/employees")
+                            
+                        }
                     }}
                 >
                     <Form>

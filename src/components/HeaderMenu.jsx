@@ -3,12 +3,32 @@ import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Fade from "@material-ui/core/Fade";
-import { Avatar } from "@material-ui/core";
+import { Avatar, makeStyles } from "@material-ui/core";
 // import { logout } from "../store/slices/authSlice";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 
+
+
+const useStyles = makeStyles((theme) => ({
+
+  name: {
+
+    display: "none",
+
+    [theme.breakpoints.up('sm')]: {
+      display: 'inline',
+    },
+  },
+
+
+}));
+
+
+
 export default function FadeMenu() {
+
+  const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -35,7 +55,7 @@ export default function FadeMenu() {
         aria-haspopup="true"
         onClick={handleClick}
       >
-        <span style={{ marginRight: 10, fontWeight: 600 }}>Hello Hisham</span>
+        <span className={classes.name} style={{ marginRight: 10, fontWeight: 600 }}>Hisham</span>
         <Avatar>H</Avatar>
       </Button>
       <Menu

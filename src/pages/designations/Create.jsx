@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Button,
   Container,
   Grid,
@@ -9,6 +10,8 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddminHeader from "../../components/AdminHeader";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import WorkOutlineOutlinedIcon from '@material-ui/icons/WorkOutlineOutlined';
 // import {
 //   addDesignation,
 //   getDesignations,
@@ -29,6 +32,17 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     marginTop: "30px",
   },
+  wrapper: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: theme.spacing(3),
+    padding: theme.spacing(3),
+  },
+  avatar: {
+    backgroundColor: theme.palette.secondary.main,
+    marginRight: theme.spacing(2),
+  },
   form: {
     width: "100%",
     marginTop: theme.spacing(3),
@@ -38,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const AddDesignation = () => {
-  const [createDesignation, { isLoading, isError }] =
+  const [createDesignation, { isSuccess, error }] =
     useCreateDesignationMutation();
   const des = useGetDesignationsQuery();
   const history = useHistory();
@@ -62,7 +76,10 @@ const AddDesignation = () => {
     }
     try {
       const res = await createDesignation({ designation_name });
-
+      if (error) {
+        alert('failed')
+       return
+      }
       history.push("/designations");
     } catch (error) {
       console.log(error);
@@ -71,12 +88,12 @@ const AddDesignation = () => {
     // dispatch(addDesignation({ designation_name, history }));
   };
 
-  useEffect(() => {
-    // dispatch(getDesignations());
-    return () => {
-      // dispatch(setStatus(false));
-    };
-  }, [isLoading]);
+  // useEffect(() => {
+  //   // dispatch(getDesignations());
+  //   return () => {
+  //     // dispatch(setStatus(false));
+  //   };
+  // }, [isLoading]);
   return (
     <>
       {/* <AddminHeader /> */}
@@ -85,9 +102,18 @@ const AddDesignation = () => {
         {/* {isAlert && <Alert />} */}
 
         <div className={classes.paper}>
-          <Typography component="h1" variant="h5">
+          <Container className={classes.wrapper}>
+            <Avatar className={classes.avatar}>
+              {/* <PersonAddIcon /> */}
+              <WorkOutlineOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Create Designation
+            </Typography>
+          </Container>
+          {/* <Typography component="h1" variant="h5">
             Create Designation
-          </Typography>
+          </Typography> */}
           <form className={classes.form} onSubmit={handleSubmit}>
             <Grid container spacing={3}>
               <Grid item xs={12}>

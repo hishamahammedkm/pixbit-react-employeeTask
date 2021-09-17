@@ -16,10 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import FormDialog from "./Edit";
 import { DataGrid } from "@mui/x-data-grid";
-// import {
-//   deleteDesignation,
-//   getDesignations,
-// } from "../store/slices/employeeSlice";
+
 import AdminHeader from "../../components/AdminHeader";
 import Alert from "@material-ui/lab/Alert";
 import Tab from "../../components/Tab";
@@ -40,8 +37,12 @@ const useStyles = makeStyles(
 
         justifyContent: "space-evenly",
         fontSize: "20px",
-        fontWeight: "100",
-        fontWeight: "900",
+
+        fontWeight: "bolder",
+        // fontWeight: "100",
+        [theme.breakpoints.down('md')]: {
+          fontSize: "15px",
+        },
       },
 
       "& .super-app-theme--cell": {
@@ -63,9 +64,12 @@ const useStyles = makeStyles(
       alignItems: "center",
       justifyContent: "center",
       flexDirection: "column",
-      margin: theme.spacing(12, 4, 3),
+      // margin: theme.spacing(12, 4, 3),
       padding: theme.spacing(3, 4),
       marginTop: "-5px",
+      [theme.breakpoints.down('md')]: {
+        marginTop: "15px",
+      }
     },
     title: {
       marginBottom: theme.spacing(3),
@@ -167,15 +171,17 @@ export default function Designations() {
       field: "keys",
 
       headerName: "Sl No",
-      width: 280,
+      // width: 280,
+      flex: 1,
       headerAlign: "center",
       headerClassName: "header",
       cellClassName: "super-app-theme--cell",
     },
     {
       field: "name",
-      headerName: "Designation name",
-      width: 1000,
+      headerName: "Designation",
+      // width: 1000,
+      flex: 2,
       headerAlign: "center",
       headerClassName: "header",
       cellClassName: "super-app-theme--cell",
@@ -185,7 +191,8 @@ export default function Designations() {
       headerName: "Actions",
       renderCell: RowMenuCell,
       sortable: false,
-      width: 400,
+      // width: 400,
+      flex: 1,
       headerAlign: "center",
       filterable: false,
       align: "center",
@@ -216,20 +223,22 @@ export default function Designations() {
           </Grid>
           <Grid item className={classes.grid_items_right}>
             <GridToolbarContainer>
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<AddIcon />}
+  
+              <NavLink
+                to="/create_designation"
+                className="link"
+
+                style={{ color: "white", textDecoration: "none" }}
+                activeClassName="active"
               >
-                <NavLink
-                  to="/create_designation"
-                  className="link"
-                  style={{ color: "white", textDecoration: "none" }}
-                  activeClassName="active"
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<AddIcon />}
                 >
-                  Add record
-                </NavLink>
-              </Button>
+                  Add
+                </Button>
+              </NavLink>
             </GridToolbarContainer>
           </Grid>
         </Grid>
@@ -238,8 +247,8 @@ export default function Designations() {
             rows={rows}
             columns={columns}
             autoHeight
-            // autoPageSize
-            // density="comfortable"
+          // autoPageSize
+          // density="comfortable"
           />
         </div>
       </Paper>
