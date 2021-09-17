@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Container,
     makeStyles,
@@ -130,6 +130,11 @@ const EmployeeEdit = () => {
 
 
     console.log("------desData", desData.data);
+    useEffect(() => {
+        return ()=>{
+            history.push('/employees')
+        }
+    })
     return (
         <>
             <Tab tab={0} />
