@@ -24,6 +24,7 @@ import Alert from "../../components/AuthErrorAlert";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import LoadingButton from '@mui/lab/LoadingButton'
 import { useLoginMutation, useRegisterMutation } from "../../redux/services/employee";
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -117,12 +118,7 @@ export default function Register() {
 
     // console.log(loginData);
     const classes = useStyles();
-    useEffect(() => {
-        const isAuth = localStorage.getItem("token");
-        return () => {
-            const isAuth = localStorage.getItem("token");
-        }
-    }, [])
+
     return (
         <>
             { !isAuth ? (
@@ -138,6 +134,8 @@ export default function Register() {
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
+                         {authError && <Alert message={registerError?.data?.errors?.email ?` ${registerError?.data?.errors?.email[0]}`:'password did not match' }/>}
+
                         <form className={classes.form} onSubmit={formik.handleSubmit}>
                             <TextField
                                 variant="outlined"
@@ -206,7 +204,7 @@ export default function Register() {
                                 helperText={formik.touched.password_confirmation && formik.errors.password_confirmation}
                             />
 
-                            <Button
+                            {/* <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
@@ -215,13 +213,26 @@ export default function Register() {
                             //   disabled={error.submit}
                             >
                                 Sign Up
-                            </Button>
-                            {authError && <Alert message={registerError?.data?.errors?.email ?` ${registerError?.data?.errors?.email[0]}`:'password did not match' }/>}
+                            </Button> */}
+                                  <LoadingButton
+                                    type='submit'
+                                    // onClick={handleClick}
+                                    // endIcon={<SendIcon />}
+                                    loading={isLoading}
+                                    loadingPosition="center"
+                                    variant="contained"
+                                    fullWidth
+                                    color="success"
+                                    size="large"
+                                >
+                                    Register
+                                </LoadingButton>
+                            {/* {authError && <Alert message={registerError?.data?.errors?.email ?` ${registerError?.data?.errors?.email[0]}`:'password did not match' }/>} */}
                             {/* {authError && <Alert message='error'/>} */}
 
                             <Grid container justifyContent="center">
 
-                                <Grid item>
+                                <Grid item style={{marginTop:'10px'}}>
                                     <Link to="/login">{"Already  have an account? Login In"}</Link>
                                 </Grid>
                             </Grid>

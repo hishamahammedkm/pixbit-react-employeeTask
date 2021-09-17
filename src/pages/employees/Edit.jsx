@@ -204,7 +204,7 @@ const EmployeeEdit = () => {
                                 <Grid item xs={12}>
                                     <Select
                                         name="designation_id"
-                                        label="designation"
+                                        label="Designation"
                                         // options={designationData}
                                         options={desData?.data}
                                     />

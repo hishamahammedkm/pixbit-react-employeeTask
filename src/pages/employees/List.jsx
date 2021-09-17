@@ -16,12 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import FormDialog from "../designations/Edit";
 import { DataGrid } from "@mui/x-data-grid";
-// import {
-//   deleteEmployee,
-//   getDesignations,
-//   getEmployees,
-//   setStatus,
-// } from "../store/slices/employeeSlice";
+
 import AdminHeader from "../../components/AdminHeader";
 import Tab from "../../components/Tab";
 import {

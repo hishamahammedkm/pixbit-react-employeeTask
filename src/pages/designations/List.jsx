@@ -153,9 +153,9 @@ export default function Designations() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    // dispatch(getDesignations());
-  }, [isLoading]);
+  // useEffect(() => {
+  //   // dispatch(getDesignations());
+  // }, [isLoading]);
   useEffect(() => {
     if (desStatus == "fulfilled") {
       setDesignationData(desData.data);

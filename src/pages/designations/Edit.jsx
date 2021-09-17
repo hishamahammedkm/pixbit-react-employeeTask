@@ -43,7 +43,7 @@ export default function FormDialog({ item, isOpen }) {
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">
-          Enter new designation name{" "}
+          Enter new designation {" "}
         </DialogTitle>
         <DialogContent>
           <DialogContentText></DialogContentText>

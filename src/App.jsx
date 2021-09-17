@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import AdminHeader from "./components/AdminHeader";
 import Employees from "./pages/employees/List";
 import UserHeader from "./components/UserHeader";
-import Login from "./pages/auth/Login";
+import Login from "./pages/auth/login";
 import Register from "./pages/auth/Register";
 import CreateEmployee from "./pages/employees/Create";
 import Home from "./pages/Home";
@@ -17,7 +17,6 @@ import ProtectedRoute from "./ProtectedRoute";
 import Designations from "./pages/designations/List";
 import CreateDesignation from "./pages/designations/Create";
 import EditEmployee from "./pages/employees/Edit";
-
 
 const App = () => {
   const auth = localStorage.getItem("token");
