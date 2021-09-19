@@ -60,7 +60,9 @@ const App = () => {
           path="/create_designation"
           component={CreateDesignation}
         />
-        <Route component={Home} />
+        <Route>
+          <Redirect from='/*' to='/login' />
+        </Route>
       </Switch>
     </Router>
   );

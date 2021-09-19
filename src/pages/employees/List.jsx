@@ -45,12 +45,12 @@ const useStyles = makeStyles(
       alignItems: "center",
       justifyContent: "center",
       flexDirection: "column",
-      // margin: theme.spacing(12, 4, 3),
       padding: theme.spacing(3, 4),
-      marginTop: "-5px",
-      [theme.breakpoints.down('md')]: {
-        marginTop: "15px",
-      },
+      margin:theme.spacing(5,4,3)
+      // marginTop: "1px",
+      // [theme.breakpoints.down("md")]: {
+      //   marginTop: "15px",
+      // },
     },
     root: {
       "& .header": {
@@ -67,16 +67,15 @@ const useStyles = makeStyles(
       marginBottom: theme.spacing(3),
     },
     grid_items_left: {
-      marginLeft: theme.spacing(3),
+      marginLeft: theme.spacing(0),
     },
     grid_items_right: {
-      marginRight: theme.spacing(3),
+      marginRight: theme.spacing(0),
     },
     createBtn: {
-      width: '25px',
-      height: '25px'
-
-    }
+      width: "25px",
+      height: "25px",
+    },
   }),
   { defaultTheme }
 );
@@ -99,8 +98,6 @@ function RowMenuCell(props) {
 
   const handleEditClick = (row) => {
     history.push(`/employees/${row.id}/edit`);
-
-
   };
   const handleDelete = async (row) => {
     try {
@@ -146,8 +143,8 @@ RowMenuCell.propTypes = {
 
 export default function EmployeesList() {
   // const { isLoading, data, isError } = useGetEmployeesQuery();
-  const { status, data,isLoading} = useGetEmployeesQuery();
-  const { status: desStatus, data: desData } = useGetDesignationsQuery();
+  const { data, isSuccess } = useGetEmployeesQuery();
+  const { data: desData, isSuccess: desSuccess } = useGetDesignationsQuery();
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -155,15 +152,13 @@ export default function EmployeesList() {
   const [employees, setEmployees] = useState([]);
   const [designationData, setDesignationData] = useState([]);
   useEffect(() => {
-    if (status == "fulfilled") {
+    if (isSuccess) {
       setEmployees(data.data);
     }
-  }, [isLoading,data]);
-  useEffect(() => {
-    if (desStatus == "fulfilled") {
+    if (desSuccess) {
       setDesignationData(desData.data);
     }
-  }, [desData]);
+  }, [isSuccess, data, desData]);
 
   console.log("designationData", designationData);
   console.log("employees", employees);
@@ -187,14 +182,11 @@ export default function EmployeesList() {
       id: item.id,
       keys: index + 1,
       first_name: item.first_name,
-
+      last_name: item.last_name,
       join_date: new Date(item.join_date).toLocaleDateString(),
-
       date_of_birth: new Date(item.date_of_birth).toLocaleDateString(),
       gender: item.gender,
       designation_id: item.designation_id,
-      // designation_id: item.id,
-
       email: item.email,
       profile_picture: item.profile_picture,
       resume: item.resume,
@@ -204,98 +196,94 @@ export default function EmployeesList() {
   const columns = [
     {
       field: "keys",
-      headerName: "Sl No",
-      width: 150,
-      headerAlign: "center",
-      headerClassName: "header",
-      cellClassName: "super-app-theme--cell",
+      headerAlign: "right",
+      headerName: "Sl No",  
+      width: 120,
+      align: "right",
     },
     {
       field: "first_name",
-      headerName: "First Name",
-      width: 200,
-      headerAlign: "center",
-      headerClassName: "header",
-      cellClassName: "super-app-theme--cell",
+      headerName: "First Name",  
+      width: 150,
+      align: "left",
+      headerAlign: "left",
+    },
+    {
+      field: "last_name",
+      headerName: "Last Name",  
+      width: 150,
+      align: "left",
+      headerAlign: "left",
     },
     {
       field: "join_date",
-      headerName: "Join Date",
+      headerName: "Join Date",  
       width: 150,
-      headerAlign: "center",
-      headerClassName: "header",
-      cellClassName: "super-app-theme--cell",
+      type: "date",
+      align: "left",
+      headerAlign: "left",
     },
     {
       field: "date_of_birth",
-      headerName: "Date of Birth",
-      width: 200,
-      headerAlign: "center",
-      headerClassName: "header",
-      cellClassName: "super-app-theme--cell",
+      headerName: "Date of Birth",  
+      width: 180,
+      type: "date",
+      align: "left",
+      headerAlign: "left",
     },
     {
       field: "gender",
-      headerName: "Gender",
+      headerName: "Gender",  
       width: 150,
-      headerAlign: "center",
-      headerClassName: "header",
-      cellClassName: "super-app-theme--cell",
+      align: "left",
+      headerAlign: "left",
     },
     {
       field: "designation_id",
-      headerName: "Designation",
-      headerAlign: "center",
-      width: 200,
-      headerClassName: "header",
-      cellClassName: "super-app-theme--cell",
+      headerName: "Designation",  
+      width: 180,
+      align: "left",
+      headerAlign: "left",
     },
     {
       field: "email",
       headerName: "Email",
+      headerAlign: "left",  
       width: 200,
-      headerAlign: "center",
-      // align: "center",
-      headerClassName: "header",
-      cellClassName: "super-app-theme--cell",
+      align: "left",
     },
     {
       field: "profile_picture",
-      headerName: "Profile Picture",
-      width: 200,
-      headerAlign: "center",
-      headerClassName: "header",
-      cellClassName: "super-app-theme--cell",
+      headerName: "Profile Picture",  
+      width: 180,
+      align: "left",
+      headerAlign: "left",
     },
     {
       field: "resume",
-      headerName: "Resume",
+      headerName: "Resume",  
       width: 150,
-      align: "center",
-      headerAlign: "center",
-      headerClassName: "header",
-      cellClassName: "super-app-theme--cell",
+      align: "left",
+      headerAlign: "left",
     },
     {
       field: "actions",
       headerName: "Actions",
       renderCell: RowMenuCell,
-      sortable: false,
+      sortable: false,  
       width: 100,
+      align: "center",
       headerAlign: "center",
       filterable: false,
-      align: "center",
       disableColumnMenu: true,
       disableReorder: true,
-      headerClassName: "header",
-      cellClassName: "super-app-theme--cell",
     },
   ];
 
   return (
     <>
       {/* <AdminHeader /> */}
-      <Tab tab={0} />
+      <Tab tab={1} />
       <Paper className={classes.paper}>
         <Grid
           container
@@ -310,11 +298,9 @@ export default function EmployeesList() {
           </Grid>
           <Grid item className={classes.grid_items_right}>
             <GridToolbarContainer>
-
               <NavLink
                 to="/create_employee"
                 className="link"
-
                 style={{ color: "white", textDecoration: "none" }}
                 activeClassName="active"
               >
@@ -323,7 +309,7 @@ export default function EmployeesList() {
                   color="primary"
                   startIcon={<AddIcon />}
                 >
-                  Add
+                  Create Employee
                 </Button>
               </NavLink>
             </GridToolbarContainer>

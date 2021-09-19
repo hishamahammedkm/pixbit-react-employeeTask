@@ -2,10 +2,9 @@ import Tab from "../components/Tab";
 const Home = () => {
   return (
     <div>
-      <Tab  />
-
+       <Tab tab={0} />
    
-      <h1 style={{ marginTop:100}}>Home</h1>
+      <h1 style={{ marginTop:10}}>Home</h1>
       
     </div>
   );

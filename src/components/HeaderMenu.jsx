@@ -9,7 +9,6 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 
 
-
 const useStyles = makeStyles((theme) => ({
 
   name: {
@@ -41,10 +40,10 @@ export default function FadeMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleLogout = () => {
-    // dispatch(logout());
+  const handleLogout = (e) => {
     localStorage.removeItem('token')
-    history.push("/login");
+ 
+    window.location.href="/login"
     setAnchorEl(null);
   };
 

@@ -51,15 +51,15 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "spaceBetween",
     // width: 1050,
-    flex:1
+    flex: 1,
   },
   main: {
     display: "flex",
     flexDirection: "column",
     alignItems: "baseline",
     position: "relative",
-    [theme.breakpoints.up('md')]: {
-      flexDirection: "row", 
+    [theme.breakpoints.up("md")]: {
+      flexDirection: "row",
     },
   },
   title: {
@@ -67,8 +67,8 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "20PX",
     cursor: "pointer",
   },
-  link:{
-    textDecoration:'none',
+  link: {
+    textDecoration: "none",
   },
   user: {
     position: "absolute",
@@ -102,48 +102,50 @@ export default function FullWidthTabs({ tab }) {
         position="static"
         color="default"
       >
-        <Link className={classes.link}  to='/'>
-        <Typography className={classes.title} variant="h6"    >
-          Admin Templates{" "}
-        </Typography>
+        <Link className={classes.link} to="/">
+          <Typography className={classes.title} variant="h6">
+            Admin Templates{" "}
+          </Typography>
         </Link>
-     
+
         <Tabs
           value={value}
           onChange={handleChange}
-
           indicatorColor="primary"
           textColor="primary"
           variant="standard"
           aria-label="full width tabs example"
         >
+          <Tab
+            // onClick={() => {
+            //   history.push("/");
+            // }}
+            component={Link}
+            to="/"
+            label="Home"
+            {...a11yProps(0)}
+          />
 
           <Tab
-            onClick={() => {
-        
-              history.push("/employees");
-            }}
+            // onClick={() => {
+            //   history.push("/employees");
+            // }}
+            component={Link}
+            to="/employees"
             label="Employees"
             {...a11yProps(0)}
           />
-     
 
           <Tab
-            onClick={() => {
-              //  handleChange()
-              history.push("/designations");
-            }}
+            // onClick={() => {
+            //   //  handleChange()
+            //   history.push("/designations");
+            // }}
+            component={Link}
+            to="/designations"
             label="Designations"
             {...a11yProps(0)}
           />
-           {/* <Tab
-            onClick={() => {
-              //  handleChange()
-              history.push("/designations");
-            }}
-            label=""
-            {...a11yProps()}
-          /> */}
 
           {/* </Link> */}
           {/* <Tab label="Designations" {...a11yProps(1)} /> */}
@@ -162,6 +164,7 @@ export default function FullWidthTabs({ tab }) {
         <TabPanel value={value} index={0} dir={theme.direction}></TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}></TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}></TabPanel>
+        <TabPanel value={value} index={3} dir={theme.direction}></TabPanel>
       </SwipeableViews>
     </div>
   );

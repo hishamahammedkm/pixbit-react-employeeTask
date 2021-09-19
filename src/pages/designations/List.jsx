@@ -64,21 +64,18 @@ const useStyles = makeStyles(
       alignItems: "center",
       justifyContent: "center",
       flexDirection: "column",
-      // margin: theme.spacing(12, 4, 3),
+      margin: theme.spacing(5, 4, 3),
       padding: theme.spacing(3, 4),
-      marginTop: "-5px",
-      [theme.breakpoints.down('md')]: {
-        marginTop: "15px",
-      }
+      
     },
     title: {
       marginBottom: theme.spacing(3),
     },
     grid_items_left: {
-      marginLeft: theme.spacing(3),
+      marginLeft: theme.spacing(0),
     },
     grid_items_right: {
-      marginRight: theme.spacing(3),
+      marginRight: theme.spacing(0),
     },
     th: {
       color: "red",
@@ -169,45 +166,37 @@ export default function Designations() {
   const columns = [
     {
       field: "keys",
-
+      align: "right",
+      headerAlign: "right",
       headerName: "Sl No",
-      // width: 280,
-      flex: 1,
-      headerAlign: "center",
-      headerClassName: "header",
-      cellClassName: "super-app-theme--cell",
+      flex: 0.7,
     },
     {
       field: "name",
-      headerName: "Designation",
-      // width: 1000,
-      flex: 2,
+      headerName: "Designation name",
+      flex: 5,
+
+      align: "center",
       headerAlign: "center",
-      headerClassName: "header",
-      cellClassName: "super-app-theme--cell",
     },
     {
       field: "actions",
       headerName: "Actions",
       renderCell: RowMenuCell,
       sortable: false,
-      // width: 400,
       flex: 1,
       headerAlign: "center",
       filterable: false,
       align: "center",
       disableColumnMenu: true,
-      disableReorder: true,
-      headerAlign: "center",
-      headerClassName: "header",
-      cellClassName: "super-app-theme--cell",
+      disableReorder:true
     },
   ];
 
   return (
     <>
       {/* <AdminHeader /> */}
-      <Tab tab={1} />
+      <Tab tab={2} />
 
       <Paper className={classes.paper}>
         <Grid
@@ -236,7 +225,7 @@ export default function Designations() {
                   color="primary"
                   startIcon={<AddIcon />}
                 >
-                  Add
+                  Create Designation
                 </Button>
               </NavLink>
             </GridToolbarContainer>

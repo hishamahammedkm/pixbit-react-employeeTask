@@ -103,17 +103,19 @@ const INITIAL_FORM_STATE = {
 
   designation_id: null,
 };
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+
 const FORM_VALIDATION = Yup.object().shape({
-  first_name: Yup.string().required("Required"),
+  first_name: Yup.string().min(1,'minimum one charector').required("Required"),
   last_name: Yup.string().required("Required"),
   email: Yup.string().email().required("Required"),
   present_address: Yup.string().required("Required"),
   gender: Yup.string().required("Required"),
   permanent_address: Yup.string().required("Required"),
-  mobile: Yup.number('enter a valid mobile number').nullable().required("Required"),
-  landline: Yup.number().required("Required"),
-  join_date: Yup.date().nullable().required("Required"),
-  date_of_birth: Yup.date().nullable().required("Required"),
+  mobile: Yup.string().nullable().matches(phoneRegExp, 'Mobile number is not valid').required('Required'),
+  landline: Yup.string().nullable().matches(phoneRegExp, 'Landline number is not valid').required('Required'),
+  join_date: Yup.date().nullable().typeError('date must be in YYYY/MM/DD format').required("Required"),
+  date_of_birth: Yup.date().nullable().typeError('date must be in YYYY/MM/DD format').required("Required"),
   designation_id: Yup.number().required("Required"),
   status: Yup.string().required("Required"),
   profile_picture: Yup.mixed().required("Required"),
@@ -148,7 +150,7 @@ const AddEmployee = () => {
   return (
     <>
       {/* <AdminHeader /> */}
-      <Tab tab={0} />
+      <Tab tab={1} />
 
       <Container component="main" maxWidth="lg">
         {/* {isAlert && <Alert />} */}

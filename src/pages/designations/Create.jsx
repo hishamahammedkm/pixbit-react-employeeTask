@@ -97,7 +97,7 @@ const AddDesignation = () => {
   return (
     <>
       {/* <AddminHeader /> */}
-      <Tab tab={1} />
+      <Tab tab={2} />
       <Container component="main" maxWidth="lg">
         {/* {isAlert && <Alert />} */}
 

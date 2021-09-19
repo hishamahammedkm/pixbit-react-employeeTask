@@ -109,12 +109,10 @@ const EmployeeEdit = () => {
         present_address: Yup.string().required("Required"),
         gender: Yup.string().required("Required"),
         permanent_address: Yup.string().required("Required"),
-        mobile: Yup.number().required("Required"),
+        mobile: Yup.number().typeError('enter a valid mobile number').required("Required").required("Required"),
         landline: Yup.number().required("Required"),
-        join_date: Yup.date().nullable().required("Required"),
-
-
-        date_of_birth: Yup.date().nullable().required("Required"),
+        join_date: Yup.date().nullable().typeError('date must be in YYYY/MM/DD format').required("Required"),
+        date_of_birth: Yup.date().nullable().typeError('date must be in YYYY/MM/DD format').required("Required"),
         designation_id: Yup.string().required("Required"),
         status: Yup.string().required("Required"),
     });
@@ -130,14 +128,14 @@ const EmployeeEdit = () => {
 
 
     console.log("------desData", desData.data);
-    useEffect(() => {
-        return ()=>{
-            history.push('/employees')
-        }
-    })
+    // useEffect(() => {
+    //     return ()=>{
+    //         history.push('/employees')
+    //     }
+    // })
     return (
         <>
-            <Tab tab={0} />
+            <Tab tab={1} />
 
             <Paper className={classes.main_container}>
                 <Container className={classes.wrapper}>

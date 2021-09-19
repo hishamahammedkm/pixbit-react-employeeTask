@@ -20,7 +20,7 @@ import { useDispatch } from "react-redux";
 
 import { useHistory } from "react-router-dom";
 import { set } from "date-fns";
-import Alert from "../../components/AuthErrorAlert";
+import Alert from "../../components/AuthErrorAlert";                       
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -61,7 +61,7 @@ const validationSchema = yup.object({
 });
 export default function Login() {
     const auth = localStorage.getItem("token");
-    const [login, { isLoading }] = useLoginMutation();
+    const [login, { isLoading,error:LoginError}] = useLoginMutation();
    
     const formik = useFormik({
         initialValues: {
@@ -71,23 +71,22 @@ export default function Login() {
         validationSchema: validationSchema,
 
         onSubmit: async (loginData) => {
-            console.log(loginData);
+         
             try {
                 const payload = await login(loginData);
-                console.log(payload);
+                // console.log(payload);
                 localStorage.setItem("token", payload.data.data.access_token);
                 history.push("/");
             } catch (error) {
-                console.log(error);
-                setAuthError(true);
-                console.log(error);
+    
+                
             }
             // dispatch(loginUser({ loginData, history }));
         },
     });
     // const authError = useSelector((state) => state.auth.error);
 
-    const [authError, setAuthError] = useState(false);
+    const [authError, setAuthError] = useState();
     const [isValid, setIsValid] = useState(false);
     const dispatch = useDispatch();
     const history = useHistory();
@@ -96,19 +95,19 @@ export default function Login() {
         email: "",
         password: "",
     });
-    const handleChange = (e) => {
-        setIsValid(false);
-        setLoginData({ ...loginData, [e.target.name]: e.target.value });
-    };
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const checkPassword = loginData.password;
-        if (checkPassword.length < 8) {
-            setIsValid(true);
-            return;
-        }
-        // dispatch(loginUser({ loginData, history }));
-    };
+    // const handleChange = (e) => {
+    //     setIsValid(false);
+    //     setLoginData({ ...loginData, [e.target.name]: e.target.value });
+    // };
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     const checkPassword = loginData.password;
+    //     if (checkPassword.length < 8) {
+    //         setIsValid(true);
+    //         return;
+    //     }
+    //     // dispatch(loginUser({ loginData, history }));
+    // };
 
     // console.log(loginData);
     const classes = useStyles();
@@ -131,7 +130,7 @@ export default function Login() {
                             <Typography component="h1" variant="h5">
                                 Sign in
                             </Typography>
-                            {authError && <Alert message="invalid email or password" />}
+                            {/* {LoginError && <Alert message={LoginError?.data?.message} />} */}
 
                             <form className={classes.form} onSubmit={formik.handleSubmit}>
                                 <TextField
@@ -146,7 +145,7 @@ export default function Login() {
                                     autoFocus
                                     value={formik.values.email}
                                     onChange={formik.handleChange}
-                                    error={formik.touched.email && Boolean(formik.errors.email)}
+                                    error={formik.touched.email && Boolean(formik.errors.email)|| LoginError?.data?.message}
                                     helperText={formik.touched.email && formik.errors.email}
                                 />
                                 <TextField
@@ -161,9 +160,9 @@ export default function Login() {
                                     value={formik.values.password}
                                     onChange={formik.handleChange}
                                     error={
-                                        formik.touched.password && Boolean(formik.errors.password)
+                                        formik.touched.password && Boolean(formik.errors.password || LoginError?.data?.message)
                                     }
-                                    helperText={formik.touched.password && formik.errors.password}
+                                    helperText={formik.touched.password && formik.errors.password || LoginError?.data?.message}
                                 />
 
                                 <LoadingButton

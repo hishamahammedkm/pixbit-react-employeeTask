@@ -92,7 +92,7 @@ export default function Register() {
         },
     });
     // const authError = useSelector((state) => state.auth.error);
-    console.log('registerError-----',registerError?.data?.errors)
+ 
     const [authError, setAuthError] = useState(false);
     const [isValid, setIsValid] = useState(false);
     const dispatch = useDispatch();
@@ -102,19 +102,19 @@ export default function Register() {
         email: "",
         password: "",
     });
-    const handleChange = (e) => {
-        setIsValid(false);
-        setLoginData({ ...loginData, [e.target.name]: e.target.value });
-    };
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const checkPassword = loginData.password;
-        if (checkPassword.length < 8) {
-            setIsValid(true);
-            return;
-        }
+    // const handleChange = (e) => {
+    //     setIsValid(false);
+    //     setLoginData({ ...loginData, [e.target.name]: e.target.value });
+    // };
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     const checkPassword = loginData.password;
+    //     if (checkPassword.length < 8) {
+    //         setIsValid(true);
+    //         return;
+    //     }
        
-    };
+    // };
 
     // console.log(loginData);
     const classes = useStyles();
@@ -134,7 +134,7 @@ export default function Register() {
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
-                         {authError && <Alert message={registerError?.data?.errors?.email ?` ${registerError?.data?.errors?.email[0]}`:'password did not match' }/>}
+                         {/* {authError && <Alert message={registerError?.data?.errors?.email ?` ${registerError?.data?.errors?.email[0]}`:`${registerError?.data?.errors?.password[0]}` }/>} */}
 
                         <form className={classes.form} onSubmit={formik.handleSubmit}>
                             <TextField
@@ -166,8 +166,8 @@ export default function Register() {
 
                                 value={formik.values.email}
                                 onChange={formik.handleChange}
-                                error={formik.touched.email && Boolean(formik.errors.email)}
-                                helperText={formik.touched.email && formik.errors.email}
+                                error={formik.touched.email && Boolean(formik.errors.email || registerError?.data?.errors?.email)}
+                                helperText={formik.touched.email && formik.errors.email || registerError?.data?.errors?.email }
                             />
                             <TextField
                                 variant="outlined"
@@ -182,9 +182,9 @@ export default function Register() {
                                 value={formik.values.password}
                                 onChange={formik.handleChange}
                                 error={
-                                    formik.touched.password && Boolean(formik.errors.password)
+                                    formik.touched.password && Boolean(formik.errors.password) || registerError?.data?.errors?.password
                                 }
-                                helperText={formik.touched.password && formik.errors.password}
+                                helperText={formik.touched.password && formik.errors.password || registerError?.data?.errors?.password[0]}
                             />
                             <TextField
                                 variant="outlined"
@@ -199,9 +199,10 @@ export default function Register() {
                                 value={formik.values.password_confirmation}
                                 onChange={formik.handleChange}
                                 error={
-                                    formik.touched.password_confirmation && Boolean(formik.errors.password_confirmation)
+                                    formik.touched.password_confirmation && Boolean(formik.errors.password_confirmation) 
+                                    || registerError?.data?.errors?.password
                                 }
-                                helperText={formik.touched.password_confirmation && formik.errors.password_confirmation}
+                                helperText={formik.touched.password_confirmation && formik.errors.password_confirmation || registerError?.data?.errors?.password[0]}
                             />
 
                             {/* <Button
