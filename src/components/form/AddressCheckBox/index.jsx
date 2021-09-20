@@ -7,9 +7,14 @@ const AddressCheckBox = () => {
     const { setFieldValue, values } = useFormikContext();
     const [checkBoxAddress, setCheckBoxAddress] = useState(false);
     const checkBoxAddressChange = (e) => {
-        setCheckBoxAddress(!checkBoxAddress)
-        const address = values.present_address
-        setFieldValue("permanent_address", address)
+
+        setCheckBoxAddress((p) => setCheckBoxAddress(!p))
+       
+        if (!checkBoxAddress) {
+            const address = values.present_address
+            setFieldValue("permanent_address", address)
+        }
+
     };
     return (
         <div>

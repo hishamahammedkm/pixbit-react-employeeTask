@@ -4,17 +4,27 @@ export const employeesApi = createApi({
   reducerPath: "employee",
   baseQuery: fetchBaseQuery({
     baseUrl: `http://training.pixbit.in/api/`,
+    prepareHeaders: (headers, { getState }) => {
+     
+      const token = localStorage.getItem("token");
+
+     
+      if (token) {
+        headers.set("authorization", `Bearer ${token}`);
+      }
+      headers.set("Accept", "application/json");
+
+      return headers;
+    },
   }),
-  tagTypes:["Employee, Designation"],
+  tagTypes: ["Employee, Designation"],
   endpoints: (builder) => ({
     register: builder.mutation({
       query(data) {
         return {
           url: `register`,
           method: "POST",
-          headers: {
-            Accept: "application/json",
-          },
+
           body: data,
         };
       },
@@ -24,9 +34,7 @@ export const employeesApi = createApi({
         return {
           url: `login`,
           method: "POST",
-          headers: {
-            Accept: "application/json",
-          },
+
           body: data,
         };
       },
@@ -35,27 +43,20 @@ export const employeesApi = createApi({
       query: () => {
         return {
           url: `employees`,
-          headers: {
-            Accept: "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
         };
       },
-      providesTags:["Employee"]
+      providesTags: ["Employee"],
     }),
     createEmployee: builder.mutation({
       query(data) {
         return {
-          url: 'employees',
+          url: "employees",
           method: "POST",
-          headers: {
-            Accept: "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
+
           body: data,
         };
       },
-      invalidatesTags:["Employee"]
+      invalidatesTags: ["Employee"],
     }),
     updateEmployee: builder.mutation({
       query(data) {
@@ -63,55 +64,40 @@ export const employeesApi = createApi({
         return {
           url: `employees/${id}`,
           method: "PUT",
-          headers: {
-            Accept: "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
+
           body: employee,
         };
       },
-      invalidatesTags:["Employee"]
+      invalidatesTags: ["Employee"],
     }),
     deleteEmployee: builder.mutation({
       query(id) {
         return {
           url: `employees/${id}`,
           method: "DELETE",
-          headers: {
-            Accept: "application/json",
-            Authorization:
-            "Bearer " + localStorage.getItem("token"),
-          },
         };
       },
-      invalidatesTags:["Employee"]
+      invalidatesTags: ["Employee"],
     }),
     getDesignations: builder.query({
       query: () => {
         return {
           url: `designations`,
           method: "GET",
-          headers: {
-            Accept: "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
         };
       },
-      providesTags:["Designation"]
+      providesTags: ["Designation"],
     }),
     createDesignation: builder.mutation({
       query(data) {
         return {
           url: `designations`,
           method: "POST",
-          headers: {
-            Accept: "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
+
           body: data,
         };
       },
-      invalidatesTags:["Designation"]
+      invalidatesTags: ["Designation"],
     }),
     updateDesignation: builder.mutation({
       query(data) {
@@ -119,25 +105,20 @@ export const employeesApi = createApi({
         return {
           url: `designations/${id}`,
           method: "PUT",
-          headers: {
-            Accept: "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-          body: {designation_name},
+
+          body: { designation_name },
         };
-      },invalidatesTags:["Designation"]
+      },
+      invalidatesTags: ["Designation"],
     }),
     deleteDesignation: builder.mutation({
       query: (id) => {
         return {
           url: `designations/${id}`,
           method: "DELETE",
-          headers: {
-            Accept: "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
         };
-      },invalidatesTags:["Designation"]
+      },
+      invalidatesTags: ["Designation"],
     }),
   }),
 });

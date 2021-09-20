@@ -4,7 +4,7 @@ const Home = () => {
     <div>
        <Tab tab={0} />
    
-      <h1 style={{ marginTop:10}}>Home</h1>
+      <h1 style={{ marginTop:60}}>Home</h1>
       
     </div>
   );

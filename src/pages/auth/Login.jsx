@@ -5,7 +5,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-// import Link from '@material-ui/core/Link';
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
@@ -26,7 +25,6 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { useLoginMutation } from "../../redux/services/employee";
 import LoadingButton from '@mui/lab/LoadingButton';
-// import SaveIcon from '@mui/icons-material/Save';
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -74,17 +72,14 @@ export default function Login() {
          
             try {
                 const payload = await login(loginData);
-                // console.log(payload);
                 localStorage.setItem("token", payload.data.data.access_token);
                 history.push("/");
             } catch (error) {
     
                 
             }
-            // dispatch(loginUser({ loginData, history }));
         },
     });
-    // const authError = useSelector((state) => state.auth.error);
 
     const [authError, setAuthError] = useState();
     const [isValid, setIsValid] = useState(false);
@@ -95,21 +90,7 @@ export default function Login() {
         email: "",
         password: "",
     });
-    // const handleChange = (e) => {
-    //     setIsValid(false);
-    //     setLoginData({ ...loginData, [e.target.name]: e.target.value });
-    // };
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     const checkPassword = loginData.password;
-    //     if (checkPassword.length < 8) {
-    //         setIsValid(true);
-    //         return;
-    //     }
-    //     // dispatch(loginUser({ loginData, history }));
-    // };
 
-    // console.log(loginData);
     const classes = useStyles();
     const [loading, setLoading] = React.useState(false);
     function handleClick() {
@@ -130,7 +111,6 @@ export default function Login() {
                             <Typography component="h1" variant="h5">
                                 Sign in
                             </Typography>
-                            {/* {LoginError && <Alert message={LoginError?.data?.message} />} */}
 
                             <form className={classes.form} onSubmit={formik.handleSubmit}>
                                 <TextField
@@ -167,8 +147,7 @@ export default function Login() {
 
                                 <LoadingButton
                                     type='submit'
-                                    // onClick={handleClick}
-                                    // endIcon={<SendIcon />}
+                                
                                     loading={isLoading}
                                     loadingPosition="center"
                                     variant="contained"
@@ -179,7 +158,6 @@ export default function Login() {
                                     Login
                                 </LoadingButton>
 
-                                {/* {authError && <Alert message="invalid email or password" />} */}
 
                                 <Grid style={{marginTop:'10px'}} container justifyContent="center">
              

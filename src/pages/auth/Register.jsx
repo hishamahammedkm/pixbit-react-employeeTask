@@ -5,7 +5,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-// import Link from '@material-ui/core/Link';
 import { Link } from "react-router-dom";
 
 import Grid from "@material-ui/core/Grid";
@@ -49,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 const validationSchema = yup.object({
-    name:yup.string('enter name').required('name is required'),
+    name: yup.string('enter name').required('name is required'),
     email: yup
         .string("Enter your email")
         .email("Enter a valid email")
@@ -64,7 +63,7 @@ const validationSchema = yup.object({
         .required("Password is required"),
 });
 export default function Register() {
-    const [register, { isLoading,isError,error:registerError}] = useRegisterMutation();
+    const [register, { isLoading, isError, error: registerError }] = useRegisterMutation();
     const isAuth = localStorage.getItem("token")
     const formik = useFormik({
         initialValues: {
@@ -80,19 +79,15 @@ export default function Register() {
             console.log(loginData);
             try {
                 const payload = await register(loginData);
-                console.log(payload);
                 localStorage.setItem("token", payload.data.data.access_token);
                 history.push("/");
             } catch (error) {
-                console.log(error);
                 setAuthError(true);
-                
+
             }
-            // dispatch(loginUser({ loginData, history }));
         },
     });
-    // const authError = useSelector((state) => state.auth.error);
- 
+
     const [authError, setAuthError] = useState(false);
     const [isValid, setIsValid] = useState(false);
     const dispatch = useDispatch();
@@ -102,123 +97,99 @@ export default function Register() {
         email: "",
         password: "",
     });
-    // const handleChange = (e) => {
-    //     setIsValid(false);
-    //     setLoginData({ ...loginData, [e.target.name]: e.target.value });
-    // };
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     const checkPassword = loginData.password;
-    //     if (checkPassword.length < 8) {
-    //         setIsValid(true);
-    //         return;
-    //     }
-       
-    // };
 
-    // console.log(loginData);
     const classes = useStyles();
 
     return (
         <>
-            { !isAuth ? (
+            {!isAuth ? (
                 <div className={classes.containerDiv}>
-                <UserHeader />
+                    <UserHeader />
 
-                <Container component="main" maxWidth="xs">
-                    <CssBaseline />
-                    <div className={classes.paper}>
-                        <Avatar className={classes.avatar}>
-                            <LockOutlinedIcon />
-                        </Avatar>
-                        <Typography component="h1" variant="h5">
-                            Sign in
-                        </Typography>
-                         {/* {authError && <Alert message={registerError?.data?.errors?.email ?` ${registerError?.data?.errors?.email[0]}`:`${registerError?.data?.errors?.password[0]}` }/>} */}
+                    <Container component="main" maxWidth="xs">
+                        <CssBaseline />
+                        <div className={classes.paper}>
+                            <Avatar className={classes.avatar}>
+                                <LockOutlinedIcon />
+                            </Avatar>
+                            <Typography component="h1" variant="h5">
+                                Sign in
+                            </Typography>
 
-                        <form className={classes.form} onSubmit={formik.handleSubmit}>
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
+                            <form className={classes.form} onSubmit={formik.handleSubmit}>
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
 
-                                fullWidth
-                                id="name"
-                                // type="email"
-                                label="Name"
-                                name="name"
-                                autoComplete="name"
-                                autoFocus
-                                value={formik.values.name}
-                                onChange={formik.handleChange}
-                                error={formik.touched.name && Boolean(formik.errors.name)}
-                                helperText={formik.touched.name && formik.errors.name}
-                            />
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
+                                    fullWidth
+                                    id="name"
+                                    // type="email"
+                                    label="Name"
+                                    name="name"
+                                    autoComplete="name"
+                                    autoFocus
+                                    value={formik.values.name}
+                                    onChange={formik.handleChange}
+                                    error={formik.touched.name && Boolean(formik.errors.name)}
+                                    helperText={formik.touched.name && formik.errors.name}
+                                />
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
 
-                                fullWidth
-                                id="email"
-                                // type="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
+                                    fullWidth
+                                    id="email"
+                                    // type="email"
+                                    label="Email Address"
+                                    name="email"
+                                    autoComplete="email"
 
-                                value={formik.values.email}
-                                onChange={formik.handleChange}
-                                error={formik.touched.email && Boolean(formik.errors.email || registerError?.data?.errors?.email)}
-                                helperText={formik.touched.email && formik.errors.email || registerError?.data?.errors?.email }
-                            />
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
+                                    value={formik.values.email}
+                                    onChange={formik.handleChange}
+                                    error={formik.touched.email && Boolean(formik.errors.email || registerError?.data?.errors?.email)}
+                                    helperText={formik.touched.email && formik.errors.email || registerError?.data?.errors?.email}
+                                />
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
 
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                                value={formik.values.password}
-                                onChange={formik.handleChange}
-                                error={
-                                    formik.touched.password && Boolean(formik.errors.password) || registerError?.data?.errors?.password
-                                }
-                                helperText={formik.touched.password && formik.errors.password || registerError?.data?.errors?.password[0]}
-                            />
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
+                                    fullWidth
+                                    name="password"
+                                    label="Password"
+                                    type="password"
+                                    id="password"
+                                    autoComplete="current-password"
+                                    value={formik.values.password}
+                                    onChange={formik.handleChange}
+                                    error={
+                                        formik.touched.password && Boolean(formik.errors.password) || registerError?.data?.errors?.password
+                                    }
+                                    helperText={formik.touched.password && formik.errors.password || registerError?.data?.errors?.password && registerError?.data?.errors?.password[0]}
 
-                                fullWidth
-                                name="password_confirmation"
-                                label="Confirm Password"
-                                type="password"
-                                id="password_confirmation"
-                                autoComplete="current-password"
-                                value={formik.values.password_confirmation}
-                                onChange={formik.handleChange}
-                                error={
-                                    formik.touched.password_confirmation && Boolean(formik.errors.password_confirmation) 
-                                    || registerError?.data?.errors?.password
-                                }
-                                helperText={formik.touched.password_confirmation && formik.errors.password_confirmation || registerError?.data?.errors?.password[0]}
-                            />
+                                />
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
 
-                            {/* <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                            //   disabled={error.submit}
-                            >
-                                Sign Up
-                            </Button> */}
-                                  <LoadingButton
+                                    fullWidth
+                                    name="password_confirmation"
+                                    label="Confirm Password"
+                                    type="password"
+                                    id="password_confirmation"
+                                    autoComplete="current-password"
+                                    value={formik.values.password_confirmation}
+                                    onChange={formik.handleChange}
+                                    error={
+                                        formik.touched.password_confirmation && Boolean(formik.errors.password_confirmation)
+                                        || registerError?.data?.errors?.password
+                                    }
+                                    helperText={formik.touched.password_confirmation && formik.errors.password_confirmation || registerError?.data?.errors?.password[0]}
+                                />
+
+
+                                <LoadingButton
                                     type='submit'
-                                    // onClick={handleClick}
-                                    // endIcon={<SendIcon />}
+
                                     loading={isLoading}
                                     loadingPosition="center"
                                     variant="contained"
@@ -228,25 +199,24 @@ export default function Register() {
                                 >
                                     Register
                                 </LoadingButton>
-                            {/* {authError && <Alert message={registerError?.data?.errors?.email ?` ${registerError?.data?.errors?.email[0]}`:'password did not match' }/>} */}
-                            {/* {authError && <Alert message='error'/>} */}
 
-                            <Grid container justifyContent="center">
 
-                                <Grid item style={{marginTop:'10px'}}>
-                                    <Link to="/login">{"Already  have an account? Login In"}</Link>
+                                <Grid container justifyContent="center">
+
+                                    <Grid item style={{ marginTop: '10px' }}>
+                                        <Link to="/login">{"Already  have an account? Login In"}</Link>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </form>
-                    </div>
-                    
-                    <Box mt={3}>
-                        <Copyright />
-                    </Box>
-                </Container>
-            </div>
-            ):<Redirect to="/" />}
-            
+                            </form>
+                        </div>
+
+                        <Box mt={3}>
+                            <Copyright />
+                        </Box>
+                    </Container>
+                </div>
+            ) : <Redirect to="/" />}
+
         </>
     );
 }

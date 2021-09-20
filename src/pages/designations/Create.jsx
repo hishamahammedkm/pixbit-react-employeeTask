@@ -9,14 +9,10 @@ import {
 } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import AddminHeader from "../../components/AdminHeader";
+
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import WorkOutlineOutlinedIcon from '@material-ui/icons/WorkOutlineOutlined';
-// import {
-//   addDesignation,
-//   getDesignations,
-//   setStatus,
-// } from "../store/slices/employeeSlice";
+
 import Alert from "../../components/Alert";
 import { useHistory } from "react-router-dom";
 import Tab from "../../components/Tab";
@@ -56,16 +52,14 @@ const AddDesignation = () => {
     useCreateDesignationMutation();
   const des = useGetDesignationsQuery();
   const history = useHistory();
-  // const isLoading = useSelector((state) => state.employee.loading);
+
   const isSuccss = useSelector((state) => state.employee.success);
 
-  console.log("isSuccss===", isSuccss);
+
   const dispatch = useDispatch();
   const classes = useStyles();
   const [isAlert, setIsAlert] = useState(isSuccss);
-  // useEffect(() => {
-  //   setIsAlert(isSuccss);
-  // }, [isSuccss]);
+
   const [designation_name, setDesignation_name] = useState("");
   const [isErrorText, setIsErrorText] = useState(false);
   const handleSubmit = async (e) => {
@@ -78,42 +72,35 @@ const AddDesignation = () => {
       const res = await createDesignation({ designation_name });
       if (error) {
         alert('failed')
-       return
+        return
       }
       history.push("/designations");
     } catch (error) {
       console.log(error);
     }
 
-    // dispatch(addDesignation({ designation_name, history }));
+
   };
 
-  // useEffect(() => {
-  //   // dispatch(getDesignations());
-  //   return () => {
-  //     // dispatch(setStatus(false));
-  //   };
-  // }, [isLoading]);
+
   return (
     <>
-      {/* <AddminHeader /> */}
+
       <Tab tab={2} />
       <Container component="main" maxWidth="lg">
-        {/* {isAlert && <Alert />} */}
+
 
         <div className={classes.paper}>
           <Container className={classes.wrapper}>
             <Avatar className={classes.avatar}>
-              {/* <PersonAddIcon /> */}
+
               <WorkOutlineOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
               Create Designation
             </Typography>
           </Container>
-          {/* <Typography component="h1" variant="h5">
-            Create Designation
-          </Typography> */}
+
           <form className={classes.form} onSubmit={handleSubmit}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
@@ -135,7 +122,7 @@ const AddDesignation = () => {
                     setIsErrorText(false);
                     setDesignation_name(e.target.value);
                     if (isAlert) {
-                      // dispatch(setStatus(false));
+
                     }
                     setIsAlert(false);
                   }}

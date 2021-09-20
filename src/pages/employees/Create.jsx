@@ -9,7 +9,7 @@ import {
   IconButton,
   Avatar,
 } from "@material-ui/core";
-import AdminHeader from "../../components/AdminHeader";
+
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
@@ -129,7 +129,7 @@ const AddEmployee = () => {
 
   const { status: desStatus, data: desData } = useGetDesignationsQuery();
  
-  console.log("desDta", desData?.data);
+
   const history = useHistory();
   const fileInputEl = useRef(null);
   const fileResume = useRef(null);
@@ -149,11 +149,11 @@ const AddEmployee = () => {
  
   return (
     <>
-      {/* <AdminHeader /> */}
+  
       <Tab tab={1} />
 
       <Container component="main" maxWidth="lg">
-        {/* {isAlert && <Alert />} */}
+
 
         <div className={classes.paper}>
           <Container className={classes.wrapper}>
@@ -178,13 +178,10 @@ const AddEmployee = () => {
               formData.append("last_name", values.last_name);
               formData.append(
                 "join_date",new Date(values.join_date).toLocaleDateString('zh-Hans-CN')
-                // new Date(values.join_date).toLocaleDateString()
               );
               formData.append(
                 "date_of_birth",new Date(values.date_of_birth).toLocaleDateString('zh-Hans-CN')
-                // new Date(values.date_of_birth).toLocaleDateString(
               );
-              // formData.append("designation_id", employeeData.designation_id);
               formData.append(
                 "designation_id",
                 values.designation_id.toString()
@@ -280,7 +277,7 @@ const AddEmployee = () => {
                     <TextField
                       name="permanent_address"
                       label="Permenent Address"
-                      // value={checkBoxAddress ?}
+                      
                       multiline
                       rows={3}
                       

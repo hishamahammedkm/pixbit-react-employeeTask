@@ -77,6 +77,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     alignItems: "baseline",
   },
+
 }));
 
 export default function FullWidthTabs({ tab }) {
@@ -117,9 +118,7 @@ export default function FullWidthTabs({ tab }) {
           aria-label="full width tabs example"
         >
           <Tab
-            // onClick={() => {
-            //   history.push("/");
-            // }}
+            
             component={Link}
             to="/"
             label="Home"
@@ -127,9 +126,7 @@ export default function FullWidthTabs({ tab }) {
           />
 
           <Tab
-            // onClick={() => {
-            //   history.push("/employees");
-            // }}
+         
             component={Link}
             to="/employees"
             label="Employees"
@@ -137,22 +134,17 @@ export default function FullWidthTabs({ tab }) {
           />
 
           <Tab
-            // onClick={() => {
-            //   //  handleChange()
-            //   history.push("/designations");
-            // }}
+   
             component={Link}
             to="/designations"
             label="Designations"
             {...a11yProps(0)}
           />
 
-          {/* </Link> */}
-          {/* <Tab label="Designations" {...a11yProps(1)} /> */}
-          {/* <Tab label="Item Three" {...a11yProps(2)} /> */}
+
         </Tabs>
         <div className={classes.user}>
-          {/* <span>Hello Hisham</span> */}
+      
           <FadeMenu />
         </div>
       </AppBar>

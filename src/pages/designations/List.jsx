@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import FormDialog from "./Edit";
 import { DataGrid } from "@mui/x-data-grid";
 
-import AdminHeader from "../../components/AdminHeader";
+
 import Alert from "@material-ui/lab/Alert";
 import Tab from "../../components/Tab";
 import {
@@ -40,7 +40,7 @@ const useStyles = makeStyles(
 
         fontWeight: "bolder",
         // fontWeight: "100",
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.down("md")]: {
           fontSize: "15px",
         },
       },
@@ -52,11 +52,6 @@ const useStyles = makeStyles(
         // backgroundColor: "rgba(255, 7, 0, 0.55)",
       },
       "& .MuiDataGrid-columnHeaderWrapper": {},
-      // display: "flex",
-      // flexDirection: "row",
-      // justifyContent: "spaceEvenly",
-      // alignItems: "spaceEvenly",
-      // cellClassName: 'super-app-theme--cell
     },
     paper: {
       display: "flex",
@@ -66,7 +61,6 @@ const useStyles = makeStyles(
       flexDirection: "column",
       margin: theme.spacing(5, 4, 3),
       padding: theme.spacing(3, 4),
-      
     },
     title: {
       marginBottom: theme.spacing(3),
@@ -99,17 +93,13 @@ function RowMenuCell(props) {
   const handleEditClick = (row) => {
     setIsOpen(!isOpen);
     setDesignationId(row);
-    console.log("select", row);
   };
   const handleDelete = async (id) => {
     try {
       const res = await deleteDesignation(id);
 
       history.push("/designations");
-    } catch (error) {
-      console.log(error);
-    }
-    // dispatch(deleteDesignation(id));
+    } catch (error) {}
   };
 
   return (
@@ -146,13 +136,9 @@ export default function Designations() {
   const [designationData, setDesignationData] = useState([]);
   const { status: desStatus, data: desData } = useGetDesignationsQuery();
 
-  // console.log('isLoading',isLoading);
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   // dispatch(getDesignations());
-  // }, [isLoading]);
   useEffect(() => {
     if (desStatus == "fulfilled") {
       setDesignationData(desData.data);
@@ -189,13 +175,13 @@ export default function Designations() {
       filterable: false,
       align: "center",
       disableColumnMenu: true,
-      disableReorder:true
+      disableReorder: true,
     },
   ];
 
   return (
     <>
-      {/* <AdminHeader /> */}
+      
       <Tab tab={2} />
 
       <Paper className={classes.paper}>
@@ -212,11 +198,9 @@ export default function Designations() {
           </Grid>
           <Grid item className={classes.grid_items_right}>
             <GridToolbarContainer>
-  
               <NavLink
                 to="/create_designation"
                 className="link"
-
                 style={{ color: "white", textDecoration: "none" }}
                 activeClassName="active"
               >
@@ -232,13 +216,7 @@ export default function Designations() {
           </Grid>
         </Grid>
         <div style={{ width: "100%" }} className={classes.root}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            autoHeight
-          // autoPageSize
-          // density="comfortable"
-          />
+          <DataGrid rows={rows} columns={columns} autoHeight />
         </div>
       </Paper>
     </>

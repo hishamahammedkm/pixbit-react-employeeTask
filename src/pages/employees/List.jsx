@@ -17,7 +17,6 @@ import { useDispatch, useSelector } from "react-redux";
 import FormDialog from "../designations/Edit";
 import { DataGrid } from "@mui/x-data-grid";
 
-import AdminHeader from "../../components/AdminHeader";
 import Tab from "../../components/Tab";
 import {
   useGetDesignationsQuery,
@@ -81,10 +80,7 @@ const useStyles = makeStyles(
 );
 
 function RowMenuCell(props) {
-  useEffect(() => {
-    // dispatch(getEmployees());
-  }, []);
-  // console.log('=======',props);
+
   const [isOpen, setIsOpen] = useState(false);
   const [designationId, setDesignationId] = useState(null);
   const dispatch = useDispatch();
@@ -93,7 +89,7 @@ function RowMenuCell(props) {
   const employeeData = useGetEmployeesQuery();
 
   const { row, id } = props;
-  // console.log(row);
+ 
   const classes = useStyles();
 
   const handleEditClick = (row) => {
@@ -108,7 +104,7 @@ function RowMenuCell(props) {
       console.log(error);
     }
 
-    // dispatch(deleteEmployee(row));
+ 
   };
 
   return (
@@ -142,7 +138,7 @@ RowMenuCell.propTypes = {
 };
 
 export default function EmployeesList() {
-  // const { isLoading, data, isError } = useGetEmployeesQuery();
+
   const { data, isSuccess } = useGetEmployeesQuery();
   const { data: desData, isSuccess: desSuccess } = useGetDesignationsQuery();
 
@@ -160,8 +156,7 @@ export default function EmployeesList() {
     }
   }, [isSuccess, data, desData]);
 
-  console.log("designationData", designationData);
-  console.log("employees", employees);
+
   var newData = [];
   employees.map((emp) => {
     const designation_id = emp.designation_id;
@@ -169,14 +164,14 @@ export default function EmployeesList() {
     designationData.map((des) => {
       const designation = des.id;
       if (designation_id == designation) {
-        // emp.designation_id = des.name;
+       
         obj.designation_id = des.name;
       }
     });
     newData.push(obj);
   });
 
-  console.log("new Data-----", newData);
+
   const rows = newData.map((item, index) => {
     return {
       id: item.id,
@@ -282,7 +277,7 @@ export default function EmployeesList() {
 
   return (
     <>
-      {/* <AdminHeader /> */}
+ 
       <Tab tab={1} />
       <Paper className={classes.paper}>
         <Grid

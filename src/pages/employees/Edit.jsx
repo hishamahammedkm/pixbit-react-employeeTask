@@ -78,14 +78,13 @@ const EmployeeEdit = () => {
             }
         }
     }
-    // console.log("prevEmployeeData.data", prevEmployeeData.data);
-    // console.log("params.id", params.id);
+
     var resultObject = search(params.id, prevEmployeeData.data);
     const dateObj = {
         join_date: new Date(resultObject?.join_date).toLocaleDateString(),
         date_of_birth: new Date(resultObject?.date_of_birth).toLocaleDateString(),
     }
-    console.log('dateObj------', dateObj);
+
     const INITIAL_FORM_STATE = {
         first_name: resultObject.first_name,
         last_name: resultObject.last_name,
@@ -100,7 +99,6 @@ const EmployeeEdit = () => {
         join_date: resultObject?.join_date,
 
         date_of_birth: resultObject?.date_of_birth,
-        // date_of_birth: new Date(resultObject?.date_of_birth).toLocaleDateString(),
     };
     const FORM_VALIDATION = Yup.object().shape({
         first_name: Yup.string().required("Required"),
@@ -127,12 +125,6 @@ const EmployeeEdit = () => {
     const result = useGetEmployeesQuery();
 
 
-    console.log("------desData", desData.data);
-    // useEffect(() => {
-    //     return ()=>{
-    //         history.push('/employees')
-    //     }
-    // })
     return (
         <>
             <Tab tab={1} />
@@ -152,12 +144,11 @@ const EmployeeEdit = () => {
                     }}
                     validationSchema={FORM_VALIDATION}
                     onSubmit={async(values) => {
-                        console.log("clicked");
+                 
                         const object = {
                             id: params.id,
                             first_name: values.first_name,
                             last_name: values.last_name,
-                            // join_date: new Date(values.join_date).toLocaleDateString(),
                             join_date: new Date(values.join_date),
                             date_of_birth: new Date(
                                 values.date_of_birth
