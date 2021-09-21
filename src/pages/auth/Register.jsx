@@ -155,7 +155,7 @@ export default function Register() {
                                         formik.handleChange(e)
                                         setAuthError(false)
                                     }}
-                                    error={formik.touched.email && Boolean(formik.errors.email || registerError?.data?.errors?.email)}
+                                    error={formik.touched.email && Boolean(formik.errors.email ||  authError && registerError?.data?.errors?.email)}
                                     helperText={formik.touched.email && formik.errors.email || authError && registerError?.data?.errors?.email}
                                 />
                                 <TextField
@@ -175,9 +175,11 @@ export default function Register() {
                                         setAuthError(false)
                                     }}
                                     error={
-                                        formik.touched.password && Boolean(formik.errors.password) || registerError?.data?.errors?.password
+                                        formik.touched.password && Boolean(formik.errors.password) ||  authError && registerError?.data?.errors?.password
                                     }
-                                    helperText={formik.touched.password && formik.errors.password || authError && registerError?.data?.errors?.password && registerError?.data?.errors?.password[0]}
+                                    // helperText={formik.touched.password && formik.errors.password || authError && registerError?.data?.errors?.password && registerError?.data?.errors?.password[0]}
+                                    helperText={formik.touched.password && formik.errors.password }
+
 
                                 />
                                 <TextField
@@ -198,7 +200,7 @@ export default function Register() {
                                     }}
                                     error={
                                         formik.touched.password_confirmation && Boolean(formik.errors.password_confirmation)
-                                        || registerError?.data?.errors?.password
+                                        || authError && registerError?.data?.errors?.password
                                     }
                                     helperText={formik.touched.password_confirmation && formik.errors.password_confirmation || authError && registerError?.data?.errors?.password && registerError?.data?.errors?.password[0]}
                                 // helperText={formik.touched.password_confirmation && formik.errors.password_confirmation || registerError?.data?.errors?.password ? registerError?.data?.errors?.password[0]:''}

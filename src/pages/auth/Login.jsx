@@ -129,7 +129,7 @@ export default function Login() {
                                         formik.handleChange(e)
                                         setAuthError(false)
                                     }}
-                                    error={formik.touched.email && Boolean(formik.errors.email)|| LoginError?.data?.message}
+                                    error={formik.touched.email && Boolean(formik.errors.email)|| authError && LoginError?.data?.message}
                                     helperText={formik.touched.email && formik.errors.email}
                                 />
                                 <TextField
@@ -148,7 +148,7 @@ export default function Login() {
                                         setAuthError(false)
                                     }}
                                     error={
-                                        formik.touched.password && Boolean(formik.errors.password || LoginError?.data?.message)
+                                        formik.touched.password && Boolean(formik.errors.password || authError && LoginError?.data?.message)
                                     }
                                     helperText={formik.touched.password && formik.errors.password || authError && LoginError?.data?.message}
                                 />

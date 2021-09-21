@@ -49,7 +49,7 @@ const UserHeader = () => {
             noWrap
             className={classes.toolbarTitle}
           >
-            Larvel
+            Laravel
           </Typography>
           <nav>
             {/* <Link variant="button" color="textPrimary" href="#" className={classes.link}>
