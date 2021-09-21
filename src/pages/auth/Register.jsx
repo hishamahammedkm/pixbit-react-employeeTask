@@ -76,7 +76,7 @@ export default function Register() {
         validationSchema: validationSchema,
 
         onSubmit: async (loginData) => {
-          
+            setAuthError(true)
             try {
                 const payload = await register(loginData);
                 localStorage.setItem("token", payload.data.data.access_token);
@@ -93,10 +93,10 @@ export default function Register() {
     const dispatch = useDispatch();
     const history = useHistory();
     const [isAlert, setIsAlert] = useState(false);
-    const [loginData, setLoginData] = useState({
-        email: "",
-        password: "",
-    });
+    // const [loginData, setLoginData] = useState({
+    //     email: "",
+    //     password: "",
+    // });
 
     const classes = useStyles();
 
@@ -129,7 +129,12 @@ export default function Register() {
                                     autoComplete="name"
                                     autoFocus
                                     value={formik.values.name}
-                                    onChange={formik.handleChange}
+                                    // onChange={formik.handleChange}
+                                    onChange={(e) => {
+                                        formik.handleChange(e)
+                                        setAuthError(false)
+                                    }}
+
                                     error={formik.touched.name && Boolean(formik.errors.name)}
                                     helperText={formik.touched.name && formik.errors.name}
                                 />
@@ -145,9 +150,13 @@ export default function Register() {
                                     autoComplete="email"
 
                                     value={formik.values.email}
-                                    onChange={formik.handleChange}
+                                    // onChange={formik.handleChange}
+                                    onChange={(e) => {
+                                        formik.handleChange(e)
+                                        setAuthError(false)
+                                    }}
                                     error={formik.touched.email && Boolean(formik.errors.email || registerError?.data?.errors?.email)}
-                                    helperText={formik.touched.email && formik.errors.email || registerError?.data?.errors?.email}
+                                    helperText={formik.touched.email && formik.errors.email || authError && registerError?.data?.errors?.email}
                                 />
                                 <TextField
                                     variant="outlined"
@@ -160,11 +169,15 @@ export default function Register() {
                                     id="password"
                                     autoComplete="current-password"
                                     value={formik.values.password}
-                                    onChange={formik.handleChange}
+                                    // onChange={formik.handleChange}
+                                    onChange={(e) => {
+                                        formik.handleChange(e)
+                                        setAuthError(false)
+                                    }}
                                     error={
                                         formik.touched.password && Boolean(formik.errors.password) || registerError?.data?.errors?.password
                                     }
-                                    helperText={formik.touched.password && formik.errors.password || registerError?.data?.errors?.password && registerError?.data?.errors?.password[0]}
+                                    helperText={formik.touched.password && formik.errors.password || authError && registerError?.data?.errors?.password && registerError?.data?.errors?.password[0]}
 
                                 />
                                 <TextField
@@ -178,18 +191,23 @@ export default function Register() {
                                     id="password_confirmation"
                                     autoComplete="current-password"
                                     value={formik.values.password_confirmation}
-                                    onChange={formik.handleChange}
+                                    // onChange={formik.handleChange}
+                                    onChange={(e) => {
+                                        formik.handleChange(e)
+                                        setAuthError(false)
+                                    }}
                                     error={
                                         formik.touched.password_confirmation && Boolean(formik.errors.password_confirmation)
                                         || registerError?.data?.errors?.password
                                     }
-                                    helperText={formik.touched.password_confirmation && formik.errors.password_confirmation || registerError?.data?.errors?.password ? registerError?.data?.errors?.password[0]:''}
+                                    helperText={formik.touched.password_confirmation && formik.errors.password_confirmation || authError && registerError?.data?.errors?.password && registerError?.data?.errors?.password[0]}
+                                // helperText={formik.touched.password_confirmation && formik.errors.password_confirmation || registerError?.data?.errors?.password ? registerError?.data?.errors?.password[0]:''}
                                 />
 
 
                                 <LoadingButton
                                     type='submit'
-                            
+
                                     loading={isLoading}
                                     loadingPosition="center"
                                     variant="contained"

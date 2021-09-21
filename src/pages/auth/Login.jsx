@@ -69,7 +69,7 @@ export default function Login() {
         validationSchema: validationSchema,
 
         onSubmit: async (loginData) => {
-         
+            setAuthError(true)
             try {
                 const payload = await login(loginData);
                 localStorage.setItem("token", payload.data.data.access_token);
@@ -124,7 +124,11 @@ export default function Login() {
                                     autoComplete="email"
                                     autoFocus
                                     value={formik.values.email}
-                                    onChange={formik.handleChange}
+                                    // onChange={formik.handleChange}
+                                    onChange={(e) => {
+                                        formik.handleChange(e)
+                                        setAuthError(false)
+                                    }}
                                     error={formik.touched.email && Boolean(formik.errors.email)|| LoginError?.data?.message}
                                     helperText={formik.touched.email && formik.errors.email}
                                 />
@@ -138,11 +142,15 @@ export default function Login() {
                                     id="password"
                                     autoComplete="current-password"
                                     value={formik.values.password}
-                                    onChange={formik.handleChange}
+                                    // onChange={formik.handleChange}
+                                    onChange={(e) => {
+                                        formik.handleChange(e)
+                                        setAuthError(false)
+                                    }}
                                     error={
                                         formik.touched.password && Boolean(formik.errors.password || LoginError?.data?.message)
                                     }
-                                    helperText={formik.touched.password && formik.errors.password || LoginError?.data?.message}
+                                    helperText={formik.touched.password && formik.errors.password || authError && LoginError?.data?.message}
                                 />
 
                                 <LoadingButton
