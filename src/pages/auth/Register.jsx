@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 const validationSchema = yup.object({
-    name: yup.string('enter name').required('name is required'),
+    name: yup.string('Enter name').required('Name is required'),
     email: yup
         .string("Enter your email")
         .email("Enter a valid email")
@@ -76,7 +76,7 @@ export default function Register() {
         validationSchema: validationSchema,
 
         onSubmit: async (loginData) => {
-            console.log(loginData);
+          
             try {
                 const payload = await register(loginData);
                 localStorage.setItem("token", payload.data.data.access_token);
@@ -183,13 +183,13 @@ export default function Register() {
                                         formik.touched.password_confirmation && Boolean(formik.errors.password_confirmation)
                                         || registerError?.data?.errors?.password
                                     }
-                                    helperText={formik.touched.password_confirmation && formik.errors.password_confirmation || registerError?.data?.errors?.password[0]}
+                                    helperText={formik.touched.password_confirmation && formik.errors.password_confirmation || registerError?.data?.errors?.password ? registerError?.data?.errors?.password[0]:''}
                                 />
 
 
                                 <LoadingButton
                                     type='submit'
-
+                            
                                     loading={isLoading}
                                     loadingPosition="center"
                                     variant="contained"

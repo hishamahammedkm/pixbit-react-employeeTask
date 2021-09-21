@@ -39,7 +39,7 @@ const RadioForm = ({ name, ...otherProps }) => {
         </RadioGroup>
       </FormControl>
       <span style={{ color: "red" }}>
-        {meta.error && "please select a gender"}
+        {meta.error && "Required"}
       </span>
     </div>
   );

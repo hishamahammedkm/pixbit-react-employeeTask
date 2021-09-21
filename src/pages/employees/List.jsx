@@ -23,21 +23,23 @@ import {
   useGetEmployeesQuery,
   useDeleteEmployeeMutation,
 } from "../../redux/services/employee";
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import {ThemeProvider, useTheme } from '@material-ui/core/styles';
+
 const defaultTheme = createTheme();
 
 const useStyles = makeStyles(
   (theme) => ({
     root: {
-      "& .header": {
-        // backgroundColor: 'rgba(255, 7, 0, 0.55)',
-        // fontSize:'20px',
-
-        fontWeight: "900",
+      '& .super-app-theme--header': {
+        // backgroundColor: 'gray',
+        // fontWeight:'bold',
+        // fontSize: 'medium'
       },
-      "& .super-app-theme--cell": {
-        textAlign: "center",
-      },
-      // cellClassName: 'super-app-theme--cell
+      '& .MuiDataGrid-columnHeaderTitle	': {
+        fontSize: theme.spacing(2),
+        fontWeight:'bold',
+      }
     },
     paper: {
       display: "flex",
@@ -45,25 +47,17 @@ const useStyles = makeStyles(
       justifyContent: "center",
       flexDirection: "column",
       padding: theme.spacing(3, 4),
-      margin:theme.spacing(5,4,3)
+      margin:theme.spacing(5,4,3),
       // marginTop: "1px",
-      // [theme.breakpoints.down("md")]: {
-      //   marginTop: "15px",
-      // },
-    },
-    root: {
-      "& .header": {
-        //   backgroundColor: 'rgba(255, 7, 0, 0.55)',
-        fontSize: "16px",
-        fontWeight: "100",
+      [theme.breakpoints.down("md")]: {
+        margin:theme.spacing(8,4,3),
       },
-      "& .super-app-theme--cell": {
-        textAlign: "center",
-      },
-      // cellClassName: 'super-app-theme--cell
     },
+
     title: {
       marginBottom: theme.spacing(3),
+      // display: "flex",
+      // flexDirection: "column",
     },
     grid_items_left: {
       marginLeft: theme.spacing(0),
@@ -132,13 +126,18 @@ function RowMenuCell(props) {
   );
 }
 
+
+
+
 RowMenuCell.propTypes = {
   api: PropTypes.object.isRequired,
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 };
 
 export default function EmployeesList() {
-
+  
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
   const { data, isSuccess } = useGetEmployeesQuery();
   const { data: desData, isSuccess: desSuccess } = useGetDesignationsQuery();
 
@@ -195,20 +194,23 @@ export default function EmployeesList() {
       headerName: "Sl No",  
       width: 120,
       align: "right",
+      headerClassName: 'super-app-theme--header',
     },
     {
       field: "first_name",
       headerName: "First Name",  
-      width: 150,
+      width: 170,
       align: "left",
       headerAlign: "left",
+      headerClassName: 'super-app-theme--header',
     },
     {
       field: "last_name",
       headerName: "Last Name",  
-      width: 150,
+      width: 170,
       align: "left",
       headerAlign: "left",
+      headerClassName: 'super-app-theme--header',
     },
     {
       field: "join_date",
@@ -217,6 +219,7 @@ export default function EmployeesList() {
       type: "date",
       align: "left",
       headerAlign: "left",
+      headerClassName: 'super-app-theme--header',
     },
     {
       field: "date_of_birth",
@@ -225,6 +228,7 @@ export default function EmployeesList() {
       type: "date",
       align: "left",
       headerAlign: "left",
+      headerClassName: 'super-app-theme--header',
     },
     {
       field: "gender",
@@ -232,6 +236,7 @@ export default function EmployeesList() {
       width: 150,
       align: "left",
       headerAlign: "left",
+      headerClassName: 'super-app-theme--header',
     },
     {
       field: "designation_id",
@@ -239,13 +244,15 @@ export default function EmployeesList() {
       width: 180,
       align: "left",
       headerAlign: "left",
+      headerClassName: 'super-app-theme--header',
     },
     {
       field: "email",
       headerName: "Email",
       headerAlign: "left",  
-      width: 200,
+      width: '150',
       align: "left",
+      headerClassName: 'super-app-theme--header',
     },
     {
       field: "profile_picture",
@@ -253,6 +260,7 @@ export default function EmployeesList() {
       width: 180,
       align: "left",
       headerAlign: "left",
+      headerClassName: 'super-app-theme--header',
     },
     {
       field: "resume",
@@ -260,6 +268,7 @@ export default function EmployeesList() {
       width: 150,
       align: "left",
       headerAlign: "left",
+      headerClassName: 'super-app-theme--header',
     },
     {
       field: "actions",
@@ -272,6 +281,7 @@ export default function EmployeesList() {
       filterable: false,
       disableColumnMenu: true,
       disableReorder: true,
+      headerClassName: 'super-app-theme--header',
     },
   ];
 
@@ -287,25 +297,34 @@ export default function EmployeesList() {
           justifyContent="space-between"
         >
           <Grid item className={classes.grid_items_left}>
-            <Typography variant="h6" component="h1">
+            <Typography variant="h5" component="h1">
               Employees
             </Typography>
           </Grid>
           <Grid item className={classes.grid_items_right}>
             <GridToolbarContainer>
               <NavLink
-                to="/create_employee"
+                to="/employee/create"
                 className="link"
                 style={{ color: "white", textDecoration: "none" }}
                 activeClassName="active"
               >
-                <Button
+    
+                {
+                  matches ?(<Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<AddIcon />}
+                  >
+                    Create Employee
+                  </Button>):(<Button
                   variant="contained"
                   color="primary"
                   startIcon={<AddIcon />}
                 >
-                  Create Employee
-                </Button>
+                  Create
+                </Button>)
+                }
               </NavLink>
             </GridToolbarContainer>
           </Grid>

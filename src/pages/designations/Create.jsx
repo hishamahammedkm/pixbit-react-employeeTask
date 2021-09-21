@@ -3,6 +3,7 @@ import {
   Button,
   Container,
   Grid,
+  Paper,
   makeStyles,
   TextField,
   Typography,
@@ -22,18 +23,26 @@ import {
 } from "../../redux/services/employee";
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+   
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    marginTop: "30px",
+    padding: theme.spacing(3),
+    // marginBottom: theme.spacing(3),
+    margin: theme.spacing(3),
+    // marginTop:''
+    [theme.breakpoints.down("md")]: {
+      margin: theme.spacing(8, 4, 3),
+    },
   },
   wrapper: {
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
-    marginBottom: theme.spacing(3),
+  
     padding: theme.spacing(3),
+    marginLeft:'-13px',
+    
   },
   avatar: {
     backgroundColor: theme.palette.secondary.main,
@@ -87,18 +96,15 @@ const AddDesignation = () => {
     <>
 
       <Tab tab={2} />
-      <Container component="main" maxWidth="lg">
+      <Paper  className={classes.paper}>
 
-
-        <div className={classes.paper}>
           <Container className={classes.wrapper}>
-            <Avatar className={classes.avatar}>
-
-              <WorkOutlineOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
+  
+            
+            <Typography  component="h1" variant="h5">
               Create Designation
             </Typography>
+          
           </Container>
 
           <form className={classes.form} onSubmit={handleSubmit}>
@@ -115,7 +121,7 @@ const AddDesignation = () => {
                   autoFocus
                   error={isErrorText}
                   helperText={
-                    isErrorText ? "please enter atleast one charector" : ""
+                    isErrorText ? "Enter a designation" : ""
                   }
                   value={designation_name}
                   onChange={(e) => {
@@ -149,8 +155,8 @@ const AddDesignation = () => {
               </Grid>
             </Grid>
           </form>
-        </div>
-      </Container>
+        
+      </Paper>
     </>
   );
 };

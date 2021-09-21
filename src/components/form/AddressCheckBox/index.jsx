@@ -1,16 +1,17 @@
 import { Checkbox, FormControlLabel } from "@material-ui/core"
-import { useFormikContext } from "formik";
+import { useField, useFormikContext } from "formik";
 import { useState } from "react";
 
 const AddressCheckBox = () => {
-
+    const [field] = useField({ name: "addressCheckBox", type: "checkbox" });
     const { setFieldValue, values } = useFormikContext();
     const [checkBoxAddress, setCheckBoxAddress] = useState(false);
-    const checkBoxAddressChange = (e) => {
+    const checkBoxAddressChange = () => {
 
-        setCheckBoxAddress((p) => setCheckBoxAddress(!p))
-       
-        if (!checkBoxAddress) {
+
+        setFieldValue('addressCheckBox', !values.addressCheckBox)
+
+        if (!values.addressCheckBox) {
             const address = values.present_address
             setFieldValue("permanent_address", address)
         }
@@ -21,13 +22,13 @@ const AddressCheckBox = () => {
             <FormControlLabel
                 control={
                     <Checkbox
-                        checked={checkBoxAddress}
+                        {...field}
                         onChange={checkBoxAddressChange}
-                        name="checkedB"
+                        checked={values.addressCheckBox}
                         color="primary"
                     />
                 }
-                label="Same as present Address"
+                label="Same as Present Address"
             />
         </div>
     )

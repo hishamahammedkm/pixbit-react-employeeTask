@@ -77,6 +77,12 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     alignItems: "baseline",
   },
+  tabs:{
+
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: "13px"
+    },
+  }
 
 }));
 
@@ -110,6 +116,7 @@ export default function FullWidthTabs({ tab }) {
         </Link>
 
         <Tabs
+        className={classes.tabs}
           value={value}
           onChange={handleChange}
           indicatorColor="primary"

@@ -41,7 +41,7 @@ const App = () => {
         />
         <ProtectedRoute
           exact
-          path="/create_employee"
+          path="/employee/create"
           component={CreateEmployee}
         />
 
@@ -57,7 +57,7 @@ const App = () => {
 
         <ProtectedRoute
           exact
-          path="/create_designation"
+          path="/designation/create"
           component={CreateDesignation}
         />
         <Route>

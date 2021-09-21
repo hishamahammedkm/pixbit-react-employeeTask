@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
     fontSize: "18px",
     fontWeight: "bold",
+    color:'black'
   },
   name: {
     marginRight: 10,

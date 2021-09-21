@@ -33,14 +33,22 @@ const useStyles = makeStyles((theme) => ({
     main_container: {
         margin: theme.spacing(0, 10, 5),
         padding: theme.spacing(3),
-        marginTop: "10px",
+        marginTop: theme.spacing(4),
+        [theme.breakpoints.down("md")]: {
+            margin: theme.spacing(8, 4, 3),
+        },
+
     },
     wrapper: {
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: "center",
         marginBottom: theme.spacing(3),
+        marginTop: theme.spacing(-2),
         padding: theme.spacing(3),
+        marginLeft: '-13px',
+
+
     },
     avatar: {
         backgroundColor: theme.palette.secondary.main,
@@ -49,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
     text_field: {
         marginBottom: theme.spacing(4),
     },
-   
+
 
     gender: {
         display: "flex",
@@ -58,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     postBtn: {
         margin: "10px",
     },
-   
+
 }));
 
 const EmployeeEdit = () => {
@@ -68,7 +76,7 @@ const EmployeeEdit = () => {
     const params = useParams();
 
     const { data } = useGetEmployeesQuery();
-    const { status: desStatus, data: desData,isLoading,isSuccess, isError,error } = useGetDesignationsQuery();
+    const { status: desStatus, data: desData, isLoading, isSuccess, isError, error } = useGetDesignationsQuery();
     const prevEmployeeData = data;
 
     function search(nameKey, myArray) {
@@ -78,28 +86,37 @@ const EmployeeEdit = () => {
             }
         }
     }
-
-    var resultObject = search(params.id, prevEmployeeData.data);
-    const dateObj = {
-        join_date: new Date(resultObject?.join_date).toLocaleDateString(),
-        date_of_birth: new Date(resultObject?.date_of_birth).toLocaleDateString(),
+    try {
+        var resultObject = search(params.id, prevEmployeeData.data);
+        const dateObj = {
+            join_date: new Date(resultObject?.join_date).toLocaleDateString(),
+            date_of_birth: new Date(resultObject?.date_of_birth).toLocaleDateString(),
+        }
+    } catch (error) {
+        history.push("/employees")
     }
+  
+
 
     const INITIAL_FORM_STATE = {
-        first_name: resultObject.first_name,
-        last_name: resultObject.last_name,
-        email: resultObject.email,
-        mobile: resultObject.mobile,
-        landline: resultObject.landline,
-        designation_id: resultObject.designation_id,
-        gender: resultObject.gender,
-        present_address: resultObject.present_address,
-        permanent_address: resultObject.permanent_address,
-        status: resultObject.status,
+        first_name: resultObject?.first_name,
+        last_name: resultObject?.last_name,
+        email: resultObject?.email,
+        mobile: resultObject?.mobile,
+        landline: resultObject?.landline,
+        designation_id: resultObject?.designation_id,
+        gender: resultObject?.gender,
+        present_address: resultObject?.present_address,
+        permanent_address: resultObject?.permanent_address,
+        status: resultObject?.status,
         join_date: resultObject?.join_date,
 
         date_of_birth: resultObject?.date_of_birth,
+        addressCheckBox: false,
     };
+
+
+
     const FORM_VALIDATION = Yup.object().shape({
         first_name: Yup.string().required("Required"),
         last_name: Yup.string().required("Required"),
@@ -131,9 +148,7 @@ const EmployeeEdit = () => {
 
             <Paper className={classes.main_container}>
                 <Container className={classes.wrapper}>
-                    <Avatar className={classes.avatar}>
-                        <PersonAddIcon />
-                    </Avatar>
+
                     <Typography component="h1" variant="h5">
                         Edit Employee
                     </Typography>
@@ -143,8 +158,8 @@ const EmployeeEdit = () => {
                         ...INITIAL_FORM_STATE,
                     }}
                     validationSchema={FORM_VALIDATION}
-                    onSubmit={async(values) => {
-                 
+                    onSubmit={async (values) => {
+
                         const object = {
                             id: params.id,
                             first_name: values.first_name,
@@ -165,13 +180,13 @@ const EmployeeEdit = () => {
 
                         try {
                             const res = await updateEmloyee(object)
-                            
+
                             history.push("/employees")
-                           
+
 
                         } catch (error) {
                             history.push("/employees")
-                            
+
                         }
                     }}
                 >
@@ -230,13 +245,15 @@ const EmployeeEdit = () => {
                                         rows={3}
                                     />
                                 </Grid>
+
                                 <Grid item xs={12}>
                                     <AddressCheckBox />
-
+                                </Grid>
+                                <Grid item xs={12}>
                                     <TextField
                                         name="permanent_address"
-                                        label="Permenent Address"
-                                        // value={checkBoxAddress ?}
+                                        label="Permanent Address"
+
                                         multiline
                                         rows={3}
 

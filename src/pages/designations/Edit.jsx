@@ -43,7 +43,7 @@ export default function FormDialog({ item, isOpen }) {
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">
-          Enter new designation {" "}
+          Edit The Designation {" "}
         </DialogTitle>
         <DialogContent>
           <DialogContentText></DialogContentText>
@@ -51,7 +51,7 @@ export default function FormDialog({ item, isOpen }) {
             autoFocus
             margin="dense"
             id="name"
-            label="Designation Name"
+            label="Designation"
             type="email"
             fullWidth
             value={designation_name}

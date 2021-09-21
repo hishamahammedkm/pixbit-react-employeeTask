@@ -24,35 +24,30 @@ import {
   useDeleteDesignationMutation,
   useGetDesignationsQuery,
 } from "../../redux/services/employee";
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import {ThemeProvider, useTheme } from '@material-ui/core/styles';
 
 const defaultTheme = createTheme();
 
 const useStyles = makeStyles(
   (theme) => ({
     root: {
-      "& .header": {
-        // backgroundColor: "rgba(255, 7, 0, 0.55)",
-
-        display: "flex",
-
-        justifyContent: "space-evenly",
-        fontSize: "20px",
-
-        fontWeight: "bolder",
-        // fontWeight: "100",
-        [theme.breakpoints.down("md")]: {
-          fontSize: "15px",
-        },
+      '& .super-app-theme--header': {
+        // backgroundColor: 'gray',
+        fontWeight: 'bold',
+        fontSize: 'medium'
       },
-
-      "& .super-app-theme--cell": {
-        textAlign: "center",
-        display: "flex",
-        justifyContent: "space-evenly",
-        // backgroundColor: "rgba(255, 7, 0, 0.55)",
-      },
-      "& .MuiDataGrid-columnHeaderWrapper": {},
+      '& .MuiDataGrid-columnHeaderTitle	': {
+        // fontSize: theme.spacing(1),
+        fontWeight:'bold',
+      }
     },
+
+
+
+
+
+
     paper: {
       display: "flex",
 
@@ -61,12 +56,18 @@ const useStyles = makeStyles(
       flexDirection: "column",
       margin: theme.spacing(5, 4, 3),
       padding: theme.spacing(3, 4),
+      [theme.breakpoints.down("md")]: {
+        margin: theme.spacing(8, 4, 3),
+      },
     },
     title: {
       marginBottom: theme.spacing(3),
     },
     grid_items_left: {
       marginLeft: theme.spacing(0),
+      [theme.breakpoints.down("md")]: {
+        marginBottom: "10px",
+      },
     },
     grid_items_right: {
       marginRight: theme.spacing(0),
@@ -99,7 +100,7 @@ function RowMenuCell(props) {
       const res = await deleteDesignation(id);
 
       history.push("/designations");
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (
@@ -132,6 +133,8 @@ RowMenuCell.propTypes = {
 };
 
 export default function Designations() {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
   const isLoading = useSelector((state) => state.employee.loading);
   const [designationData, setDesignationData] = useState([]);
   const { status: desStatus, data: desData } = useGetDesignationsQuery();
@@ -155,15 +158,20 @@ export default function Designations() {
       align: "right",
       headerAlign: "right",
       headerName: "Sl No",
+
       flex: 0.7,
+      flex:1,
+      headerClassName: 'super-app-theme--header'
     },
     {
       field: "name",
-      headerName: "Designation name",
+      headerName: "Name",
       flex: 5,
+   
 
-      align: "center",
-      headerAlign: "center",
+      align: "left",
+      headerAlign: "left",
+      headerClassName: 'super-app-theme--header'
     },
     {
       field: "actions",
@@ -171,17 +179,19 @@ export default function Designations() {
       renderCell: RowMenuCell,
       sortable: false,
       flex: 1,
+      minWidth:100,
       headerAlign: "center",
       filterable: false,
       align: "center",
       disableColumnMenu: true,
       disableReorder: true,
+      headerClassName: 'super-app-theme--header'
     },
   ];
 
   return (
     <>
-      
+
       <Tab tab={2} />
 
       <Paper className={classes.paper}>
@@ -192,25 +202,40 @@ export default function Designations() {
           justifyContent="space-between"
         >
           <Grid item className={classes.grid_items_left}>
-            <Typography variant="h6" component="h1">
+            <Typography variant="h5" component="h1">
               Designations
             </Typography>
           </Grid>
           <Grid item className={classes.grid_items_right}>
             <GridToolbarContainer>
               <NavLink
-                to="/create_designation"
+                to="/designation/create"
                 className="link"
                 style={{ color: "white", textDecoration: "none" }}
-                activeClassName="active"
+              // activeClassName="active"
               >
-                <Button
+                {/* <Button
                   variant="contained"
                   color="primary"
                   startIcon={<AddIcon />}
                 >
                   Create Designation
-                </Button>
+                </Button> */}
+                         {
+                  matches ?(<Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<AddIcon />}
+                  >
+                    Create Designation
+                  </Button>):(<Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<AddIcon />}
+                >
+                  Create
+                </Button>)
+                }
               </NavLink>
             </GridToolbarContainer>
           </Grid>
