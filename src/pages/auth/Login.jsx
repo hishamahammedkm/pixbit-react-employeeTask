@@ -19,12 +19,13 @@ import { useDispatch } from "react-redux";
 
 import { useHistory } from "react-router-dom";
 import { set } from "date-fns";
-import Alert from "../../components/AuthErrorAlert";                       
+import Alert from "../../components/AuthErrorAlert";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useLoginMutation } from "../../redux/services/employee";
 import LoadingButton from '@mui/lab/LoadingButton';
+import { Paper } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -37,15 +38,18 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.secondary.main,
     },
     form: {
-        width: "100%", // Fix IE 11 issue.
+        width: "100%",
         marginTop: theme.spacing(1),
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
     containerDiv: {
-        marginTop: "130px",
+        marginTop: '130px'
+
+
     },
+
 }));
 const validationSchema = yup.object({
     email: yup
@@ -59,8 +63,8 @@ const validationSchema = yup.object({
 });
 export default function Login() {
     const auth = localStorage.getItem("token");
-    const [login, { isLoading,error:LoginError}] = useLoginMutation();
-   
+    const [login, { isLoading, error: LoginError, isSuccess }] = useLoginMutation();
+
     const formik = useFormik({
         initialValues: {
             email: "",
@@ -68,15 +72,24 @@ export default function Login() {
         },
         validationSchema: validationSchema,
 
-        onSubmit: async (loginData) => {
-            setAuthError(true)
+        onSubmit: async (loginData, { setFieldError }) => {
+
             try {
                 const payload = await login(loginData);
-                localStorage.setItem("token", payload.data.data.access_token);
-                history.push("/");
+            
+                if (payload?.error?.data?.message) {
+
+                    // setFieldError('email',payload?.error?.data?.message)
+                    setFieldError('password', payload?.error?.data?.message)
+                }
+;
+                if (payload.data.data.access_token) {
+                    localStorage.setItem("token", payload.data.data.access_token);
+                    history.push("/");
+                }
             } catch (error) {
-    
-                
+                console.log(error);
+
             }
         },
     });
@@ -96,10 +109,13 @@ export default function Login() {
     function handleClick() {
         setLoading(true);
     }
+
+
     return (
         <>
             {!auth ? (
-                <div className={classes.containerDiv}>
+
+                <div className={classes.containerDiv} >
                     <UserHeader />
 
                     <Container component="main" maxWidth="xs">
@@ -124,12 +140,9 @@ export default function Login() {
                                     autoComplete="email"
                                     autoFocus
                                     value={formik.values.email}
-                                    // onChange={formik.handleChange}
-                                    onChange={(e) => {
-                                        formik.handleChange(e)
-                                        setAuthError(false)
-                                    }}
-                                    error={formik.touched.email && Boolean(formik.errors.email)|| authError && LoginError?.data?.message}
+                                    onChange={formik.handleChange}
+
+                                    error={formik.touched.email && Boolean(formik.errors.email)}
                                     helperText={formik.touched.email && formik.errors.email}
                                 />
                                 <TextField
@@ -142,20 +155,17 @@ export default function Login() {
                                     id="password"
                                     autoComplete="current-password"
                                     value={formik.values.password}
-                                    // onChange={formik.handleChange}
-                                    onChange={(e) => {
-                                        formik.handleChange(e)
-                                        setAuthError(false)
-                                    }}
+                                    onChange={formik.handleChange}
+
                                     error={
-                                        formik.touched.password && Boolean(formik.errors.password || authError && LoginError?.data?.message)
+                                        formik.touched.password && Boolean(formik.errors.password)
                                     }
-                                    helperText={formik.touched.password && formik.errors.password || authError && LoginError?.data?.message}
+                                    helperText={formik.touched.password && formik.errors.password}
                                 />
 
                                 <LoadingButton
                                     type='submit'
-                                
+
                                     loading={isLoading}
                                     loadingPosition="center"
                                     variant="contained"
@@ -167,8 +177,8 @@ export default function Login() {
                                 </LoadingButton>
 
 
-                                <Grid style={{marginTop:'10px'}} container justifyContent="center">
-             
+                                <Grid style={{ marginTop: '10px', marginBottom: '5px' }} container justifyContent="center">
+
                                     <Grid item>
                                         <Link to="/register">
                                             {"Don't have an account? Sign Up"}

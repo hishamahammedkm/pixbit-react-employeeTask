@@ -75,14 +75,25 @@ export default function Register() {
         },
         validationSchema: validationSchema,
 
-        onSubmit: async (loginData) => {
-            setAuthError(true)
+        onSubmit: async (loginData, { setFieldError }) => {
+
             try {
                 const payload = await register(loginData);
-                localStorage.setItem("token", payload.data.data.access_token);
-                history.push("/");
+                console.log('payload', payload);
+                if (payload?.data?.data?.access_token) {
+                    localStorage.setItem("token", payload?.data?.data?.access_token);
+                    history.push("/");
+                }
+                if (payload.error.data.errors.email) {
+                    setFieldError('email', payload.error.data.errors.email[0])
+                }
+                if (payload.error.data.errors.password) {
+                    setFieldError('password_confirmation', payload.error.data.errors.password[0])
+                }
+
+
             } catch (error) {
-                setAuthError(true);
+                console.log('error', error);
 
             }
         },
@@ -93,17 +104,14 @@ export default function Register() {
     const dispatch = useDispatch();
     const history = useHistory();
     const [isAlert, setIsAlert] = useState(false);
-    // const [loginData, setLoginData] = useState({
-    //     email: "",
-    //     password: "",
-    // });
 
     const classes = useStyles();
 
     return (
         <>
             {!isAuth ? (
-                <div className={classes.containerDiv}>
+                <div className={classes.paper}>
+
                     <UserHeader />
 
                     <Container component="main" maxWidth="xs">
@@ -129,11 +137,8 @@ export default function Register() {
                                     autoComplete="name"
                                     autoFocus
                                     value={formik.values.name}
-                                    // onChange={formik.handleChange}
-                                    onChange={(e) => {
-                                        formik.handleChange(e)
-                                        setAuthError(false)
-                                    }}
+                                    onChange={formik.handleChange}
+
 
                                     error={formik.touched.name && Boolean(formik.errors.name)}
                                     helperText={formik.touched.name && formik.errors.name}
@@ -150,13 +155,10 @@ export default function Register() {
                                     autoComplete="email"
 
                                     value={formik.values.email}
-                                    // onChange={formik.handleChange}
-                                    onChange={(e) => {
-                                        formik.handleChange(e)
-                                        setAuthError(false)
-                                    }}
-                                    error={formik.touched.email && Boolean(formik.errors.email ||  authError && registerError?.data?.errors?.email)}
-                                    helperText={formik.touched.email && formik.errors.email || authError && registerError?.data?.errors?.email}
+                                    onChange={formik.handleChange}
+
+                                    error={formik.touched.email && Boolean(formik.errors.email)}
+                                    helperText={formik.touched.email && formik.errors.email}
                                 />
                                 <TextField
                                     variant="outlined"
@@ -169,16 +171,12 @@ export default function Register() {
                                     id="password"
                                     autoComplete="current-password"
                                     value={formik.values.password}
-                                    // onChange={formik.handleChange}
-                                    onChange={(e) => {
-                                        formik.handleChange(e)
-                                        setAuthError(false)
-                                    }}
+                                    onChange={formik.handleChange}
+
                                     error={
-                                        formik.touched.password && Boolean(formik.errors.password) ||  authError && registerError?.data?.errors?.password
+                                        formik.touched.password && Boolean(formik.errors.password)
                                     }
-                                    // helperText={formik.touched.password && formik.errors.password || authError && registerError?.data?.errors?.password && registerError?.data?.errors?.password[0]}
-                                    helperText={formik.touched.password && formik.errors.password }
+                                    helperText={formik.touched.password && formik.errors.password}
 
 
                                 />
@@ -193,16 +191,13 @@ export default function Register() {
                                     id="password_confirmation"
                                     autoComplete="current-password"
                                     value={formik.values.password_confirmation}
-                                    // onChange={formik.handleChange}
-                                    onChange={(e) => {
-                                        formik.handleChange(e)
-                                        setAuthError(false)
-                                    }}
+                                    onChange={formik.handleChange}
+
                                     error={
                                         formik.touched.password_confirmation && Boolean(formik.errors.password_confirmation)
-                                        || authError && registerError?.data?.errors?.password
+
                                     }
-                                    helperText={formik.touched.password_confirmation && formik.errors.password_confirmation || authError && registerError?.data?.errors?.password && registerError?.data?.errors?.password[0]}
+                                    helperText={formik.touched.password_confirmation && formik.errors.password_confirmation}
                                 // helperText={formik.touched.password_confirmation && formik.errors.password_confirmation || registerError?.data?.errors?.password ? registerError?.data?.errors?.password[0]:''}
                                 />
 

@@ -120,7 +120,7 @@ const EmployeeEdit = () => {
     const FORM_VALIDATION = Yup.object().shape({
         first_name: Yup.string().required("Required"),
         last_name: Yup.string().required("Required"),
-        email: Yup.string().email().required("Required"),
+        email: Yup.string().email(),//.required("Required"),
         present_address: Yup.string().required("Required"),
         gender: Yup.string().required("Required"),
         permanent_address: Yup.string().required("Required"),
@@ -138,10 +138,19 @@ const EmployeeEdit = () => {
         setCheckBoxAddress(!checkBoxAddress);
     };
 
-    const [updateEmloyee] = useUpdateEmployeeMutation();
+    const [updateEmloyee,{isLoading:updateIsLoading,isSuccess:updateIsSccess,error:updateError}] = useUpdateEmployeeMutation();
     const result = useGetEmployeesQuery();
 
-
+    useEffect(() => {
+        if (updateError) {
+          // console.log(error?.data?.errors?.profile_picture || error?.data?.errors?.resume)
+          // error = null;
+        }
+        if (updateIsSccess) {
+          history.push("/employees");
+        }
+    
+      }, [updateIsLoading])
     return (
         <>
             <Tab tab={1} />
@@ -158,7 +167,7 @@ const EmployeeEdit = () => {
                         ...INITIAL_FORM_STATE,
                     }}
                     validationSchema={FORM_VALIDATION}
-                    onSubmit={async (values) => {
+                    onSubmit={async (values,{setFieldError}) => {
 
                         const object = {
                             id: params.id,
@@ -180,12 +189,10 @@ const EmployeeEdit = () => {
 
                         try {
                             const res = await updateEmloyee(object)
-
-                            history.push("/employees")
-
+                            setFieldError('email',res?.error?.data?.errors?.email[0])
 
                         } catch (error) {
-                            history.push("/employees")
+                   
 
                         }
                     }}

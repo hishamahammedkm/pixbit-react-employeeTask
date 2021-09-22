@@ -132,7 +132,7 @@ const SUPPORTED_PROFILE_FORMATS = [
 const FORM_VALIDATION = Yup.object().shape({
   first_name: Yup.string().min(1, 'minimum one charector').required("Required"),
   last_name: Yup.string().required("Required"),
-  email: Yup.string().email().required("Required"),
+  email: Yup.string().email(), //.required("Required"),
   present_address: Yup.string().required("Required"),
   gender: Yup.string().required("Required"),
   permanent_address: Yup.string().required("Required"),
@@ -147,16 +147,20 @@ const FORM_VALIDATION = Yup.object().shape({
     "Profile picture must be either in jpeg, png, gif, webp",
     (value) => value && SUPPORTED_PROFILE_FORMATS.includes(value.type)
   ),
-  resume: Yup.mixed().required("Required").test(
-    "fileFormat",
-    "Resume must be either in pdf, doc, xls",
-    (value) => value && SUPPORTED_RESUME_FORMATS.includes(value.type)
-  ),
+  profile_picture: Yup.mixed().required("Required"),
+
+  // resume: Yup.mixed().required("Required").test(
+  //   "fileFormat",
+  //   "Resume must be either in pdf, doc, xls",
+  //   (value) => value && SUPPORTED_RESUME_FORMATS.includes(value.type)
+  // ),
+  resume: Yup.mixed().required("Required")
+
 });
 
 const AddEmployee = () => {
 
-  var [createEmployee, { isLoading, isSuccess, isError, error }] = useCreateEmployeeMutation();
+  const [createEmployee, { isLoading, isSuccess, isError, error }] = useCreateEmployeeMutation();
 
 
   const { status: desStatus, data: desData } = useGetDesignationsQuery();
@@ -169,10 +173,7 @@ const AddEmployee = () => {
 
   const classes = useStyles();
   useEffect(() => {
-    if (error) {
-      alert(error?.data?.errors?.profile_picture || error?.data?.errors?.resume)
-      error = null;
-    }
+ 
     if (isSuccess) {
       history.push("/employees");
     }
@@ -197,9 +198,9 @@ const AddEmployee = () => {
             ...INITIAL_FORM_STATE,
           }}
           validationSchema={FORM_VALIDATION}
-          onSubmit={async (values) => {
-            console.log(values);
-            console.log("date_of_birth", new Date(values.date_of_birth).toLocaleDateString('zh-Hans-CN'));
+          onSubmit={async (values, { setFieldError }) => {
+
+
             const formData = new FormData();
             formData.append("first_name", values.first_name);
             formData.append("last_name", values.last_name);
@@ -230,13 +231,20 @@ const AddEmployee = () => {
 
             try {
               const res = await createEmployee(formData);
-              if (error) {
-                alert(error?.data?.errors?.profile_picture, error?.data?.errors)
+              if (res?.error?.data?.errors?.email) {
+                setFieldError('email', res?.error?.data?.errors?.email[0])
+              }
+              if (res?.error?.data?.errors?.resume) {
+                setFieldError('resume', res?.error?.data?.errors?.resume[0])
               }
 
+              if (res?.error?.data?.errors?.profile_picture) {
+                setFieldError('profile_picture', res?.error?.data?.errors?.profile_picture[0])
+
+              }
+       
 
 
-              console.log(res);
             } catch (error) {
               console.log(error);
             }
