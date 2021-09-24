@@ -17,7 +17,7 @@ import Copyright from "../../components/Copyright";
 import UserHeader from "../../components/UserHeader";
 import { useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import { useHistory,useLocation } from "react-router-dom";
 import { set } from "date-fns";
 import Alert from "../../components/AuthErrorAlert";
 import { useSelector } from "react-redux";
@@ -25,6 +25,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useLoginMutation, useRegisterMutation } from "../../redux/services/employee";
+import useDocumentTitle from "../../hooks/useDocumentTitle";
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -46,6 +47,12 @@ const useStyles = makeStyles((theme) => ({
     containerDiv: {
         marginTop: "130px",
     },
+    registerBtn: {
+        [theme.breakpoints.down("md")]: {
+            fontSize: '18px'
+
+        },
+    }
 }));
 const validationSchema = yup.object({
     name: yup.string('Enter name').required('Name is required'),
@@ -63,6 +70,8 @@ const validationSchema = yup.object({
         .required("Password is required"),
 });
 export default function Register() {
+    const location = useLocation();
+    const [document_title, setDoucmentTitle] = useDocumentTitle(`Register | Admin Templates`);
     const [register, { isLoading, isError, error: registerError }] = useRegisterMutation();
     const isAuth = localStorage.getItem("token")
     const formik = useFormik({
@@ -120,8 +129,8 @@ export default function Register() {
                             <Avatar className={classes.avatar}>
                                 <LockOutlinedIcon />
                             </Avatar>
-                            <Typography component="h1" variant="h5">
-                                Sign in
+                            <Typography className={classes.registerBtn} component="h1" variant="h5">
+                                Register
                             </Typography>
 
                             <form className={classes.form} onSubmit={formik.handleSubmit}>

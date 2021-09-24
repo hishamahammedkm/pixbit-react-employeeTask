@@ -15,12 +15,13 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import WorkOutlineOutlinedIcon from '@material-ui/icons/WorkOutlineOutlined';
 
 import Alert from "../../components/Alert";
-import { useHistory } from "react-router-dom";
+import { useHistory,useLocation} from "react-router-dom";
 import Tab from "../../components/Tab";
 import {
   useCreateDesignationMutation,
   useGetDesignationsQuery,
 } from "../../redux/services/employee";
+import useDocumentTitle from "../../hooks/useDocumentTitle";
 const useStyles = makeStyles((theme) => ({
   paper: {
    
@@ -57,6 +58,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const AddDesignation = () => {
+  const location = useLocation();
+    const [document_title, setDoucmentTitle] = useDocumentTitle(`Create Designation | Admin Templates`);
   const [createDesignation, { isSuccess, error }] =
     useCreateDesignationMutation();
   const des = useGetDesignationsQuery();

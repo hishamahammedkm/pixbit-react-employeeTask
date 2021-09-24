@@ -16,8 +16,7 @@ import Container from "@material-ui/core/Container";
 import Copyright from "../../components/Copyright";
 import UserHeader from "../../components/UserHeader";
 import { useDispatch } from "react-redux";
-
-import { useHistory } from "react-router-dom";
+import { useHistory,useLocation } from "react-router-dom";
 import { set } from "date-fns";
 import Alert from "../../components/AuthErrorAlert";
 import { useSelector } from "react-redux";
@@ -26,6 +25,7 @@ import * as yup from "yup";
 import { useLoginMutation } from "../../redux/services/employee";
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Paper } from "@material-ui/core";
+import useDocumentTitle from "../../hooks/useDocumentTitle";
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -49,6 +49,12 @@ const useStyles = makeStyles((theme) => ({
 
 
     },
+    loginBtn: {
+        [theme.breakpoints.down("md")]: {
+            fontSize: '18px'
+
+        },
+    }
 
 }));
 const validationSchema = yup.object({
@@ -64,7 +70,8 @@ const validationSchema = yup.object({
 export default function Login() {
     const auth = localStorage.getItem("token");
     const [login, { isLoading, error: LoginError, isSuccess }] = useLoginMutation();
-
+    const location = useLocation();
+    const [document_title, setDoucmentTitle] = useDocumentTitle(`Login | Admin Templates`);
     const formik = useFormik({
         initialValues: {
             email: "",
@@ -124,8 +131,8 @@ export default function Login() {
                             <Avatar className={classes.avatar}>
                                 <LockOutlinedIcon />
                             </Avatar>
-                            <Typography component="h1" variant="h5">
-                                Sign in
+                            <Typography className={classes.loginBtn} component="h1" variant="h5">
+                                Login
                             </Typography>
 
                             <form className={classes.form} onSubmit={formik.handleSubmit}>

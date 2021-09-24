@@ -27,7 +27,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import { useHistory } from "react-router-dom";
+import { useHistory,useLocation } from "react-router-dom";
 
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import Alert from "../../components/Alert";
@@ -46,6 +46,7 @@ import {
   useGetDesignationsQuery,
 } from "../../redux/services/employee";
 import AddressCheckBox from "../../components/form/AddressCheckBox";
+import useDocumentTitle from "../../hooks/useDocumentTitle";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -132,7 +133,7 @@ const SUPPORTED_PROFILE_FORMATS = [
 const FORM_VALIDATION = Yup.object().shape({
   first_name: Yup.string().min(1, 'minimum one charector').required("Required"),
   last_name: Yup.string().required("Required"),
-  email: Yup.string().email(), //.required("Required"),
+  email: Yup.string().email(),//.required("Required"),
   present_address: Yup.string().required("Required"),
   gender: Yup.string().required("Required"),
   permanent_address: Yup.string().required("Required"),
@@ -159,11 +160,12 @@ const FORM_VALIDATION = Yup.object().shape({
 });
 
 const AddEmployee = () => {
-
+  const location = useLocation();
+  const [document_title, setDoucmentTitle] = useDocumentTitle(`Create Employee | Admin Templates`);
   const [createEmployee, { isLoading, isSuccess, isError, error }] = useCreateEmployeeMutation();
 
 
-  const { status: desStatus, data: desData } = useGetDesignationsQuery();
+  const { data: desData } = useGetDesignationsQuery();
 
 
   const history = useHistory();
@@ -198,15 +200,16 @@ const AddEmployee = () => {
             ...INITIAL_FORM_STATE,
           }}
           validationSchema={FORM_VALIDATION}
-          onSubmit={async (values, { setFieldError }) => {
+          onSubmit={async (values, { setFieldError,setErrors }) => {
 
-
+            console.log('values',values);
             const formData = new FormData();
             formData.append("first_name", values.first_name);
             formData.append("last_name", values.last_name);
             formData.append(
               "join_date", new Date(values.join_date).toLocaleDateString('zh-Hans-CN')
             );
+
             formData.append(
               "date_of_birth", new Date(values.date_of_birth).toLocaleDateString('zh-Hans-CN')
             );
@@ -228,22 +231,33 @@ const AddEmployee = () => {
             );
             formData.append("resume", values.resume, values.resume?.name);
 
-
+            
             try {
               const res = await createEmployee(formData);
-              if (res?.error?.data?.errors?.email) {
-                setFieldError('email', res?.error?.data?.errors?.email[0])
-              }
-              if (res?.error?.data?.errors?.resume) {
-                setFieldError('resume', res?.error?.data?.errors?.resume[0])
-              }
+              console.log(res);
+              if(res?.error?.data?.errors){
+                setErrors({email:!!res?.error?.data?.errors?.email && res?.error?.data?.errors?.email[0],
+                  resume:!!res?.error?.data?.errors?.resume && res?.error?.data?.errors?.resume[0],
+                  profile_picture:!!res?.error?.data?.errors?.profile_picture && res?.error?.data?.errors?.profile_picture[0]
 
-              if (res?.error?.data?.errors?.profile_picture) {
-                setFieldError('profile_picture', res?.error?.data?.errors?.profile_picture[0])
-
+                
+                })
               }
+              // if (res?.error?.data?.errors?.email) {
+              //   setFieldError('email', res?.error?.data?.errors?.email[0])
+              // }
+              // if (res?.error?.data?.errors?.resume) {
+              //   setFieldError('resume', res?.error?.data?.errors?.resume[0])
+              // }
+
+              // if (res?.error?.data?.errors?.profile_picture) {
+              //   setFieldError('profile_picture', res?.error?.data?.errors?.profile_picture[0])
+
+              // }
        
-
+              if(res.error.status == 'FETCH_ERROR'){
+                alert('No Internet Connection')
+              }
 
             } catch (error) {
               console.log(error);

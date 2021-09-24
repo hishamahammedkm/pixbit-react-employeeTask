@@ -58,9 +58,11 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "baseline",
     position: "relative",
+    
     [theme.breakpoints.up("md")]: {
       flexDirection: "row",
     },
+
   },
   title: {
     marginLeft: "30px",
@@ -81,6 +83,12 @@ const useStyles = makeStyles((theme) => ({
 
     [theme.breakpoints.down("sm")]: {
       marginLeft: "13px"
+    },
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: "-30px"
+    },
+    [theme.breakpoints.up("md")]: {
+      marginLeft: "10px"
     },
   }
 

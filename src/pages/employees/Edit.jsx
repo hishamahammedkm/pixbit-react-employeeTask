@@ -12,7 +12,7 @@ import {
     useMediaQuery,
 } from "@material-ui/core";
 
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams,useLocation } from "react-router-dom";
 import {
     useGetDesignationsQuery,
     useGetEmployeesQuery,
@@ -29,6 +29,7 @@ import DateTime from "../../components/form/DateTime/index";
 import FileInput from "../../components/form/FileInput";
 import Tab from "../../components/Tab";
 import AddressCheckBox from "../../components/form/AddressCheckBox";
+import useDocumentTitle from "../../hooks/useDocumentTitle";
 const useStyles = makeStyles((theme) => ({
     main_container: {
         margin: theme.spacing(0, 10, 5),
@@ -70,6 +71,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EmployeeEdit = () => {
+    const location = useLocation();
+    const [document_title, setDoucmentTitle] = useDocumentTitle(`Edit Employee | Admin Templates`);
+
     const classes = useStyles();
 
     const history = useHistory();
@@ -95,7 +99,7 @@ const EmployeeEdit = () => {
     } catch (error) {
         history.push("/employees")
     }
-  
+
 
 
     const INITIAL_FORM_STATE = {
@@ -138,19 +142,19 @@ const EmployeeEdit = () => {
         setCheckBoxAddress(!checkBoxAddress);
     };
 
-    const [updateEmloyee,{isLoading:updateIsLoading,isSuccess:updateIsSccess,error:updateError}] = useUpdateEmployeeMutation();
+    const [updateEmloyee, { isLoading: updateIsLoading, isSuccess: updateIsSccess, error: updateError }] = useUpdateEmployeeMutation();
     const result = useGetEmployeesQuery();
 
     useEffect(() => {
         if (updateError) {
-          // console.log(error?.data?.errors?.profile_picture || error?.data?.errors?.resume)
-          // error = null;
+            // console.log(error?.data?.errors?.profile_picture || error?.data?.errors?.resume)
+            // error = null;
         }
         if (updateIsSccess) {
-          history.push("/employees");
+            history.push("/employees");
         }
-    
-      }, [updateIsLoading])
+
+    }, [updateIsLoading])
     return (
         <>
             <Tab tab={1} />
@@ -167,7 +171,7 @@ const EmployeeEdit = () => {
                         ...INITIAL_FORM_STATE,
                     }}
                     validationSchema={FORM_VALIDATION}
-                    onSubmit={async (values,{setFieldError}) => {
+                    onSubmit={async (values, { setFieldError }) => {
 
                         const object = {
                             id: params.id,
@@ -189,10 +193,10 @@ const EmployeeEdit = () => {
 
                         try {
                             const res = await updateEmloyee(object)
-                            setFieldError('email',res?.error?.data?.errors?.email[0])
+                            setFieldError('email', res?.error?.data?.errors?.email[0])
 
                         } catch (error) {
-                   
+
 
                         }
                     }}

@@ -1,5 +1,8 @@
 import Tab from "../components/Tab";
+import useDocumentTitle from "../hooks/useDocumentTitle";
 const Home = () => {
+
+    const [document_title, setDoucmentTitle] = useDocumentTitle(` Home | Admin Templates`);
   return (
     <div>
        <Tab tab={0} />

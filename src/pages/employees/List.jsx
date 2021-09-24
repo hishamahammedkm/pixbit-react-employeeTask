@@ -10,7 +10,7 @@ import { GridToolbarContainer } from "@mui/x-data-grid-pro";
 import { createTheme } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/styles";
 import { Grid, Paper, Typography } from "@material-ui/core";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory,useLocation } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -24,8 +24,9 @@ import {
   useDeleteEmployeeMutation,
 } from "../../redux/services/employee";
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import {ThemeProvider, useTheme } from '@material-ui/core/styles';
-
+import { ThemeProvider, useTheme } from '@material-ui/core/styles';
+import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
+import useDocumentTitle from "../../hooks/useDocumentTitle";
 const defaultTheme = createTheme();
 
 const useStyles = makeStyles(
@@ -38,7 +39,7 @@ const useStyles = makeStyles(
       },
       '& .MuiDataGrid-columnHeaderTitle	': {
         fontSize: theme.spacing(2),
-        fontWeight:'bold',
+        fontWeight: 'bold',
       }
     },
     paper: {
@@ -47,10 +48,10 @@ const useStyles = makeStyles(
       justifyContent: "center",
       flexDirection: "column",
       padding: theme.spacing(3, 4),
-      margin:theme.spacing(5,4,3),
+      margin: theme.spacing(5, 4, 3),
       // marginTop: "1px",
       [theme.breakpoints.down("md")]: {
-        margin:theme.spacing(8,4,3),
+        margin: theme.spacing(8, 4, 3),
       },
     },
 
@@ -59,8 +60,11 @@ const useStyles = makeStyles(
       // display: "flex",
       // flexDirection: "column",
     },
-    grid_items_left: {
+    heading: {
       marginLeft: theme.spacing(0),
+      [theme.breakpoints.down("md")]: {
+        marginBottom: theme.spacing(1),
+      },
     },
     grid_items_right: {
       marginRight: theme.spacing(0),
@@ -83,7 +87,7 @@ function RowMenuCell(props) {
   const employeeData = useGetEmployeesQuery();
 
   const { row, id } = props;
- 
+
   const classes = useStyles();
 
   const handleEditClick = (row) => {
@@ -98,7 +102,7 @@ function RowMenuCell(props) {
       console.log(error);
     }
 
- 
+
   };
 
   return (
@@ -135,7 +139,7 @@ RowMenuCell.propTypes = {
 };
 
 export default function EmployeesList() {
-  
+
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
   const { data, isSuccess } = useGetEmployeesQuery();
@@ -146,6 +150,9 @@ export default function EmployeesList() {
 
   const [employees, setEmployees] = useState([]);
   const [designationData, setDesignationData] = useState([]);
+  const location = useLocation();
+  const [document_title, setDoucmentTitle] = useDocumentTitle(`Employees | Admin Templates`);
+
   useEffect(() => {
     if (isSuccess) {
       setEmployees(data.data);
@@ -163,7 +170,7 @@ export default function EmployeesList() {
     designationData.map((des) => {
       const designation = des.id;
       if (designation_id == designation) {
-       
+
         obj.designation_id = des.name;
       }
     });
@@ -191,14 +198,14 @@ export default function EmployeesList() {
     {
       field: "keys",
       headerAlign: "right",
-      headerName: "Sl No",  
+      headerName: "Sl No",
       width: 120,
       align: "right",
       headerClassName: 'super-app-theme--header',
     },
     {
       field: "first_name",
-      headerName: "First Name",  
+      headerName: "First Name",
       width: 170,
       align: "left",
       headerAlign: "left",
@@ -206,7 +213,7 @@ export default function EmployeesList() {
     },
     {
       field: "last_name",
-      headerName: "Last Name",  
+      headerName: "Last Name",
       width: 170,
       align: "left",
       headerAlign: "left",
@@ -214,7 +221,7 @@ export default function EmployeesList() {
     },
     {
       field: "join_date",
-      headerName: "Join Date",  
+      headerName: "Join Date",
       width: 150,
       type: "date",
       align: "left",
@@ -223,7 +230,7 @@ export default function EmployeesList() {
     },
     {
       field: "date_of_birth",
-      headerName: "Date of Birth",  
+      headerName: "Date of Birth",
       width: 180,
       type: "date",
       align: "left",
@@ -232,7 +239,7 @@ export default function EmployeesList() {
     },
     {
       field: "gender",
-      headerName: "Gender",  
+      headerName: "Gender",
       width: 150,
       align: "left",
       headerAlign: "left",
@@ -240,7 +247,7 @@ export default function EmployeesList() {
     },
     {
       field: "designation_id",
-      headerName: "Designation",  
+      headerName: "Designation",
       width: 180,
       align: "left",
       headerAlign: "left",
@@ -249,14 +256,14 @@ export default function EmployeesList() {
     {
       field: "email",
       headerName: "Email",
-      headerAlign: "left",  
+      headerAlign: "left",
       width: '150',
       align: "left",
       headerClassName: 'super-app-theme--header',
     },
     {
       field: "profile_picture",
-      headerName: "Profile Picture",  
+      headerName: "Profile Picture",
       width: 180,
       align: "left",
       headerAlign: "left",
@@ -264,7 +271,7 @@ export default function EmployeesList() {
     },
     {
       field: "resume",
-      headerName: "Resume",  
+      headerName: "Resume",
       width: 150,
       align: "left",
       headerAlign: "left",
@@ -274,7 +281,7 @@ export default function EmployeesList() {
       field: "actions",
       headerName: "Actions",
       renderCell: RowMenuCell,
-      sortable: false,  
+      sortable: false,
       width: 100,
       align: "center",
       headerAlign: "center",
@@ -287,7 +294,7 @@ export default function EmployeesList() {
 
   return (
     <>
- 
+
       <Tab tab={1} />
       <Paper className={classes.paper}>
         <Grid
@@ -296,7 +303,7 @@ export default function EmployeesList() {
           alignItems="center"
           justifyContent="space-between"
         >
-          <Grid item className={classes.grid_items_left}>
+          <Grid item className={classes.heading}>
             <Typography variant="h5" component="h1">
               Employees
             </Typography>
@@ -309,21 +316,28 @@ export default function EmployeesList() {
                 style={{ color: "white", textDecoration: "none" }}
                 activeClassName="active"
               >
-    
+
                 {
-                  matches ?(<Button
+                  matches ? (<Button
                     variant="contained"
                     color="primary"
                     startIcon={<AddIcon />}
                   >
                     Create Employee
-                  </Button>):(<Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<AddIcon />}
-                >
-                  Create
-                </Button>)
+                  </Button>) : (
+                    <PersonAddOutlinedIcon
+                      color="primary"
+                      fontSize="large"
+                    />
+                    //   <Button
+                    //   variant="contained"
+                    //   color="primary"
+                    //   startIcon={<AddIcon />}
+                    // >
+                    //   Create
+                    // </Button>
+
+                  )
                 }
               </NavLink>
             </GridToolbarContainer>

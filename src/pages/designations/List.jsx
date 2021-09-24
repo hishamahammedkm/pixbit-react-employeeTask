@@ -10,7 +10,7 @@ import { GridToolbarContainer } from "@mui/x-data-grid-pro";
 import { createTheme } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/styles";
 import { Grid, Paper, Typography } from "@material-ui/core";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory,useLocation } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -25,8 +25,9 @@ import {
   useGetDesignationsQuery,
 } from "../../redux/services/employee";
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import {ThemeProvider, useTheme } from '@material-ui/core/styles';
-
+import { ThemeProvider, useTheme } from '@material-ui/core/styles';
+import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
+import useDocumentTitle from "../../hooks/useDocumentTitle";
 const defaultTheme = createTheme();
 
 const useStyles = makeStyles(
@@ -39,7 +40,7 @@ const useStyles = makeStyles(
       },
       '& .MuiDataGrid-columnHeaderTitle	': {
         // fontSize: theme.spacing(1),
-        fontWeight:'bold',
+        fontWeight: 'bold',
       }
     },
 
@@ -133,17 +134,26 @@ RowMenuCell.propTypes = {
 };
 
 export default function Designations() {
+  const location = useLocation();
+  const [document_title, setDoucmentTitle] = useDocumentTitle(`Designations | Admin Templates`);
+  
+  console.log('location',location);
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
   const isLoading = useSelector((state) => state.employee.loading);
   const [designationData, setDesignationData] = useState([]);
-  const { status: desStatus, data: desData } = useGetDesignationsQuery();
+  const { status: desStatus, data: desData,isSuccess } = useGetDesignationsQuery();
 
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  // useEffect(() => {
+  //   if (desStatus == "fulfilled") {
+  //     setDesignationData(desData.data);
+  //   }
+  // }, [desData]);
   useEffect(() => {
-    if (desStatus == "fulfilled") {
+    if (isSuccess) {
       setDesignationData(desData.data);
     }
   }, [desData]);
@@ -159,15 +169,15 @@ export default function Designations() {
       headerAlign: "right",
       headerName: "Sl No",
 
-      flex: 0.7,
-      flex:1,
+     minWidth:'120',
+      flex: 1,
       headerClassName: 'super-app-theme--header'
     },
     {
       field: "name",
       headerName: "Name",
       flex: 5,
-   
+
 
       align: "left",
       headerAlign: "left",
@@ -179,7 +189,7 @@ export default function Designations() {
       renderCell: RowMenuCell,
       sortable: false,
       flex: 1,
-      minWidth:100,
+      minWidth: 100,
       headerAlign: "center",
       filterable: false,
       align: "center",
@@ -221,20 +231,28 @@ export default function Designations() {
                 >
                   Create Designation
                 </Button> */}
-                         {
-                  matches ?(<Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<AddIcon />}
-                  >
-                    Create Designation
-                  </Button>):(<Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<AddIcon />}
-                >
-                  Create
-                </Button>)
+                {
+                  matches ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      startIcon={<AddIcon />}
+                    >
+                      Create Designation
+                    </Button>) : (
+                    //   <Button
+                    //   variant="contained"
+                    //   color="primary"
+                    //   startIcon={<AddIcon />}
+                    // >
+                    //   Create
+                    // </Button>
+                    <AddBoxOutlinedIcon
+                      color="primary"
+                      fontSize="large"
+                    />
+
+                  )
                 }
               </NavLink>
             </GridToolbarContainer>

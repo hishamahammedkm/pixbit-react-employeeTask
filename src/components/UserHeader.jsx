@@ -17,13 +17,21 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbarTitle: {
     flexGrow: 1,
+    [theme.breakpoints.down("md")]: {
+      fontSize:'20px'
+      
+    },
   },
   link: {
     margin: theme.spacing(1, 1.5),
     textDecoration: "none",
     fontSize: "18px",
     fontWeight: "bold",
-    color:'black'
+    color:'black',
+    [theme.breakpoints.down("md")]: {
+      fontSize:'13px'
+      
+    },
   },
   name: {
     marginRight: 10,
